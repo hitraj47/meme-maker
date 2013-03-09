@@ -1,11 +1,21 @@
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 
 public class MemeMaker {
 	
@@ -19,11 +29,24 @@ public class MemeMaker {
 	public static JMenuItem menuFileNew, menuFileExport, menuFileExit;
 	public static JMenuItem menuHelpAbout;
 	
+	private JTextArea textAreaMessage1Top, textAreaMessage1Bottom, textAreaMessage2Top, textAreaMessage2Bottom, textAreaMessage3Top, textAreaMessage3Bottom;
+	
+	private ButtonGroup groupMessage1, groupMessage2, groupMessage3;
+	
+	private JRadioButton radioMessage1Show, radioMessage1Hide, radioMessage2Show, radioMessage2Hide, radioMessage3Show, radioMessage3Hide;
+	
+	private JComboBox<String> comboMessage1Font, comboMessage2Font, comboMessage3Font;
+	
+	private JColorChooser message1ColorChooser, message2ColorChooser, message3ColorChooser;
+	
+	private JComboBox<String> comboMessage1Size, comboMessage2Size, comboMessage3Size;
+	
 	public static final String SCREEN_EDIT = "Edit Screen";
 	public static final String SCREEN_SETUP = "Setup Screen";
 	
 	public MemeMaker() {
 		frame = new JFrame("Meme Maker");
+		
 		layout = new CardLayout();
 		frame.setLayout(layout);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,6 +118,104 @@ public class MemeMaker {
 	private JPanel createEditSreen() {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
+		panel.add(createToolBoxPanel());
+		panel.add(createImageEditPanel());
+		return panel;
+	}
+
+	private Component createImageEditPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		return panel;
+	}
+
+	private Component createToolBoxPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(7, 1));
+		panel.setBorder(BorderFactory.createTitledBorder("Tools"));
+		panel.add(createMessageTextBox("Message 1", 1, true));
+		panel.add(createMessageTextBox("Message 2", 2, true));
+		panel.add(createMessageTextBox("Message 3", 3, false));
+		return panel;
+	}
+
+	private JPanel createMessageTextBox(String sectionTitle, int message, boolean showByDefault) {
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		JLabel lblTop = new JLabel("Top message:");
+		JLabel lblBottom = new JLabel("Bottom message:");
+		JLabel lblFont = new JLabel("Font:");
+		JLabel lblColor = new JLabel("Color:");
+		JLabel lblSize = new JLabel("Size:");
+		
+		String[] fonts = { "Arial", "Times New Roman", "Comic Sans" };
+		String[] sizes = { "10pt", "11pt", "12pt", "13pt", "14pt", "15pt" };
+		
+		if (message == 1) {
+			textAreaMessage1Top = new JTextArea();
+			textAreaMessage1Bottom = new JTextArea();
+			groupMessage1 = new ButtonGroup();
+			radioMessage1Show = new JRadioButton("Show");
+			groupMessage1.add(radioMessage1Show);
+			radioMessage1Hide = new JRadioButton("Hide");
+			groupMessage1.add(radioMessage1Hide);
+			if (showByDefault) {
+				radioMessage1Show.setSelected(true);
+			}
+			
+			panel.setBorder(BorderFactory.createTitledBorder("Message 1"));
+			
+			comboMessage1Font = new JComboBox<>(fonts);
+			panel.add(comboMessage1Font);
+			
+			message1ColorChooser = new JColorChooser();
+			panel.add(message1ColorChooser);
+			
+			comboMessage1Size = new JComboBox<>(sizes);
+			panel.add(comboMessage1Size);
+		} else if(message == 2) {
+			textAreaMessage2Top = new JTextArea();
+			textAreaMessage2Bottom = new JTextArea();
+			groupMessage2 = new ButtonGroup();
+			radioMessage2Show = new JRadioButton("Show");
+			groupMessage2.add(radioMessage1Show);
+			radioMessage2Hide = new JRadioButton("Hide");
+			groupMessage1.add(radioMessage2Hide);
+			if (showByDefault) {
+				radioMessage2Show.setSelected(true);
+			}
+			panel.setBorder(BorderFactory.createTitledBorder("Message 2"));
+			
+			comboMessage2Font = new JComboBox<>(fonts);
+			panel.add(comboMessage2Font);
+			
+			message2ColorChooser = new JColorChooser();
+			panel.add(message2ColorChooser);
+			
+			comboMessage2Size = new JComboBox<>(sizes);
+			panel.add(comboMessage2Size);
+		} else if (message == 3) {
+			textAreaMessage3Top = new JTextArea();
+			textAreaMessage3Bottom = new JTextArea();
+			groupMessage3 = new ButtonGroup();
+			radioMessage3Show = new JRadioButton("Show");
+			groupMessage3.add(radioMessage3Show);
+			radioMessage3Hide = new JRadioButton("Hide");
+			groupMessage3.add(radioMessage3Hide);
+			if (showByDefault) {
+				radioMessage3Show.setSelected(true);
+			}
+			panel.setBorder(BorderFactory.createTitledBorder("Message 3"));
+			
+			comboMessage3Font = new JComboBox<>(fonts);
+			panel.add(comboMessage3Font);
+			
+			message3ColorChooser = new JColorChooser();
+			panel.add(message3ColorChooser);
+			
+			comboMessage3Size = new JComboBox<>(sizes);
+			panel.add(comboMessage3Size);
+		}
 		return panel;
 	}
 
