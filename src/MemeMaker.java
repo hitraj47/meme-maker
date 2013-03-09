@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -31,9 +32,7 @@ public class MemeMaker {
 	
 	private JTextArea textAreaMessage1Top, textAreaMessage1Bottom, textAreaMessage2Top, textAreaMessage2Bottom, textAreaMessage3Top, textAreaMessage3Bottom;
 	
-	private ButtonGroup groupMessage1, groupMessage2, groupMessage3;
-	
-	private JRadioButton radioMessage1Show, radioMessage1Hide, radioMessage2Show, radioMessage2Hide, radioMessage3Show, radioMessage3Hide;
+	private JCheckBox chkMessage1Show, chkMessage2Show, chkMessage3Show;
 	
 	private JComboBox<String> comboMessage1Font, comboMessage2Font, comboMessage3Font;
 	
@@ -131,7 +130,7 @@ public class MemeMaker {
 
 	private Component createToolBoxPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(7, 1));
+		panel.setLayout(new GridLayout(3, 1));
 		panel.setBorder(BorderFactory.createTitledBorder("Tools"));
 		panel.add(createMessageTextBox("Message 1", 1, true));
 		panel.add(createMessageTextBox("Message 2", 2, true));
@@ -142,26 +141,37 @@ public class MemeMaker {
 	private JPanel createMessageTextBox(String sectionTitle, int message, boolean showByDefault) {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
+		
 		JLabel lblTop = new JLabel("Top message:");
+		panel.add(lblTop);
+		
 		JLabel lblBottom = new JLabel("Bottom message:");
+		panel.add(lblBottom);
+		
 		JLabel lblFont = new JLabel("Font:");
+		panel.add(lblFont);
+		
 		JLabel lblColor = new JLabel("Color:");
+		panel.add(lblColor);
+		
 		JLabel lblSize = new JLabel("Size:");
+		panel.add(lblSize);
 		
 		String[] fonts = { "Arial", "Times New Roman", "Comic Sans" };
 		String[] sizes = { "10pt", "11pt", "12pt", "13pt", "14pt", "15pt" };
 		
 		if (message == 1) {
 			textAreaMessage1Top = new JTextArea();
+			panel.add(textAreaMessage1Top);
+			
 			textAreaMessage1Bottom = new JTextArea();
-			groupMessage1 = new ButtonGroup();
-			radioMessage1Show = new JRadioButton("Show");
-			groupMessage1.add(radioMessage1Show);
-			radioMessage1Hide = new JRadioButton("Hide");
-			groupMessage1.add(radioMessage1Hide);
+			panel.add(textAreaMessage1Bottom);
+			
+			chkMessage1Show = new JCheckBox("Show/Hide");
 			if (showByDefault) {
-				radioMessage1Show.setSelected(true);
+				chkMessage1Show.setSelected(true);
 			}
+			panel.add(chkMessage1Show);
 			
 			panel.setBorder(BorderFactory.createTitledBorder("Message 1"));
 			
@@ -175,15 +185,17 @@ public class MemeMaker {
 			panel.add(comboMessage1Size);
 		} else if(message == 2) {
 			textAreaMessage2Top = new JTextArea();
+			panel.add(textAreaMessage2Top);
+			
 			textAreaMessage2Bottom = new JTextArea();
-			groupMessage2 = new ButtonGroup();
-			radioMessage2Show = new JRadioButton("Show");
-			groupMessage2.add(radioMessage1Show);
-			radioMessage2Hide = new JRadioButton("Hide");
-			groupMessage1.add(radioMessage2Hide);
+			panel.add(textAreaMessage2Bottom);
+			
+			chkMessage2Show = new JCheckBox("Show/Hide");
 			if (showByDefault) {
-				radioMessage2Show.setSelected(true);
+				chkMessage2Show.setSelected(true);
 			}
+			panel.add(chkMessage2Show);
+			
 			panel.setBorder(BorderFactory.createTitledBorder("Message 2"));
 			
 			comboMessage2Font = new JComboBox<>(fonts);
@@ -196,15 +208,17 @@ public class MemeMaker {
 			panel.add(comboMessage2Size);
 		} else if (message == 3) {
 			textAreaMessage3Top = new JTextArea();
+			panel.add(textAreaMessage3Top);
+			
 			textAreaMessage3Bottom = new JTextArea();
-			groupMessage3 = new ButtonGroup();
-			radioMessage3Show = new JRadioButton("Show");
-			groupMessage3.add(radioMessage3Show);
-			radioMessage3Hide = new JRadioButton("Hide");
-			groupMessage3.add(radioMessage3Hide);
+			panel.add(textAreaMessage3Bottom);
+			
+			chkMessage3Show = new JCheckBox("Show/Hide");
 			if (showByDefault) {
-				radioMessage3Show.setSelected(true);
+				chkMessage3Show.setSelected(true);
 			}
+			panel.add(chkMessage3Show);
+			
 			panel.setBorder(BorderFactory.createTitledBorder("Message 3"));
 			
 			comboMessage3Font = new JComboBox<>(fonts);
