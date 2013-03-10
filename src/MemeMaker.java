@@ -1,23 +1,11 @@
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
-import javax.swing.JColorChooser;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 
 public class MemeMaker {
 	
@@ -25,24 +13,13 @@ public class MemeMaker {
 	
 	private CardLayout layout;
 	
-	private JPanel pnlEditScreen;
 	private JPanel pnlEditTabs;
 	private JPanel pnlSetup;
 	
-	public static JMenuItem menuFileNew, menuFileExport, menuFileExit;
+	public static JMenuItem menuFileNew, menuFileExportJPG, menuFileExportPNG, menuFileExit;
 	public static JMenuItem menuHelpAbout;
 	
-	private JTextArea textAreaMessage1Top, textAreaMessage1Bottom, textAreaMessage2Top, textAreaMessage2Bottom, textAreaMessage3Top, textAreaMessage3Bottom;
-	
-	private JCheckBox chkMessage1Show, chkMessage2Show, chkMessage3Show;
-	
-	private JComboBox<String> comboMessage1Font, comboMessage2Font, comboMessage3Font;
-	
-	private JColorChooser message1ColorChooser, message2ColorChooser, message3ColorChooser;
-	
-	private JComboBox<String> comboMessage1Size, comboMessage2Size, comboMessage3Size;
-	
-	public static final String SCREEN_EDIT = "Edit Screen";
+	public static final String SCREEN_EDIT = "Edit Tabs Screen";
 	public static final String SCREEN_SETUP = "Setup Screen";
 	
 	public MemeMaker() {
@@ -51,7 +28,7 @@ public class MemeMaker {
 		layout = new CardLayout();
 		frame.setLayout(layout);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800,600);
+		frame.setSize(1280,700);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setJMenuBar(createMenuBar());
@@ -80,10 +57,18 @@ public class MemeMaker {
 		menuFileNew.getAccessibleContext().setAccessibleDescription("Create a new meme from an image");
 		menuFile.add(menuFileNew);
 		
-		menuFileExport = new JMenuItem("Export/Save Meme", KeyEvent.VK_E);
-		menuFileExport.addActionListener(new MemeMakerListener());
+		JMenu menuFileExport = new JMenu("Export/Save Meme");
+		menuFileExport.setMnemonic(KeyEvent.VK_E);
 		menuFileExport.getAccessibleContext().setAccessibleDescription("Save the meme as an image");
 		menuFile.add(menuFileExport);
+		
+		menuFileExportJPG = new JMenuItem("Export as JPEG", KeyEvent.VK_J);
+		menuFileExportJPG.getAccessibleContext().setAccessibleDescription("Save the meme as a .jpg image");
+		menuFileExport.add(menuFileExportJPG);
+		
+		menuFileExportPNG = new JMenuItem("Export as PNG", KeyEvent.VK_P);
+		menuFileExportPNG.getAccessibleContext().setAccessibleDescription("Save the image as a .png image");
+		menuFileExport.add(menuFileExportPNG);
 		
 		menuFileExit = new JMenuItem("Exit", KeyEvent.VK_X);
 		menuFileExit.addActionListener(new MemeMakerListener());
@@ -113,126 +98,6 @@ public class MemeMaker {
 	private JPanel createSetupScreen() {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		return panel;
-	}
-
-	protected JComponent makeTextPanel(String text) {
-		JPanel panel = new JPanel(false);
-		JLabel filler = new JLabel(text);
-		filler.setHorizontalAlignment(JLabel.CENTER);
-		panel.setLayout(new GridLayout(1, 1));
-		panel.add(filler);
-		return panel;
-	}
-
-	private Component createImageEditPanel() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		return panel;
-	}
-
-	private Component createToolBoxPanel() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(3, 1));
-		panel.setBorder(BorderFactory.createTitledBorder("Tools"));
-		panel.add(createMessageTextBox("Message 1", 1, true));
-		panel.add(createMessageTextBox("Message 2", 2, true));
-		panel.add(createMessageTextBox("Message 3", 3, false));
-		return panel;
-	}
-
-	private JPanel createMessageTextBox(String sectionTitle, int message, boolean showByDefault) {
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		
-		JLabel lblTop = new JLabel("Top message:");
-		panel.add(lblTop);
-		
-		JLabel lblBottom = new JLabel("Bottom message:");
-		panel.add(lblBottom);
-		
-		JLabel lblFont = new JLabel("Font:");
-		panel.add(lblFont);
-		
-		JLabel lblColor = new JLabel("Color:");
-		panel.add(lblColor);
-		
-		JLabel lblSize = new JLabel("Size:");
-		panel.add(lblSize);
-		
-		String[] fonts = { "Arial", "Times New Roman", "Comic Sans" };
-		String[] sizes = { "10pt", "11pt", "12pt", "13pt", "14pt", "15pt" };
-		
-		if (message == 1) {
-			textAreaMessage1Top = new JTextArea();
-			panel.add(textAreaMessage1Top);
-			
-			textAreaMessage1Bottom = new JTextArea();
-			panel.add(textAreaMessage1Bottom);
-			
-			chkMessage1Show = new JCheckBox("Show/Hide");
-			if (showByDefault) {
-				chkMessage1Show.setSelected(true);
-			}
-			panel.add(chkMessage1Show);
-			
-			panel.setBorder(BorderFactory.createTitledBorder("Message 1"));
-			
-			comboMessage1Font = new JComboBox<>(fonts);
-			panel.add(comboMessage1Font);
-			
-			message1ColorChooser = new JColorChooser();
-			panel.add(message1ColorChooser);
-			
-			comboMessage1Size = new JComboBox<>(sizes);
-			panel.add(comboMessage1Size);
-		} else if(message == 2) {
-			textAreaMessage2Top = new JTextArea();
-			panel.add(textAreaMessage2Top);
-			
-			textAreaMessage2Bottom = new JTextArea();
-			panel.add(textAreaMessage2Bottom);
-			
-			chkMessage2Show = new JCheckBox("Show/Hide");
-			if (showByDefault) {
-				chkMessage2Show.setSelected(true);
-			}
-			panel.add(chkMessage2Show);
-			
-			panel.setBorder(BorderFactory.createTitledBorder("Message 2"));
-			
-			comboMessage2Font = new JComboBox<>(fonts);
-			panel.add(comboMessage2Font);
-			
-			message2ColorChooser = new JColorChooser();
-			panel.add(message2ColorChooser);
-			
-			comboMessage2Size = new JComboBox<>(sizes);
-			panel.add(comboMessage2Size);
-		} else if (message == 3) {
-			textAreaMessage3Top = new JTextArea();
-			panel.add(textAreaMessage3Top);
-			
-			textAreaMessage3Bottom = new JTextArea();
-			panel.add(textAreaMessage3Bottom);
-			
-			chkMessage3Show = new JCheckBox("Show/Hide");
-			if (showByDefault) {
-				chkMessage3Show.setSelected(true);
-			}
-			panel.add(chkMessage3Show);
-			
-			panel.setBorder(BorderFactory.createTitledBorder("Message 3"));
-			
-			comboMessage3Font = new JComboBox<>(fonts);
-			panel.add(comboMessage3Font);
-			
-			message3ColorChooser = new JColorChooser();
-			panel.add(message3ColorChooser);
-			
-			comboMessage3Size = new JComboBox<>(sizes);
-			panel.add(comboMessage3Size);
-		}
 		return panel;
 	}
 
