@@ -181,17 +181,17 @@ public class MemeMaker {
 		panel.setLayout(null);
 		return panel;
 	}
+	
+	public static void showSetupScreen(BufferedImage inputImage) {
+		pnlSetup = new ImagePanel(inputImage);
+		layout.show(frame.getContentPane(), SCREEN_SETUP);
+	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		new MemeMaker();
-	}
-
-	public static void showSetupScreen(BufferedImage inputImage) {
-		pnlSetup = new ImagePanel(inputImage);
-		layout.show(frame.getContentPane(), SCREEN_SETUP);
 	}
 
 }

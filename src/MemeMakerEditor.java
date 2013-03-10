@@ -18,7 +18,6 @@ public class MemeMakerEditor extends JPanel {
 		JComponent panel1 = makeTextPanel("Meme Version 1");
 		panel1.setPreferredSize(new Dimension(410, 50));
 		tabbedPane.addTab("Meme Version 1", null, panel1, "tab 1");
-		System.out.println(tabbedPane.getTabCount());
 		tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
 		JComponent panel2 = makeTextPanel("Meme Version 2");
