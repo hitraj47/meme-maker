@@ -6,6 +6,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class MemeMaker {
 	
@@ -92,6 +93,7 @@ public class MemeMaker {
 
 	private void createGuiComponenets() {
 		pnlEditTabs = new MemeMakerEditor();
+		pnlEditTabs.setBounds(0, 0, 1280, 700);
 		pnlSetup = createSetupScreen();		
 	}
 
