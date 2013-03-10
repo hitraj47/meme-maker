@@ -9,18 +9,95 @@ import javax.swing.JPanel;
 
 public class MemeMaker {
 	
+	/**
+	 * The main window
+	 */
 	private static JFrame frame;
 	
+	/**
+	 * The program layout
+	 */
 	private CardLayout layout;
 	
+	/**
+	 * The panel that holds the tabbed editor
+	 */
 	private JPanel pnlEditTabs;
+	
+	/**
+	 * The image setup panel
+	 */
 	private JPanel pnlSetup;
 	
-	public static JMenuItem menuFileNew, menuFileExportJPG, menuFileExportPNG, menuFileExit;
+	/**
+	 * New file menu item
+	 */
+	public static JMenuItem menuFileNew;
+	
+	/**
+	 * Export as jpeg menu item
+	 */
+	public static JMenuItem menuFileExportJPG;
+	
+	/**
+	 * Export as png menu item
+	 */
+	public static JMenuItem menuFileExportPNG; 
+	
+	/**
+	 * Exit the program
+	 */
+	public static JMenuItem menuFileExit;
+	
+	/**
+	 * About the program menu item
+	 */
 	public static JMenuItem menuHelpAbout;
 	
+	/**
+	 * String constant for editor screen
+	 */
 	public static final String SCREEN_EDIT = "Edit Tabs Screen";
+	
+	/**
+	 * String constant for image setup screen
+	 */
 	public static final String SCREEN_SETUP = "Setup Screen";
+	
+	/**
+	 * Action command to exit the application
+	 */
+	public static final String ACTION_EXIT = "Exit";
+	
+	/**
+	 * Action command for creating a new meme
+	 */
+	public static final String ACTION_NEW = "New Meme";
+	
+	/**
+	 * Action command for displaying information about the program
+	 */
+	public static final String ACTION_ABOUT = "About";
+	
+	/**
+	 * Minimum input image width
+	 */
+	public static final int INPUT_IMAGE_MIN_WIDTH = 400;
+	
+	/**
+	 * Maximum input image width
+	 */
+	public static final int INPUT_IMAGE_MAX_WIDTH = 600;
+	
+	/**
+	 * Minimum input image height
+	 */
+	public static final int INPUT_IMAGE_MIN_HEIGHT = 400;
+	
+	/**
+	 * Maximum input image height
+	 */
+	public static final int INPUT_IMAGE_MAX_HEIGHT = 600;
 	
 	public MemeMaker() {
 		frame = new JFrame("Meme Maker");
@@ -49,6 +126,7 @@ public class MemeMaker {
 		menuFile = new JMenu("File");
 		menuFile.setMnemonic(KeyEvent.VK_F);
 		menuFile.getAccessibleContext().setAccessibleDescription("File Menu");
+		menuFile.addActionListener(new MemeMakerListener());
 		menuBar.add(menuFile);
 		
 		// File menu items
@@ -70,7 +148,7 @@ public class MemeMaker {
 		menuFileExportPNG.getAccessibleContext().setAccessibleDescription("Save the image as a .png image");
 		menuFileExport.add(menuFileExportPNG);
 		
-		menuFileExit = new JMenuItem("Exit", KeyEvent.VK_X);
+		menuFileExit = new JMenuItem(ACTION_EXIT, KeyEvent.VK_X);
 		menuFileExit.addActionListener(new MemeMakerListener());
 		menuFileExit.getAccessibleContext().setAccessibleDescription("Exit the program");
 		menuFile.add(menuFileExit);
@@ -82,7 +160,7 @@ public class MemeMaker {
 		menuBar.add(menuHelp);
 		
 		// help menu items
-		menuHelpAbout = new JMenuItem("About", KeyEvent.VK_A);
+		menuHelpAbout = new JMenuItem(ACTION_ABOUT, KeyEvent.VK_A);
 		menuHelpAbout.addActionListener(new MemeMakerListener());
 		menuHelpAbout.getAccessibleContext().setAccessibleDescription("About this program");
 		menuHelp.add(menuHelpAbout);
