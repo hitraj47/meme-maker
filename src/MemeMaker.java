@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 
@@ -8,12 +9,14 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
 public class MemeMaker {
@@ -22,7 +25,8 @@ public class MemeMaker {
 	
 	private CardLayout layout;
 	
-	private JPanel pnlEdit;
+	private JPanel pnlEditScreen;
+	private JPanel pnlEditTabs;
 	private JPanel pnlSetup;
 	
 	public static JMenuItem menuFileNew, menuFileExport, menuFileExit;
@@ -53,7 +57,7 @@ public class MemeMaker {
 		frame.setJMenuBar(createMenuBar());
 		
 		createGuiComponenets();
-		frame.add(pnlEdit, SCREEN_EDIT);
+		frame.add(pnlEditTabs, SCREEN_EDIT);
 		frame.add(pnlSetup, SCREEN_SETUP);
 		frame.setVisible(true);
 	}
@@ -102,7 +106,7 @@ public class MemeMaker {
 	}
 
 	private void createGuiComponenets() {
-		pnlEdit = createEditSreen();
+		pnlEditTabs = new MemeMakerEditor();
 		pnlSetup = createSetupScreen();		
 	}
 
@@ -112,11 +116,12 @@ public class MemeMaker {
 		return panel;
 	}
 
-	private JPanel createEditSreen() {
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		panel.add(createToolBoxPanel());
-		panel.add(createImageEditPanel());
+	protected JComponent makeTextPanel(String text) {
+		JPanel panel = new JPanel(false);
+		JLabel filler = new JLabel(text);
+		filler.setHorizontalAlignment(JLabel.CENTER);
+		panel.setLayout(new GridLayout(1, 1));
+		panel.add(filler);
 		return panel;
 	}
 
