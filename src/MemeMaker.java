@@ -8,6 +8,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import util.ImagePanel;
+
 public class MemeMaker {
 	
 	/**
@@ -18,7 +20,7 @@ public class MemeMaker {
 	/**
 	 * The program layout
 	 */
-	private CardLayout layout;
+	private static CardLayout layout;
 	
 	/**
 	 * The panel that holds the tabbed editor
@@ -188,7 +190,8 @@ public class MemeMaker {
 	}
 
 	public static void showSetupScreen(BufferedImage inputImage) {
-		pnlSetup = new JPanel();
+		pnlSetup = new ImagePanel(inputImage);
+		layout.show(frame.getContentPane(), SCREEN_SETUP);
 	}
 
 }

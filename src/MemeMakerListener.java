@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import util.MultipleFileExtensionFilter;
 
 public class MemeMakerListener implements ActionListener {
 
@@ -24,15 +24,16 @@ public class MemeMakerListener implements ActionListener {
 
 	private void newMeme() {
 		JFileChooser fc = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				"Image File (JPEG/JPG or PNG)", ".jpg", ".jpeg", ".png");
-		fc.setFileFilter(filter);
+		String extensionDescription = "Image File (*.jpeg, *.jpg, *.png)";
+		String[] extensions = { "jpg", "jpeg", "png" };
+		MultipleFileExtensionFilter filter = new MultipleFileExtensionFilter(extensionDescription, extensions);
+		fc.addChoosableFileFilter(filter);
 		fc.setAcceptAllFileFilterUsed(false);
 		int returnVal = fc.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
 				BufferedImage inputImage = ImageIO.read(fc.getSelectedFile());
-				if (!meetsMinImageSizeRequirements(inputImage)) {
+				/*if (!meetsMinImageSizeRequirements(inputImage)) {
 					String message = "The image you selected is too small. For best results, select an image that is at least 400 pixels in width and height";
 					String title = "NEED MOAR PIXELS!!!1!1!!one";
 					JOptionPane.showMessageDialog(null, message, title,
@@ -45,7 +46,8 @@ public class MemeMakerListener implements ActionListener {
 					MemeMaker.showSetupScreen(inputImage);
 				} else {
 
-				}
+				}*/
+				MemeMaker.showSetupScreen(inputImage);
 			} catch (IOException e) {
 				System.err.println("Could not open image file: " + fc.getSelectedFile().getAbsolutePath());
 			}
