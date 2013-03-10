@@ -173,17 +173,14 @@ public class MemeMaker {
 
 	private void createGuiComponenets() {
 		pnlEditTabs = new MemeMakerEditor();
-		pnlSetup = createSetupScreen();		
+		pnlSetup = new JPanel();
+		pnlSetup.setLayout(null);
 	}
 
-	private JPanel createSetupScreen() {
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		return panel;
-	}
-	
 	public static void showSetupScreen(BufferedImage inputImage) {
-		pnlSetup = new ImagePanel(inputImage);
+		ImagePanel imageContainer = new ImagePanel(inputImage);
+		pnlSetup.add(imageContainer);
+		imageContainer.setBounds(10,10, inputImage.getWidth(), inputImage.getHeight());
 		layout.show(frame.getContentPane(), SCREEN_SETUP);
 	}
 

@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 public class ImagePanel extends JPanel {
 
 	private BufferedImage image;
-
+	
 	public ImagePanel(String fileLocation) {
 		setImage(fileLocation);
 	}
@@ -44,7 +44,7 @@ public class ImagePanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(image, 0, 0, null);
+		g.drawImage(image, 0, 0,null);
 	}
 
 }
