@@ -42,7 +42,7 @@ public class MemeMakerListener implements ActionListener {
 					String title = "Width or Height Above Recommended Maximum";
 					JOptionPane.showMessageDialog(null, message, title,
 							JOptionPane.INFORMATION_MESSAGE);
-					showSetupScreen(inputImage);
+					MemeMaker.showSetupScreen(inputImage);
 				} else {
 
 				}
@@ -51,10 +51,6 @@ public class MemeMakerListener implements ActionListener {
 			}
 
 		}
-	}
-
-	private void showSetupScreen(BufferedImage inputImage) {
-		// TODO Auto-generated method stub
 	}
 
 	private boolean meetsMaxImageSizeRequirements(BufferedImage inputImage) {

@@ -1,5 +1,6 @@
 import java.awt.CardLayout;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -27,7 +28,7 @@ public class MemeMaker {
 	/**
 	 * The image setup panel
 	 */
-	private JPanel pnlSetup;
+	private static JPanel pnlSetup;
 	
 	/**
 	 * New file menu item
@@ -184,6 +185,10 @@ public class MemeMaker {
 	 */
 	public static void main(String[] args) {
 		new MemeMaker();
+	}
+
+	public static void showSetupScreen(BufferedImage inputImage) {
+		pnlSetup = new JPanel();
 	}
 
 }
