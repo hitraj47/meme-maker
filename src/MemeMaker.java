@@ -102,13 +102,23 @@ public class MemeMaker {
 	 */
 	public static final int INPUT_IMAGE_MAX_HEIGHT = 600;
 	
+	/**
+	 * Window width
+	 */
+	public static final int WINDOW_WIDTH = 1280;
+	
+	/**
+	 * Window height
+	 */
+	public static final int WINDOW_HEIGHT = 700;
+	
 	public MemeMaker() {
 		frame = new JFrame("Meme Maker");
 		
 		layout = new CardLayout();
 		frame.setLayout(layout);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1280,700);
+		frame.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setJMenuBar(createMenuBar());
@@ -180,8 +190,30 @@ public class MemeMaker {
 	public static void showSetupScreen(BufferedImage inputImage) {
 		ImagePanel imageContainer = new ImagePanel(inputImage);
 		pnlSetup.add(imageContainer);
-		imageContainer.setBounds(10,10, inputImage.getWidth(), inputImage.getHeight());
+		int x = getCenteredXPosition(inputImage.getWidth());
+		int y = getCenteredYPosition(inputImage.getHeight());
+		imageContainer.setBounds(x,y, inputImage.getWidth(), inputImage.getHeight());
 		layout.show(frame.getContentPane(), SCREEN_SETUP);
+	}
+
+	/**
+	 * Get the y position that would vertically align with center
+	 * Good for absolute layout positioning
+	 * @param height The height of the thing you want to center
+	 * @return the y coordinate position
+	 */
+	private static int getCenteredYPosition(int height) {
+		return (WINDOW_HEIGHT/2) - (height/2);
+	}
+
+	/**
+	 * Get the x position that would horizontally align with center
+	 * Good for absolute layout positioning
+	 * @param width The width of the thing you want to center
+	 * @return the x coordinate position
+	 */
+	private static int getCenteredXPosition(int width) {
+		return (WINDOW_WIDTH/2) - (width/2);
 	}
 
 	/**
