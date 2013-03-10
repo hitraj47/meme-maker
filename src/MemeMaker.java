@@ -56,6 +56,11 @@ public class MemeMaker {
 	 * About the program menu item
 	 */
 	public static JMenuItem menuHelpAbout;
+
+	/**
+	 * The image panel that contains the image that needs to be cropped/resized
+	 */
+	public static ImagePanel setupImageContainer;
 	
 	/**
 	 * String constant for editor screen
@@ -188,12 +193,18 @@ public class MemeMaker {
 	}
 
 	public static void showSetupScreen(BufferedImage inputImage) {
-		ImagePanel imageContainer = new ImagePanel(inputImage);
-		pnlSetup.add(imageContainer);
+		setupImageContainer = new ImagePanel(inputImage);
+		pnlSetup.add(setupImageContainer);
 		int x = getCenteredXPosition(inputImage.getWidth());
 		int y = getCenteredYPosition(inputImage.getHeight());
-		imageContainer.setBounds(x,y, inputImage.getWidth(), inputImage.getHeight());
+		setupImageContainer.setBounds(x,y, inputImage.getWidth(), inputImage.getHeight());
+		setupImageContainer.addMouseListener(new MemeMakerListener());
 		layout.show(frame.getContentPane(), SCREEN_SETUP);
+	}
+	
+	public static void showEditScreen(BufferedImage inputImage) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**

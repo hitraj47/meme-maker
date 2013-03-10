@@ -1,14 +1,17 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
 import util.MultipleFileExtensionFilter;
 
-public class MemeMakerListener implements ActionListener {
+public class MemeMakerListener implements ActionListener, MouseListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -33,21 +36,20 @@ public class MemeMakerListener implements ActionListener {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
 				BufferedImage inputImage = ImageIO.read(fc.getSelectedFile());
-				/*if (!meetsMinImageSizeRequirements(inputImage)) {
+				if (!meetsMinImageSizeRequirements(inputImage)) {
 					String message = "The image you selected is too small. For best results, select an image that is at least 400 pixels in width and height";
 					String title = "NEED MOAR PIXELS!!!1!1!!one";
 					JOptionPane.showMessageDialog(null, message, title,
 							JOptionPane.ERROR_MESSAGE);
 				} else if (!meetsMaxImageSizeRequirements(inputImage)) {
-					String message = "The image width or height is above the recommended maximum. Lets the crop the image so your meme can look awesome!";
+					String message = "The image width and/or height is above the recommended maximum. Lets the crop the image so your meme can look awesome!";
 					String title = "Width or Height Above Recommended Maximum";
 					JOptionPane.showMessageDialog(null, message, title,
 							JOptionPane.INFORMATION_MESSAGE);
 					MemeMaker.showSetupScreen(inputImage);
 				} else {
-
-				}*/
-				MemeMaker.showSetupScreen(inputImage);
+					MemeMaker.showEditScreen(inputImage);
+				}
 			} catch (IOException e) {
 				System.err.println("Could not open image file: " + fc.getSelectedFile().getAbsolutePath());
 			}
@@ -78,6 +80,37 @@ public class MemeMakerListener implements ActionListener {
 		// otherwise just exit
 		// for now just exit the program
 		System.exit(0);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == MemeMaker.setupImageContainer) {
+			
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
