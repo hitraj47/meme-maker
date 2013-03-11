@@ -11,23 +11,26 @@ import javax.swing.JTabbedPane;
 public class MemeMakerEditor extends JPanel {
 
 	public MemeMakerEditor() {
-		super(new GridLayout(1, 1));
+		//super(new GridLayout(1, 1));
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 
 		JComponent panel1 = makeTextPanel("Meme Version 1");
-		panel1.setPreferredSize(new Dimension(410, 50));
+		panel1.setPreferredSize(new Dimension(1280, 700));
 		tabbedPane.addTab("Meme Version 1", null, panel1, "Does nothing");
 		tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
+		MemeMakerConfiguration config = new MemeMakerConfiguration();
+		config.setBounds(10,10,350,600);
+		panel1.add(config);
 
 		JComponent panel2 = makeTextPanel("Meme Version 2");
-		panel2.setPreferredSize(new Dimension(410, 50));
+		panel2.setPreferredSize(new Dimension(1280, 700));
 		tabbedPane.addTab("Meme Version 2", null, panel2,
 				"Does twice as much nothing");
 		tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
 		JComponent panel3 = makeTextPanel("Meme Version 3");
-		panel3.setPreferredSize(new Dimension(410, 50));
+		panel3.setPreferredSize(new Dimension(1280, 700));
 		tabbedPane.addTab("Meme Version 3", null, panel3, "Still does nothing");
 		tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
@@ -42,7 +45,7 @@ public class MemeMakerEditor extends JPanel {
 		JPanel panel = new JPanel(false);
 		JLabel filler = new JLabel(text);
 		filler.setHorizontalAlignment(JLabel.CENTER);
-		panel.setLayout(new GridLayout(1, 1));
+		panel.setLayout(null);
 		panel.add(filler);
 		return panel;
 	}
