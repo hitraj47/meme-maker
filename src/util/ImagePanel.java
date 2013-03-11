@@ -1,5 +1,6 @@
 package util;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -39,6 +40,15 @@ public class ImagePanel extends JPanel {
 
 	public BufferedImage getImage() {
 		return image;
+	}
+	
+	/**
+	 * Override the JPanel's getPreferredSize() method to return the size
+	 * of the image
+	 */
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(image.getWidth(), image.getHeight());
 	}
 
 	@Override

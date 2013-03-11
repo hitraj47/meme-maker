@@ -1,14 +1,16 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Font;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -125,6 +127,11 @@ public class MemeMaker {
 	 * Action command for displaying information about the program
 	 */
 	public static final String ACTION_ABOUT = "About";
+	
+	/**
+	 * Action command to crop image
+	 */
+	public static final String ACTION_CROP = "Crop";
 
 	/**
 	 * Minimum input image width
@@ -248,8 +255,8 @@ public class MemeMaker {
 		pnlHome = new JPanel(new BorderLayout());
 		pnlInstructions = createInstructionsSreen();
 		pnlEditTabs = new MemeMakerEditor();
-		pnlSetup = new JPanel();
-		pnlSetup.setLayout(null);
+		pnlSetup = new JPanel(new BorderLayout());
+		//pnlSetup.setLayout(null);
 	}
 
 	private JPanel createInstructionsSreen() {
@@ -287,12 +294,17 @@ public class MemeMaker {
 
 	public static void showSetupScreen(BufferedImage inputImage) {
 		setupImageContainer = new ImagePanel(inputImage);
-		pnlSetup.add(setupImageContainer);
-		int x = getCenteredXPosition(inputImage.getWidth());
-		int y = getCenteredYPosition(inputImage.getHeight());
-		setupImageContainer.setBounds(x, y, inputImage.getWidth(),
-				inputImage.getHeight());
+		JScrollPane scrollPane = new JScrollPane(setupImageContainer);
+		pnlSetup.add(scrollPane, BorderLayout.CENTER);
 		setupImageContainer.addMouseListener(new MemeMakerListener());
+		
+		JPanel pnlCrop = new JPanel();
+		pnlSetup.add(pnlCrop, BorderLayout.SOUTH);
+		JLabel lblCropInstructions = new JLabel("Drag a box on the image to select an area to crop, then press the crop button.");
+		pnlCrop.add(lblCropInstructions);
+		JButton btnCrop = new JButton(ACTION_CROP);
+		pnlCrop.add(btnCrop);
+		
 		layout.show(frame.getContentPane(), SCREEN_SETUP);
 	}
 
