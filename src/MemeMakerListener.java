@@ -22,6 +22,8 @@ public class MemeMakerListener implements ActionListener, MouseListener {
 			newMeme();
 		} else if (e.getActionCommand() == MemeMaker.ACTION_ABOUT) {
 			showAboutDialog();
+		} else if (e.getActionCommand() == MemeMaker.ACTION_INSTRUCTIONS) {
+			MemeMaker.showInstructionsScreen();
 		}
 	}
 

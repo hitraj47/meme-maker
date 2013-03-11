@@ -1,12 +1,21 @@
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.StyleSheet;
 
 import util.ImagePanel;
 
@@ -23,9 +32,19 @@ public class MemeMaker {
 	private static CardLayout layout;
 
 	/**
+	 * A welcome/home screen
+	 */
+	private JPanel pnlHome;
+
+	/**
 	 * The panel that holds the tabbed editor
 	 */
 	private JPanel pnlEditTabs;
+
+	/**
+	 * The instructions screen
+	 */
+	private JPanel pnlInstructions;
 
 	/**
 	 * The image setup panel
@@ -66,6 +85,16 @@ public class MemeMaker {
 	 * The image panel that contains the image that needs to be cropped/resized
 	 */
 	public static ImagePanel setupImageContainer;
+
+	/**
+	 * String constant for home/welcome screen
+	 */
+	public static final String SCREEN_HOME = "Home Screen";
+
+	/**
+	 * String constant for instructions screen
+	 */
+	public static final String SCREEN_INSTRUCTIONS = "Instructions screen";
 
 	/**
 	 * String constant for editor screen
@@ -127,8 +156,13 @@ public class MemeMaker {
 	 */
 	public static final int WINDOW_HEIGHT = 700;
 
+	/**
+	 * The Program title/name
+	 */
+	public static final String APPLICATION_TITLE = "Meme Maker 9000";
+
 	public MemeMaker() {
-		frame = new JFrame("Meme Maker");
+		frame = new JFrame(APPLICATION_TITLE);
 
 		layout = new CardLayout();
 		frame.setLayout(layout);
@@ -139,6 +173,8 @@ public class MemeMaker {
 		frame.setJMenuBar(createMenuBar());
 
 		createGuiComponenets();
+		frame.add(pnlHome, SCREEN_HOME);
+		frame.add(pnlInstructions, SCREEN_INSTRUCTIONS);
 		frame.add(pnlEditTabs, SCREEN_EDIT);
 		frame.add(pnlSetup, SCREEN_SETUP);
 		frame.setVisible(true);
@@ -209,9 +245,43 @@ public class MemeMaker {
 	}
 
 	private void createGuiComponenets() {
+		pnlHome = new JPanel(new BorderLayout());
+		pnlInstructions = createInstructionsSreen();
 		pnlEditTabs = new MemeMakerEditor();
 		pnlSetup = new JPanel();
 		pnlSetup.setLayout(null);
+	}
+
+	private JPanel createInstructionsSreen() {
+		JPanel panel = new JPanel(new BorderLayout());
+		
+		JEditorPane editorPane = new JEditorPane();
+		editorPane.setEditable(false);
+		HTMLEditorKit kit = new HTMLEditorKit();
+		editorPane.setEditorKit(kit);
+		JScrollPane scrollPane = new JScrollPane(editorPane);
+		panel.add(scrollPane, BorderLayout.CENTER);
+		
+		// add some styles to the html
+		StyleSheet styleSheet = kit.getStyleSheet();
+		styleSheet.addRule("body { background-color: #ffffff; color: #000000; font-family: Verdana, sans-serif; }");
+		styleSheet.addRule("h1 { text-align: center; }");
+		
+		// create a document, set it on the jeditorpane, then add the html
+		javax.swing.text.Document doc = kit.createDefaultDocument();
+		editorPane.setDocument(doc);
+		String html = "";
+		try {
+			Scanner s = new Scanner(new File("docs/instructions.html"));
+			while (s.hasNext()) {
+				html += s.next();
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("Could not open file instructions file.");
+		}
+		editorPane.setText(html);
+		
+		return panel;
 	}
 
 	public static void showSetupScreen(BufferedImage inputImage) {
@@ -252,6 +322,10 @@ public class MemeMaker {
 	 */
 	private static int getCenteredXPosition(int width) {
 		return (WINDOW_WIDTH / 2) - (width / 2);
+	}
+
+	public static void showInstructionsScreen() {
+		layout.show(frame.getContentPane(), SCREEN_INSTRUCTIONS);
 	}
 
 	/**
