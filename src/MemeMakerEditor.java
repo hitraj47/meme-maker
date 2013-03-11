@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class MemeMakerEditor extends JPanel {
-
+	
 	public MemeMakerEditor() {
 		//super(new GridLayout(1, 1));
 
@@ -36,7 +36,7 @@ public class MemeMakerEditor extends JPanel {
 
 		// Add the tabbed pane to this panel.
 		add(tabbedPane);
-
+		
 		// The following line enables to use scrolling tabs.
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 	}

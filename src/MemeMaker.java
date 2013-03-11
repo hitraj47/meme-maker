@@ -1,27 +1,121 @@
 import java.awt.CardLayout;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+
+import util.ImagePanel;
 
 public class MemeMaker {
 	
+	/**
+	 * The main window
+	 */
 	private static JFrame frame;
 	
-	private CardLayout layout;
+	/**
+	 * The program layout
+	 */
+	private static CardLayout layout;
 	
+	/**
+	 * The panel that holds the tabbed editor
+	 */
 	private JPanel pnlEditTabs;
-	private JPanel pnlSetup;
 	
-	public static JMenuItem menuFileNew, menuFileExportJPG, menuFileExportPNG, menuFileExit;
+	/**
+	 * The image setup panel
+	 */
+	private static JPanel pnlSetup;
+	
+	/**
+	 * New file menu item
+	 */
+	public static JMenuItem menuFileNew;
+	
+	/**
+	 * Export as jpeg menu item
+	 */
+	public static JMenuItem menuFileExportJPG;
+	
+	/**
+	 * Export as png menu item
+	 */
+	public static JMenuItem menuFileExportPNG; 
+	
+	/**
+	 * Exit the program
+	 */
+	public static JMenuItem menuFileExit;
+	
+	/**
+	 * About the program menu item
+	 */
 	public static JMenuItem menuHelpAbout;
+
+	/**
+	 * The image panel that contains the image that needs to be cropped/resized
+	 */
+	public static ImagePanel setupImageContainer;
 	
+	/**
+	 * String constant for editor screen
+	 */
 	public static final String SCREEN_EDIT = "Edit Tabs Screen";
+	
+	/**
+	 * String constant for image setup screen
+	 */
 	public static final String SCREEN_SETUP = "Setup Screen";
+	
+	/**
+	 * Action command to exit the application
+	 */
+	public static final String ACTION_EXIT = "Exit";
+	
+	/**
+	 * Action command for creating a new meme
+	 */
+	public static final String ACTION_NEW = "New Meme";
+	
+	/**
+	 * Action command for displaying information about the program
+	 */
+	public static final String ACTION_ABOUT = "About";
+	
+	/**
+	 * Minimum input image width
+	 */
+	public static final int INPUT_IMAGE_MIN_WIDTH = 400;
+	
+	/**
+	 * Maximum input image width
+	 */
+	public static final int INPUT_IMAGE_MAX_WIDTH = 600;
+	
+	/**
+	 * Minimum input image height
+	 */
+	public static final int INPUT_IMAGE_MIN_HEIGHT = 400;
+	
+	/**
+	 * Maximum input image height
+	 */
+	public static final int INPUT_IMAGE_MAX_HEIGHT = 600;
+	
+	/**
+	 * Window width
+	 */
+	public static final int WINDOW_WIDTH = 1280;
+	
+	/**
+	 * Window height
+	 */
+	public static final int WINDOW_HEIGHT = 700;
 	
 	public MemeMaker() {
 		frame = new JFrame("Meme Maker");
@@ -29,7 +123,7 @@ public class MemeMaker {
 		layout = new CardLayout();
 		frame.setLayout(layout);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1280,700);
+		frame.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setJMenuBar(createMenuBar());
@@ -50,6 +144,7 @@ public class MemeMaker {
 		menuFile = new JMenu("File");
 		menuFile.setMnemonic(KeyEvent.VK_F);
 		menuFile.getAccessibleContext().setAccessibleDescription("File Menu");
+		menuFile.addActionListener(new MemeMakerListener());
 		menuBar.add(menuFile);
 		
 		// File menu items
@@ -71,7 +166,7 @@ public class MemeMaker {
 		menuFileExportPNG.getAccessibleContext().setAccessibleDescription("Save the image as a .png image");
 		menuFileExport.add(menuFileExportPNG);
 		
-		menuFileExit = new JMenuItem("Exit", KeyEvent.VK_X);
+		menuFileExit = new JMenuItem(ACTION_EXIT, KeyEvent.VK_X);
 		menuFileExit.addActionListener(new MemeMakerListener());
 		menuFileExit.getAccessibleContext().setAccessibleDescription("Exit the program");
 		menuFile.add(menuFileExit);
@@ -83,7 +178,7 @@ public class MemeMaker {
 		menuBar.add(menuHelp);
 		
 		// help menu items
-		menuHelpAbout = new JMenuItem("About", KeyEvent.VK_A);
+		menuHelpAbout = new JMenuItem(ACTION_ABOUT, KeyEvent.VK_A);
 		menuHelpAbout.addActionListener(new MemeMakerListener());
 		menuHelpAbout.getAccessibleContext().setAccessibleDescription("About this program");
 		menuHelp.add(menuHelpAbout);
@@ -93,14 +188,43 @@ public class MemeMaker {
 
 	private void createGuiComponenets() {
 		pnlEditTabs = new MemeMakerEditor();
-		pnlEditTabs.setBounds(0, 0, 1280, 700);
-		pnlSetup = createSetupScreen();		
+		pnlSetup = new JPanel();
+		pnlSetup.setLayout(null);
 	}
 
-	private JPanel createSetupScreen() {
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		return panel;
+	public static void showSetupScreen(BufferedImage inputImage) {
+		setupImageContainer = new ImagePanel(inputImage);
+		pnlSetup.add(setupImageContainer);
+		int x = getCenteredXPosition(inputImage.getWidth());
+		int y = getCenteredYPosition(inputImage.getHeight());
+		setupImageContainer.setBounds(x,y, inputImage.getWidth(), inputImage.getHeight());
+		setupImageContainer.addMouseListener(new MemeMakerListener());
+		layout.show(frame.getContentPane(), SCREEN_SETUP);
+	}
+	
+	public static void showEditScreen(BufferedImage inputImage) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * Get the y position that would vertically align with center
+	 * Good for absolute layout positioning
+	 * @param height The height of the thing you want to center
+	 * @return the y coordinate position
+	 */
+	private static int getCenteredYPosition(int height) {
+		return (WINDOW_HEIGHT/2) - (height/2);
+	}
+
+	/**
+	 * Get the x position that would horizontally align with center
+	 * Good for absolute layout positioning
+	 * @param width The width of the thing you want to center
+	 * @return the x coordinate position
+	 */
+	private static int getCenteredXPosition(int width) {
+		return (WINDOW_WIDTH/2) - (width/2);
 	}
 
 	/**
