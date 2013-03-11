@@ -60,8 +60,8 @@ public class MemeMakerListener implements ActionListener, MouseListener {
 	}
 
 	private boolean meetsMaxImageSizeRequirements(BufferedImage inputImage) {
-		return (inputImage.getWidth() > MemeMaker.INPUT_IMAGE_MAX_WIDTH)
-				|| (inputImage.getHeight() > MemeMaker.INPUT_IMAGE_MAX_HEIGHT);
+		return (inputImage.getWidth() <= MemeMaker.INPUT_IMAGE_MAX_WIDTH)
+				|| (inputImage.getHeight() <= MemeMaker.INPUT_IMAGE_MAX_HEIGHT);
 	}
 
 	private boolean meetsMinImageSizeRequirements(BufferedImage inputImage) {

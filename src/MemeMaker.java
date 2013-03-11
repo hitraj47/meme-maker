@@ -254,19 +254,20 @@ public class MemeMaker {
 
 	private JPanel createInstructionsSreen() {
 		JPanel panel = new JPanel(new BorderLayout());
-		
+
 		JEditorPane editorPane = new JEditorPane();
 		editorPane.setEditable(false);
 		HTMLEditorKit kit = new HTMLEditorKit();
 		editorPane.setEditorKit(kit);
 		JScrollPane scrollPane = new JScrollPane(editorPane);
 		panel.add(scrollPane, BorderLayout.CENTER);
-		
+
 		// add some styles to the html
 		StyleSheet styleSheet = kit.getStyleSheet();
-		styleSheet.addRule("body { background-color: #ffffff; color: #000000; font-family: Verdana, sans-serif; }");
+		styleSheet
+				.addRule("body { background-color: #ffffff; color: #000000; font-family: Verdana, sans-serif; }");
 		styleSheet.addRule("h1 { text-align: center; }");
-		
+
 		// create a document, set it on the jeditorpane, then add the html
 		javax.swing.text.Document doc = kit.createDefaultDocument();
 		editorPane.setDocument(doc);
@@ -280,7 +281,7 @@ public class MemeMaker {
 			System.err.println("Could not open file instructions file.");
 		}
 		editorPane.setText(html);
-		
+
 		return panel;
 	}
 
