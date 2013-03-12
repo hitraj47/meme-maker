@@ -198,8 +198,6 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		// Create Font Color Chooser
 		colorChooser = new JColorChooser();
 		colorChooser.getSelectionModel().addChangeListener(this);
-		colorChooser.setBorder(BorderFactory
-				.createTitledBorder("Choose Text Color"));
 
 		// Create Font Size Label
 		lblFontSize = new JLabel("Font Size:");
