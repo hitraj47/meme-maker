@@ -1,6 +1,6 @@
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -10,17 +10,45 @@ import javax.swing.JTabbedPane;
 
 public class MemeMakerEditor extends JPanel {
 	
+	/**
+	 * The Editors TabbedPane
+	 */
 	private JTabbedPane memeTabbedPane;
+	
+	/**
+	 * The first Meme Tab
+	 */
 	private JComponent pnlMemeOne;
+	
+	/**
+	 * The second Meme Tab
+	 */
 	private JComponent pnlMemeTwo;
+	
+	/**
+	 * The third Meme tab
+	 */
 	private JComponent pnlMemeThree;
+	
+	/**
+	 * The MemeMakerConfiguration Panel for tab one
+	 */
 	private MemeMakerConfiguration pnlConfigOne;
+	
+	/**
+	 * The MemeMakerConfiguration Panel for tab two
+	 */
 	private MemeMakerConfiguration pnlConfigTwo;
+	
+	/**
+	 * The MemeMakerConfiguration Panel for tab three
+	 */
 	private MemeMakerConfiguration pnlConfigThree;
 	
-	//ArrayList<JComponent> memePanels = new ArrayList<JComponent>();
-	//ArrayList<MemeMakerConfiguration> configPanels = new ArrayList<MemeMakerConfiguration>();
 	
+	/**
+	 * The Constructor for the MemeMakerEditor
+	 */
 	public MemeMakerEditor() {
 		memeTabbedPane = new JTabbedPane();
 		createTabs();
@@ -28,6 +56,9 @@ public class MemeMakerEditor extends JPanel {
 		memeTabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 	}
 
+	/**
+	 * Creates the tabs for the TabbedPane
+	 */
 	private void createTabs() {
 		// First Tab
 		pnlMemeOne = makeTextPanel("Meme Version 1");
@@ -58,6 +89,12 @@ public class MemeMakerEditor extends JPanel {
 		
 	}
 
+	/**
+	 * Creates the panel for the tab
+	 * @param text
+	 * 		 Title of the tab
+	 * @return Panel for created tab
+	 */
 	protected JComponent makeTextPanel(String text) {
 		JPanel panel = new JPanel(false);
 		JLabel filler = new JLabel(text);
