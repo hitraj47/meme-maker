@@ -17,6 +17,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import util.FontCellRenderer;
 
 /**
  * Creates the configuration panel for the MemeMakerEditor Panel
