@@ -4,13 +4,13 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -84,6 +84,11 @@ public class MemeMakerConfiguration extends JPanel implements ChangeListener {
 	 * ColorChooser for Message Font Color
 	 */
 	private JColorChooser colorChooser;
+	
+	/**
+	 * Button for launching the ColorChooser
+	 */
+	private JButton btnColorChooser;
 	
 	/**
 	 * MemeMakeConfiguration Width
@@ -165,35 +170,35 @@ public class MemeMakerConfiguration extends JPanel implements ChangeListener {
 		// Create Set Font Label
 		lblSetFont = new JLabel("Set Font:");
 		lblSetFont.setFont(LABEL_FONT);
-		lblSetFont.setBounds(35, 355, 75, 15);
+		lblSetFont.setBounds(25, 350, 75, 15);
 		
 		// Create Set Font ComboBox
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	    String[] fonts = ge.getAvailableFontFamilyNames();
 		comboBoxSetFont = new JComboBox(fonts);
 		comboBoxSetFont.setRenderer(new FontCellRenderer());
-		comboBoxSetFont.setBounds(190,350,110,25);
+		comboBoxSetFont.setBounds(175,350,150,25);
 		
 		// Create Text Color Label
 		lblTextColor = new JLabel("Text Color:");
 		lblTextColor.setFont(LABEL_FONT);
-		lblTextColor.setBounds(35, 400, 125, 15);
+		lblTextColor.setBounds(25, 400, 125, 15);
 		
 		// Create Font Color Chooser
 		colorChooser = new JColorChooser(Color.BLUE);
 		colorChooser.getSelectionModel().addChangeListener(this);
-		colorChooser.setBounds(190, 395, 125,25);
+		colorChooser.setBounds(175, 400, 125,25);
 	
 		
 		// Create Font Size Label
 		lblFontSize = new JLabel("Font Size:");
 		lblFontSize.setFont(LABEL_FONT);
-		lblFontSize.setBounds(35, 445, 125, 15);
+		lblFontSize.setBounds(25, 450, 125, 15);
 		
 		// Create Font Size ComboBox
 		String[] fontSize = {"8pt","9pt","10pt","11pt","12pt","14pt","16pt","18pt","20pt","22pt","24pt","26pt","28pt","36pt","48pt","72pt"};
 		comboBoxFontSize = new JComboBox(fontSize);
-		comboBoxFontSize.setBounds(190, 440, 50, 25);
+		comboBoxFontSize.setBounds(175, 450, 50, 25);
 
 	}
 
