@@ -1,6 +1,6 @@
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -10,35 +10,52 @@ import javax.swing.JTabbedPane;
 
 public class MemeMakerEditor extends JPanel {
 	
+	private JTabbedPane memeTabbedPane;
+	private JComponent pnlMemeOne;
+	private JComponent pnlMemeTwo;
+	private JComponent pnlMemeThree;
+	private MemeMakerConfiguration pnlConfigOne;
+	private MemeMakerConfiguration pnlConfigTwo;
+	private MemeMakerConfiguration pnlConfigThree;
+	
+	//ArrayList<JComponent> memePanels = new ArrayList<JComponent>();
+	//ArrayList<MemeMakerConfiguration> configPanels = new ArrayList<MemeMakerConfiguration>();
+	
 	public MemeMakerEditor() {
-		//super(new GridLayout(1, 1));
+		memeTabbedPane = new JTabbedPane();
+		createTabs();
+		add(memeTabbedPane);
+		memeTabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+	}
 
-		JTabbedPane tabbedPane = new JTabbedPane();
-
-		JComponent panel1 = makeTextPanel("Meme Version 1");
-		panel1.setPreferredSize(new Dimension(1280, 700));
-		tabbedPane.addTab("Meme Version 1", null, panel1, "Does nothing");
-		tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
-		MemeMakerConfiguration config = new MemeMakerConfiguration();
-		config.setBounds(10,10,350,600);
-		panel1.add(config);
-
-		JComponent panel2 = makeTextPanel("Meme Version 2");
-		panel2.setPreferredSize(new Dimension(1280, 700));
-		tabbedPane.addTab("Meme Version 2", null, panel2,
-				"Does twice as much nothing");
-		tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
-
-		JComponent panel3 = makeTextPanel("Meme Version 3");
-		panel3.setPreferredSize(new Dimension(1280, 700));
-		tabbedPane.addTab("Meme Version 3", null, panel3, "Still does nothing");
-		tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
-
-		// Add the tabbed pane to this panel.
-		add(tabbedPane);
+	private void createTabs() {
+		// First Tab
+		pnlMemeOne = makeTextPanel("Meme Version 1");
+		pnlMemeOne.setPreferredSize(new Dimension(1280, 700));
+		memeTabbedPane.addTab("Meme Version 1", null, pnlMemeOne, "Does nothing");
+		memeTabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
+		pnlConfigOne = new MemeMakerConfiguration();
+		pnlConfigOne.setBounds(10,10,350,600);
+		pnlMemeOne.add(pnlConfigOne);
 		
-		// The following line enables to use scrolling tabs.
-		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		// Second Tab
+		pnlMemeTwo = makeTextPanel("Meme Version 2");
+		pnlMemeTwo.setPreferredSize(new Dimension(1280, 700));
+		memeTabbedPane.addTab("Meme Version 2", null, pnlMemeTwo, "Does nothing");
+		memeTabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
+		pnlConfigTwo = new MemeMakerConfiguration();
+		pnlConfigTwo.setBounds(10,10,350,600);
+		pnlMemeTwo.add(pnlConfigTwo);
+		
+		// Third Tab
+		pnlMemeThree = makeTextPanel("Meme Version 3");
+		pnlMemeThree.setPreferredSize(new Dimension(1280, 700));
+		memeTabbedPane.addTab("Meme Version 3", null, pnlMemeThree, "Does nothing");
+		memeTabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
+		pnlConfigThree = new MemeMakerConfiguration();
+		pnlConfigThree.setBounds(10,10,350,600);
+		pnlMemeThree.add(pnlConfigThree);
+		
 	}
 
 	protected JComponent makeTextPanel(String text) {

@@ -139,7 +139,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		// Create Titled Message Border
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		titledBorderMessage = BorderFactory.createTitledBorder(blackline,
-				"Message Title");
+				"Meme Message");
 		titledBorderMessage.setTitleJustification(TitledBorder.LEFT);
 		titledBorderMessage.setTitleFont(BORDER_FONT);
 		this.setBorder(titledBorderMessage);
@@ -153,6 +153,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		txtAreaTopLine = new JTextArea();
 		txtAreaTopLine.setEditable(true);
 		txtAreaTopLine.setLineWrap(true);
+		txtAreaTopLine.setWrapStyleWord(true);
 		txtAreaTopLine.setFont(TEXT_AREA_FONT);
 		txtAreaTopLine.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		txtAreaTopLine.setBounds(10, 55, 330, 100);
@@ -166,6 +167,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		txtAreaBottomLine = new JTextArea();
 		txtAreaBottomLine.setEditable(true);
 		txtAreaBottomLine.setLineWrap(true);
+		txtAreaBottomLine.setWrapStyleWord(true);
 		txtAreaBottomLine.setFont(TEXT_AREA_FONT);
 		txtAreaBottomLine
 				.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -221,12 +223,23 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 
 	}
 
+
+	/*
+	 * Change Listener Methods
+	 */
+	
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
 		Color newColor = colorChooser.getColor();
 		btnColorChooser.setForeground(newColor);
 	}
 
+	
+
+	/*
+	 * Action Listener Methods
+	 */
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnColorChooser){
@@ -234,10 +247,6 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		}
 	}
 
-	/*
-	 * Action Listener Methods
-	 */
-	
 	/**
 	 * Launches the ColorChooser
 	 */
