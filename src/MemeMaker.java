@@ -25,7 +25,7 @@ public class MemeMaker {
 	/**
 	 * The main window
 	 */
-	private static JFrame frame;
+	public static JFrame frame;
 
 	/**
 	 * The program layout
@@ -295,8 +295,7 @@ public class MemeMaker {
 		setupImageContainer = new EditableImagePanel(inputImage);
 		JScrollPane scrollPane = new JScrollPane(setupImageContainer);
 		pnlSetup.add(scrollPane, BorderLayout.CENTER);
-		setupImageContainer.addMouseListener(new MemeMakerListener());
-		setupImageContainer.addMouseMotionListener(new MemeMakerListener());
+		setupImageContainer.setEditingMode(EditableImagePanel.MODE_CROP);
 		
 		JPanel pnlCrop = new JPanel();
 		pnlSetup.add(pnlCrop, BorderLayout.SOUTH);

@@ -1,8 +1,5 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -12,21 +9,8 @@ import javax.swing.JOptionPane;
 
 import util.MultipleFileExtensionFilter;
 
-public class MemeMakerListener implements ActionListener, MouseListener, MouseMotionListener {
+public class MemeMakerListener implements ActionListener {
 	
-	/**
-	 * Used to determine if a new rectangle is being drawn
-	 */
-	private boolean isNewCropRect = true;
-	/**
-	 * The start and end x,y coordinates of rectangle being drawn on image
-	 */
-	private int cropx1, cropx2, cropy1, cropy2;
-	/**
-	 * The final x,y coordinates and width and height of rectangle
-	 */
-    private int cropx, cropy, cropw, croph;
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -96,71 +80,6 @@ public class MemeMakerListener implements ActionListener, MouseListener, MouseMo
 		// otherwise just exit
 		// for now just exit the program
 		System.exit(0);
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getSource() == MemeMaker.setupImageContainer && e.getButton() == MouseEvent.BUTTON1) {
-			MemeMaker.setupImageContainer.repaint();
-		}
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getSource() == MemeMaker.setupImageContainer) {
-			//TODO: Display coords in JLabel
-		}
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getSource() == MemeMaker.setupImageContainer) {
-			// TODO: Stop displaying coords in JLabel
-		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getSource() == MemeMaker.setupImageContainer && e.getButton() == MouseEvent.BUTTON1) {
-			cropx1 = e.getX();
-			cropy1 = e.getY();
-			isNewCropRect = true;
-			MemeMaker.setupImageContainer.repaint();
-		}
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getSource() == MemeMaker.setupImageContainer && e.getButton() == MouseEvent.BUTTON1) {
-			cropx2 = e.getX();
-			cropy2 = e.getY();
-			MemeMaker.setupImageContainer.repaint();
-		}
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getSource() == MemeMaker.setupImageContainer && e.getButton() == MouseEvent.BUTTON1) {
-			cropx2 = e.getX();
-			cropy2 = e.getY();
-			isNewCropRect = false;
-			MemeMaker.setupImageContainer.repaint();
-		}
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getSource() == MemeMaker.setupImageContainer) {
-			// TODO: Update JLabel with mouse coords
-		}
 	}
 
 }
