@@ -313,30 +313,6 @@ public class MemeMaker {
 
 	}
 
-	/**
-	 * Get the y position that would vertically align with center Good for
-	 * absolute layout positioning
-	 * 
-	 * @param height
-	 *            The height of the thing you want to center
-	 * @return the y coordinate position
-	 */
-	private static int getCenteredYPosition(int height) {
-		return (WINDOW_HEIGHT / 2) - (height / 2);
-	}
-
-	/**
-	 * Get the x position that would horizontally align with center Good for
-	 * absolute layout positioning
-	 * 
-	 * @param width
-	 *            The width of the thing you want to center
-	 * @return the x coordinate position
-	 */
-	private static int getCenteredXPosition(int width) {
-		return (WINDOW_WIDTH / 2) - (width / 2);
-	}
-
 	public static void showInstructionsScreen() {
 		layout.show(frame.getContentPane(), SCREEN_INSTRUCTIONS);
 	}
