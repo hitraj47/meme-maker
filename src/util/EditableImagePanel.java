@@ -9,20 +9,46 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class ImagePanel extends JPanel {
+public class EditableImagePanel extends JPanel {
 
+	/**
+	 * The image to be used
+	 */
 	private BufferedImage image;
+
+	/**
+	 * This determines what to draw on the image panel in the pain method
+	 */
+	private int editingMode;
 	
-	public ImagePanel(String fileLocation) {
+	/**
+	 * Constant for cropping mode
+	 */
+	public static final int MODE_CROP = 0;
+	
+	/**
+	 * Constant for adding/editing/deleting text
+	 */
+	public static final int MODE_TEXT = 1;
+	
+	public EditableImagePanel(String fileLocation) {
 		setImage(fileLocation);
 	}
 
-	public ImagePanel(File file) {
+	public EditableImagePanel(File file) {
 		setImage(file);
 	}
 
-	public ImagePanel(BufferedImage image) {
+	public EditableImagePanel(BufferedImage image) {
 		this.image = image;
+	}
+	
+	public void setMode(int editingMode) {
+		this.editingMode = editingMode;
+	}
+	
+	public int getMode() {
+		return this.editingMode;
 	}
 
 	public void setImage(File file) {

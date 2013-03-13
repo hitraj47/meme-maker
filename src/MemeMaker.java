@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -19,7 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
-import util.ImagePanel;
+import util.EditableImagePanel;
 
 public class MemeMaker {
 
@@ -86,7 +85,7 @@ public class MemeMaker {
 	/**
 	 * The image panel that contains the image that needs to be cropped/resized
 	 */
-	public static ImagePanel setupImageContainer;
+	public static EditableImagePanel setupImageContainer;
 
 	/**
 	 * String constant for home/welcome screen
@@ -273,7 +272,7 @@ public class MemeMaker {
 		StyleSheet styleSheet = kit.getStyleSheet();
 		styleSheet
 				.addRule("body { background-color: #ffffff; color: #000000; font-family: Verdana, sans-serif; }");
-		styleSheet.addRule("h1 { text-align: center; }");
+		styleSheet.addRule("h1 { text-align: center; font-family: Arial, sans-serif; }");
 
 		// create a document, set it on the jeditorpane, then add the html
 		javax.swing.text.Document doc = kit.createDefaultDocument();
@@ -281,8 +280,8 @@ public class MemeMaker {
 		String html = "";
 		try {
 			Scanner s = new Scanner(new File("docs/instructions.html"));
-			while (s.hasNext()) {
-				html += s.next();
+			while (s.hasNextLine()) {
+				html += s.nextLine();
 			}
 		} catch (FileNotFoundException e) {
 			System.err.println("Could not open file instructions file.");
@@ -293,10 +292,11 @@ public class MemeMaker {
 	}
 
 	public static void showSetupScreen(BufferedImage inputImage) {
-		setupImageContainer = new ImagePanel(inputImage);
+		setupImageContainer = new EditableImagePanel(inputImage);
 		JScrollPane scrollPane = new JScrollPane(setupImageContainer);
 		pnlSetup.add(scrollPane, BorderLayout.CENTER);
 		setupImageContainer.addMouseListener(new MemeMakerListener());
+		setupImageContainer.addMouseMotionListener(new MemeMakerListener());
 		
 		JPanel pnlCrop = new JPanel();
 		pnlSetup.add(pnlCrop, BorderLayout.SOUTH);
