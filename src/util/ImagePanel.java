@@ -42,6 +42,14 @@ public class ImagePanel extends JPanel {
 		return image;
 	}
 	
+	public int getWidth() {
+		return image.getWidth();
+	}
+	
+	public int getHeight() {
+		return image.getHeight();
+	}
+	
 	/**
 	 * Override the JPanel's getPreferredSize() method to return the size
 	 * of the image
