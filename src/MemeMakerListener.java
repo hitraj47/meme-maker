@@ -44,8 +44,7 @@ public class MemeMakerListener implements ActionListener {
 				} else if (!meetsMaxImageSizeRequirements(inputImage)) {
 					String message = "The image width and/or height is above the recommended maximum. Lets the crop the image so your meme can look awesome!";
 					String title = "Width or Height Above Recommended Maximum";
-					JOptionPane.showMessageDialog(null, message, title,
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
 					MemeMaker.showSetupScreen(inputImage);
 				} else {
 					MemeMaker.showEditScreen(inputImage);

@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -299,8 +301,10 @@ public class MemeMaker {
 		
 		JPanel pnlCrop = new JPanel();
 		pnlSetup.add(pnlCrop, BorderLayout.SOUTH);
+		
 		JLabel lblCropInstructions = new JLabel("Drag a box on the image to select an area to crop, then press the crop button.");
 		pnlCrop.add(lblCropInstructions);
+		
 		JButton btnCrop = new JButton(ACTION_CROP);
 		pnlCrop.add(btnCrop);
 		

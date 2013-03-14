@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class EditableImagePanel extends JPanel implements MouseListener,
@@ -57,7 +58,16 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 * Constant for adding/editing/deleting text
 	 */
 	public static final int MODE_TEXT = 2;
-
+	
+	/**
+	 * Default constructor
+	 */
+	public EditableImagePanel() {
+		setEditingMode(MODE_VIEW);
+		addMouseListener(this);
+		addMouseMotionListener(this);
+	}
+	
 	/**
 	 * Create a new image panel from a file location
 	 * 
@@ -65,8 +75,8 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 *            The location of the file
 	 */
 	public EditableImagePanel(String fileLocation) {
+		this();
 		setImage(fileLocation);
-		setEditingMode(MODE_VIEW);
 	}
 
 	/**
@@ -76,8 +86,8 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 *            The image file object to be used
 	 */
 	public EditableImagePanel(File file) {
+		this();
 		setImage(file);
-		setEditingMode(MODE_VIEW);
 	}
 
 	/**
@@ -87,8 +97,8 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 *            The image object to be used
 	 */
 	public EditableImagePanel(BufferedImage image) {
+		this();
 		this.image = image;
-		setEditingMode(MODE_VIEW);
 	}
 
 	/**
@@ -183,15 +193,24 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		g.drawImage(image, 0, 0, null);
 
 		if (editingMode == MODE_CROP) {
-			int width = getCropWidth();
-			int height = getCropHeight();
-			int x = (width < 0) ? getCropx1() : getCropx2();
-			int y = (height < 0) ? getCropy1() : getCropy2();
+			// get the actual width and height of the drawn rectangle
+			int width = getCropx1() - getCropx2();
+			int height = getCropy1() - getCropy2();
 
-			if (!isNewCropRect) {
-				Graphics2D g2 = (Graphics2D) g;
-				g2.drawRect(x, y, width, height);
-				setCroppedImage(x, y, width, height);
+			// get the width and height to use for drawing the rectangle
+			int w = Math.abs(width);
+			int h = Math.abs(height);
+			
+			// get the coordinates for placing the rectangle
+			int x = width < 0 ? getCropx1() : getCropx2();
+			int y = height < 0 ? getCropy1() : getCropy2();
+			
+			if (!this.isNewCropRect) {
+				// draw a rectangle to show the user the area
+				g.drawRect(x, y, w, h);
+				
+				// create a cropped image
+				setCroppedImage(x, y, w, h);
 			}
 		}
 	}
@@ -233,6 +252,9 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		if (getEditingMode() == MODE_CROP) {
+			setCursor(Cursor.getDefaultCursor());
+		}
 	}
 
 	@Override
@@ -312,15 +334,6 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	public void setCropy2(int cropy2) {
 		this.cropy2 = cropy2;
-	}
-
-	public int getCropWidth() {
-		return Math.abs(getCropx1() - getCropx2());
-
-	}
-
-	public int getCropHeight() {
-		return Math.abs(getCropy1() - getCropy2());
 	}
 
 }
