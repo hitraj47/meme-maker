@@ -53,16 +53,35 @@ public class MemeMakerListener implements ActionListener {
 		JLabel lblHeight = new JLabel("Height: ");
 		panel.add(lblHeight);
 
-		JTextField txtHeight = new JTextField(Integer.toString(image.getHeight()));
+		JTextField txtHeight = new JTextField(Integer.toString(image
+				.getHeight()));
 		panel.add(txtHeight);
-		
+
 		Object[] buttonOptions = { "Resize", "Cancel" };
 		int result = JOptionPane.showOptionDialog(null, panel, "Resize Image",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null,
 				buttonOptions, buttonOptions[0]);
-		
+
 		if (result == 0) {
-			
+			// TODO: Make sure user has entered numbers > 0
+			int width = Integer.parseInt(txtWidth.getText());
+			int height = Integer.parseInt(txtHeight.getText());
+			BufferedImage resizedImage = MemeMaker.setupImageContainer
+					.getResizedImage(width, height);
+			if (!MemeMaker.meetsMaxImageSizeRequirements(resizedImage)) {
+				JOptionPane.showMessageDialog(null,
+					    "Resized image is too large. The width and height must be between 400 and 600 pixels.",
+					    "Image Too Big",
+					    JOptionPane.ERROR_MESSAGE);
+			} else if (!MemeMaker.meetsMinImageSizeRequirements(resizedImage)) {
+				JOptionPane.showMessageDialog(null,
+					    "The resized image is too small. Width and height must be at least 400 pixels.",
+					    "Image Too Small",
+					    JOptionPane.ERROR_MESSAGE);
+			} else {
+				// TODO: show new resized image
+				MemeMaker.setupImageContainer.setImage(resizedImage);
+			}
 		}
 	}
 

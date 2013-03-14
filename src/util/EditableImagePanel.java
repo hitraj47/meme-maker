@@ -15,6 +15,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import org.imgscalr.Scalr;
+
 public class EditableImagePanel extends JPanel implements MouseListener,
 		MouseMotionListener {
 
@@ -144,6 +146,10 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	public void setImage(String fileLocation) {
 		setImage(new File(fileLocation));
+	}
+	
+	public void setImage(BufferedImage image) {
+		this.image = image;
 	}
 
 	/**
@@ -345,6 +351,11 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	public void setCropy2(int cropy2) {
 		this.cropy2 = cropy2;
+	}
+	
+	public BufferedImage getResizedImage(int width, int height) {
+		BufferedImage resizedImage = Scalr.resize(image, width, height, null);
+		return resizedImage;
 	}
 
 }
