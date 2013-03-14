@@ -98,6 +98,11 @@ public class MemeMaker {
 	 * Button that will set the cropped image as the editor image
 	 */
 	public static JButton btnCrop;
+	
+	/**
+	 * Button to resize setup image
+	 */
+	public static JButton btnResize;
 
 	/**
 	 * String constant for home/welcome screen
@@ -143,6 +148,11 @@ public class MemeMaker {
 	 * Action command to crop image
 	 */
 	public static final String ACTION_CROP = "Crop";
+	
+	/**
+	 * Action command to resize image
+	 */
+	public static final String ACTION_RESIZE = "Resize Image";
 
 	/**
 	 * Minimum input image width
@@ -346,6 +356,10 @@ public class MemeMaker {
 		btnCrop = new JButton(ACTION_CROP);
 		btnCrop.setEnabled(false);
 		pnlCrop.add(btnCrop);
+		
+		btnResize = new JButton(ACTION_RESIZE);
+		btnResize.addActionListener(new MemeMakerListener());
+		pnlCrop.add(btnResize);
 
 		layout.show(frame.getContentPane(), SCREEN_SETUP);
 	}

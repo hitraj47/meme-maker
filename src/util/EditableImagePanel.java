@@ -1,7 +1,9 @@
 package util;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -191,7 +193,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, null);
 
-		if (editingMode == MODE_CROP) {
+		if (getEditingMode() == MODE_CROP) {
 			// get the actual width and height of the drawn rectangle
 			int width = getCropx1() - getCropx2();
 			int height = getCropy1() - getCropy2();
@@ -211,9 +213,14 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 				// create a cropped image
 				setCroppedImage(x, y, w, h);
 			}
+		} else if (getEditingMode() == MODE_TEXT) {
 		}
 	}
 
+	public void drawText(String text, int x, int y, Font font, Color color) {
+		
+	}
+	
 	private void setCroppedImage(int x, int y, int width, int height) {
 		if (width > 0 && height > 0) {
 			croppedImage = image.getSubimage(x, y, width, height);
