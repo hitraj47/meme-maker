@@ -3,7 +3,6 @@ package util;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -12,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class EditableImagePanel extends JPanel implements MouseListener,
@@ -35,7 +33,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 
 	/**
 	 * The start and end x,y coordinates of cropping rectangle being drawn on
-	 * image
+	 * image for cropping
 	 */
 	private int cropx1, cropx2, cropy1, cropy2;
 
@@ -58,7 +56,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 * Constant for adding/editing/deleting text
 	 */
 	public static final int MODE_TEXT = 2;
-	
+
 	/**
 	 * Default constructor
 	 */
@@ -67,7 +65,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
-	
+
 	/**
 	 * Create a new image panel from a file location
 	 * 
@@ -109,6 +107,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	public void setEditingMode(int editingMode) {
 		this.editingMode = editingMode;
+		repaint();
 	}
 
 	/**
@@ -200,15 +199,15 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 			// get the width and height to use for drawing the rectangle
 			int w = Math.abs(width);
 			int h = Math.abs(height);
-			
+
 			// get the coordinates for placing the rectangle
 			int x = width < 0 ? getCropx1() : getCropx2();
 			int y = height < 0 ? getCropy1() : getCropy2();
-			
+
 			if (!this.isNewCropRect) {
 				// draw a rectangle to show the user the area
 				g.drawRect(x, y, w, h);
-				
+
 				// create a cropped image
 				setCroppedImage(x, y, w, h);
 			}
@@ -216,7 +215,12 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	}
 
 	private void setCroppedImage(int x, int y, int width, int height) {
-		croppedImage = image.getSubimage(x, y, width, height);
+		if (width > 0 && height > 0) {
+			croppedImage = image.getSubimage(x, y, width, height);
+		} else {
+			croppedImage = image;
+		}
+		
 	}
 
 	public BufferedImage getCroppedImage() {

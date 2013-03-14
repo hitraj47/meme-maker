@@ -22,6 +22,15 @@ public class MemeMakerListener implements ActionListener {
 			showAboutDialog();
 		} else if (e.getActionCommand() == MemeMaker.ACTION_INSTRUCTIONS) {
 			MemeMaker.showInstructionsScreen();
+		} else if (e.getActionCommand() == MemeMaker.ACTION_CROP) {
+			BufferedImage croppedImage = MemeMaker.setupImageContainer.getCroppedImage();
+			if (!MemeMaker.meetsMinImageSizeRequirements(croppedImage)) {
+				
+			} else if (!MemeMaker.meetsMaxImageSizeRequirements(croppedImage)) {
+				
+			} else {
+				MemeMaker.showEditScreen(croppedImage);
+			}
 		}
 	}
 
@@ -36,12 +45,12 @@ public class MemeMakerListener implements ActionListener {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
 				BufferedImage inputImage = ImageIO.read(fc.getSelectedFile());
-				if (!meetsMinImageSizeRequirements(inputImage)) {
+				if (!MemeMaker.meetsMinImageSizeRequirements(inputImage)) {
 					String message = "The image you selected is too small. For best results, select an image that is at least 400 pixels in width and height";
 					String title = "NEED MOAR PIXELS!!!1!1!!one";
 					JOptionPane.showMessageDialog(null, message, title,
 							JOptionPane.ERROR_MESSAGE);
-				} else if (!meetsMaxImageSizeRequirements(inputImage)) {
+				} else if (!MemeMaker.meetsMaxImageSizeRequirements(inputImage)) {
 					String message = "The image width and/or height is above the recommended maximum. Lets the crop the image so your meme can look awesome!";
 					String title = "Width or Height Above Recommended Maximum";
 					JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
@@ -54,16 +63,6 @@ public class MemeMakerListener implements ActionListener {
 			}
 
 		}
-	}
-
-	private boolean meetsMaxImageSizeRequirements(BufferedImage inputImage) {
-		return (inputImage.getWidth() <= MemeMaker.INPUT_IMAGE_MAX_WIDTH)
-				|| (inputImage.getHeight() <= MemeMaker.INPUT_IMAGE_MAX_HEIGHT);
-	}
-
-	private boolean meetsMinImageSizeRequirements(BufferedImage inputImage) {
-		return (inputImage.getWidth() >= MemeMaker.INPUT_IMAGE_MIN_WIDTH)
-				&& (inputImage.getHeight() >= MemeMaker.INPUT_IMAGE_MIN_HEIGHT);
 	}
 
 	private void showAboutDialog() {

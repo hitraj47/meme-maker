@@ -2,7 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -90,6 +90,16 @@ public class MemeMaker {
 	public static EditableImagePanel setupImageContainer;
 
 	/**
+	 * The instructions label when cropping an image
+	 */
+	public static JLabel lblCropInstructions;
+
+	/**
+	 * Button that will set the cropped image as the editor image
+	 */
+	public static JButton btnCrop;
+
+	/**
 	 * String constant for home/welcome screen
 	 */
 	public static final String SCREEN_HOME = "Home Screen";
@@ -128,7 +138,7 @@ public class MemeMaker {
 	 * Action command for displaying information about the program
 	 */
 	public static final String ACTION_ABOUT = "About";
-	
+
 	/**
 	 * Action command to crop image
 	 */
@@ -257,7 +267,7 @@ public class MemeMaker {
 		pnlInstructions = createInstructionsSreen();
 		pnlEditTabs = new MemeMakerEditor();
 		pnlSetup = new JPanel(new BorderLayout());
-		//pnlSetup.setLayout(null);
+		// pnlSetup.setLayout(null);
 	}
 
 	private JPanel createInstructionsSreen() {
@@ -274,7 +284,8 @@ public class MemeMaker {
 		StyleSheet styleSheet = kit.getStyleSheet();
 		styleSheet
 				.addRule("body { background-color: #ffffff; color: #000000; font-family: Verdana, sans-serif; }");
-		styleSheet.addRule("h1 { text-align: center; font-family: Arial, sans-serif; }");
+		styleSheet
+				.addRule("h1 { text-align: center; font-family: Arial, sans-serif; }");
 
 		// create a document, set it on the jeditorpane, then add the html
 		javax.swing.text.Document doc = kit.createDefaultDocument();
@@ -298,26 +309,63 @@ public class MemeMaker {
 		JScrollPane scrollPane = new JScrollPane(setupImageContainer);
 		pnlSetup.add(scrollPane, BorderLayout.CENTER);
 		setupImageContainer.setEditingMode(EditableImagePanel.MODE_CROP);
-		
+		setupImageContainer.addMouseMotionListener(new MouseMotionListener() {
+			@Override
+			public void mouseDragged(MouseEvent arg0) {
+				BufferedImage croppedImage = setupImageContainer
+						.getCroppedImage();
+				int width = 0, height = 0;
+				if (croppedImage != null) {
+					width = croppedImage.getWidth();
+					height = croppedImage.getHeight();
+					if (meetsMaxImageSizeRequirements(croppedImage)
+							&& meetsMinImageSizeRequirements(croppedImage)) {
+						MemeMaker.btnCrop.setEnabled(true);
+					} else {
+						MemeMaker.btnCrop.setEnabled(false);
+					}
+				}
+				MemeMaker.lblCropInstructions.setText("New width and height: "
+						+ width + "x" + height);
+
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+			}
+		});
+
 		JPanel pnlCrop = new JPanel();
 		pnlSetup.add(pnlCrop, BorderLayout.SOUTH);
-		
-		JLabel lblCropInstructions = new JLabel("Drag a box on the image to select an area to crop, then press the crop button.");
+
+		String cropInstructions = "Drag a box on the image to select an area to crop, then press the crop button. ";
+		cropInstructions += "New width and height of cropped image must be between 400 and 600 pixels inclusive.";
+		lblCropInstructions = new JLabel(cropInstructions);
 		pnlCrop.add(lblCropInstructions);
-		
-		JButton btnCrop = new JButton(ACTION_CROP);
+
+		btnCrop = new JButton(ACTION_CROP);
+		btnCrop.setEnabled(false);
 		pnlCrop.add(btnCrop);
-		
+
 		layout.show(frame.getContentPane(), SCREEN_SETUP);
 	}
 
-	public static void showEditScreen(BufferedImage inputImage) {
+	public static void showEditScreen(BufferedImage image) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public static void showInstructionsScreen() {
 		layout.show(frame.getContentPane(), SCREEN_INSTRUCTIONS);
+	}
+
+	public static boolean meetsMaxImageSizeRequirements(BufferedImage image) {
+		return (image.getWidth() <= INPUT_IMAGE_MAX_WIDTH)
+				|| (image.getHeight() <= INPUT_IMAGE_MAX_HEIGHT);
+	}
+
+	public static boolean meetsMinImageSizeRequirements(BufferedImage image) {
+		return (image.getWidth() >= INPUT_IMAGE_MIN_WIDTH)
+				&& (image.getHeight() >= INPUT_IMAGE_MIN_HEIGHT);
 	}
 
 	/**
