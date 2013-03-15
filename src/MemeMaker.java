@@ -43,7 +43,7 @@ public class MemeMaker {
 	/**
 	 * The panel that holds the tabbed editor
 	 */
-	private JPanel pnlEditTabs;
+	private static MemeMakerEditor tabbedEditScreen;
 
 	/**
 	 * The instructions screen
@@ -204,7 +204,7 @@ public class MemeMaker {
 		createGuiComponenets();
 		frame.add(pnlHome, SCREEN_HOME);
 		frame.add(pnlInstructions, SCREEN_INSTRUCTIONS);
-		frame.add(pnlEditTabs, SCREEN_EDIT);
+		frame.add(tabbedEditScreen, SCREEN_EDIT);
 		frame.add(pnlSetup, SCREEN_SETUP);
 		frame.setVisible(true);
 	}
@@ -276,7 +276,7 @@ public class MemeMaker {
 	private void createGuiComponenets() {
 		pnlHome = new JPanel(new BorderLayout());
 		pnlInstructions = createInstructionsSreen();
-		pnlEditTabs = new MemeMakerEditor();
+		tabbedEditScreen = new MemeMakerEditor();
 		pnlSetup = new JPanel(new BorderLayout());
 	}
 
@@ -366,7 +366,11 @@ public class MemeMaker {
 	}
 
 	public static void showEditScreen(BufferedImage image) {
-		// TODO Auto-generated method stub
+		String title = "Meme ";
+		for (int i=1;i<=3;i++) {
+			tabbedEditScreen.createTab(title + i, image);
+		}
+		layout.show(frame.getContentPane(), SCREEN_EDIT);
 	}
 
 	public static void showInstructionsScreen() {
