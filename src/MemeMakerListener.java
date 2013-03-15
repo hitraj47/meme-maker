@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -31,7 +32,8 @@ public class MemeMakerListener implements ActionListener {
 		} else if (e.getActionCommand() == MemeMaker.ACTION_CROP) {
 			BufferedImage croppedImage = MemeMaker.setupImageContainer
 					.getCroppedImage();
-			boolean confirm = MemeMaker.showResizedImageConfirmDialog(croppedImage);
+			boolean confirm = MemeMaker
+					.showResizedImageConfirmDialog(croppedImage);
 			if (confirm) {
 				MemeMaker.showEditScreen(croppedImage);
 			}
@@ -43,19 +45,44 @@ public class MemeMakerListener implements ActionListener {
 	private void showResizePopup(final BufferedImage image) {
 		JPanel panel = new JPanel(new GridLayout(3, 2));
 
-		final JLabel lblWidth = new JLabel("Width: ");
+		JLabel lblWidth = new JLabel("Width: ");
 		panel.add(lblWidth);
 
 		final JTextField txtWidth = new JTextField(Integer.toString(image
 				.getWidth()));
 		panel.add(txtWidth);
 
-		final JLabel lblHeight = new JLabel("Height: ");
+		JLabel lblHeight = new JLabel("Height: ");
 		panel.add(lblHeight);
 
 		final JTextField txtHeight = new JTextField(Integer.toString(image
 				.getHeight()));
 		panel.add(txtHeight);
+
+		// This button is used to update the width/height when contraining proportions
+		final JButton btnUpdateSize = new JButton("Update Size");
+		btnUpdateSize.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int width = Integer.parseInt(txtWidth.getText());
+				int height = Integer.parseInt(txtHeight.getText());
+				BufferedImage resizedImage;
+
+				if (image.getWidth() < image.getHeight()
+						|| (image.getWidth() == image.getHeight())) {
+					resizedImage = MemeMaker.setupImageContainer
+							.getResizedImage(width, height,
+									EditableImagePanel.RESIZE_CONSTRAIN_WIDTH);
+					txtHeight.setText(Integer.toString(resizedImage.getHeight()));
+				} else if (image.getHeight() < image.getWidth()) {
+					resizedImage = MemeMaker.setupImageContainer.getResizedImage(
+							width, height,
+							EditableImagePanel.RESIZE_CONSTRAIN_HEIGHT);
+					txtWidth.setText(Integer.toString(resizedImage.getWidth()));
+				}
+			}
+		});
+		btnUpdateSize.setVisible(false);
 
 		// Checkbox for constrain proportions
 		final JCheckBox chkConstrain = new JCheckBox("Constrian Proportions");
@@ -65,23 +92,22 @@ public class MemeMakerListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (chkConstrain.isSelected()) {
+					btnUpdateSize.setVisible(true);
 					if (image.getWidth() < image.getHeight()
 							|| (image.getWidth() == image.getHeight())) {
-						lblHeight.setVisible(false);
-						txtHeight.setVisible(false);
+						txtHeight.setEnabled(false);
 					} else if (image.getHeight() < image.getWidth()) {
-						lblWidth.setVisible(false);
-						txtWidth.setVisible(false);
+						txtWidth.setEnabled(false);
 					}
 				} else {
-					lblWidth.setVisible(true);
-					txtWidth.setVisible(true);
-					lblHeight.setVisible(true);
-					txtHeight.setVisible(true);
+					btnUpdateSize.setVisible(false);
+					txtWidth.setEnabled(true);
+					txtHeight.setEnabled(true);
 				}
 			}
 		});
 		panel.add(chkConstrain);
+		panel.add(btnUpdateSize);
 
 		// Show dialog box
 		Object[] resizeButtons = { "Resize", "Cancel" };
@@ -130,7 +156,8 @@ public class MemeMakerListener implements ActionListener {
 								"The resized image is too small. Width and height must be at least 400 pixels.",
 								"Image Too Small", JOptionPane.ERROR_MESSAGE);
 			} else {
-				boolean confirm = MemeMaker.showResizedImageConfirmDialog(resizedImage);
+				boolean confirm = MemeMaker
+						.showResizedImageConfirmDialog(resizedImage);
 				if (confirm) {
 					MemeMaker.showEditScreen(resizedImage);
 				}
