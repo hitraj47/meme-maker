@@ -5,12 +5,14 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import util.EditableImagePanel;
 import util.MultipleFileExtensionFilter;
 
 public class MemeMakerListener implements ActionListener {
@@ -41,46 +43,108 @@ public class MemeMakerListener implements ActionListener {
 		}
 	}
 
-	private void showResizePopup(BufferedImage image) {
-		JPanel panel = new JPanel(new GridLayout(2, 2));
+	private void showResizePopup(final BufferedImage image) {
+		JPanel panel = new JPanel(new GridLayout(3, 2));
 
-		JLabel lblWidth = new JLabel("Width: ");
+		final JLabel lblWidth = new JLabel("Width: ");
 		panel.add(lblWidth);
 
-		JTextField txtWidth = new JTextField(Integer.toString(image.getWidth()));
+		final JTextField txtWidth = new JTextField(Integer.toString(image
+				.getWidth()));
 		panel.add(txtWidth);
 
-		JLabel lblHeight = new JLabel("Height: ");
+		final JLabel lblHeight = new JLabel("Height: ");
 		panel.add(lblHeight);
 
-		JTextField txtHeight = new JTextField(Integer.toString(image
+		final JTextField txtHeight = new JTextField(Integer.toString(image
 				.getHeight()));
 		panel.add(txtHeight);
 
-		Object[] buttonOptions = { "Resize", "Cancel" };
+		// Checkbox for constrain proportions
+		final JCheckBox chkConstrain = new JCheckBox("Constrian Proportions");
+		chkConstrain
+				.setToolTipText("Check this to keep width/height ratio so the image doesn't look stretched.");
+		chkConstrain.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (chkConstrain.isSelected()) {
+					if (image.getWidth() < image.getHeight()
+							|| (image.getWidth() == image.getHeight())) {
+						lblHeight.setVisible(false);
+						txtHeight.setVisible(false);
+					} else if (image.getHeight() < image.getWidth()) {
+						lblWidth.setVisible(false);
+						txtWidth.setVisible(false);
+					}
+				} else {
+					lblWidth.setVisible(true);
+					txtWidth.setVisible(true);
+					lblHeight.setVisible(true);
+					txtHeight.setVisible(true);
+				}
+			}
+		});
+		panel.add(chkConstrain);
+
+		// Show dialog box
+		Object[] resizeButtons = { "Resize", "Cancel" };
 		int result = JOptionPane.showOptionDialog(null, panel, "Resize Image",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null,
-				buttonOptions, buttonOptions[0]);
+				resizeButtons, resizeButtons[0]);
 
+		// Resize button pressed
 		if (result == 0) {
 			// TODO: Make sure user has entered numbers > 0
 			int width = Integer.parseInt(txtWidth.getText());
 			int height = Integer.parseInt(txtHeight.getText());
-			BufferedImage resizedImage = MemeMaker.setupImageContainer
-					.getResizedImage(width, height);
-			if (!MemeMaker.meetsMaxImageSizeRequirements(resizedImage)) {
-				JOptionPane.showMessageDialog(null,
-					    "Resized image is too large. The width and height must be between 400 and 600 pixels.",
-					    "Image Too Big",
-					    JOptionPane.ERROR_MESSAGE);
-			} else if (!MemeMaker.meetsMinImageSizeRequirements(resizedImage)) {
-				JOptionPane.showMessageDialog(null,
-					    "The resized image is too small. Width and height must be at least 400 pixels.",
-					    "Image Too Small",
-					    JOptionPane.ERROR_MESSAGE);
+
+			BufferedImage resizedImage = null;
+
+			if (chkConstrain.isSelected()
+					&& (image.getWidth() < image.getHeight())) {
+				resizedImage = MemeMaker.setupImageContainer.getResizedImage(
+						width, height,
+						EditableImagePanel.RESIZE_CONSTRAIN_WIDTH);
+			} else if (chkConstrain.isSelected()
+					&& (image.getHeight() < image.getWidth())) {
+				resizedImage = MemeMaker.setupImageContainer.getResizedImage(
+						width, height,
+						EditableImagePanel.RESIZE_CONSTRAIN_HEIGHT);
+			} else if (chkConstrain.isSelected()
+					&& (image.getWidth() == image.getHeight())) {
+				resizedImage = MemeMaker.setupImageContainer.getResizedImage(
+						width, height,
+						EditableImagePanel.RESIZE_CONSTRAIN_PROPORTIONS);
 			} else {
-				// TODO: show new resized image
-				MemeMaker.setupImageContainer.setImage(resizedImage);
+				resizedImage = MemeMaker.setupImageContainer.getResizedImage(
+						width, height, EditableImagePanel.RESIZE_FIT_EXACT);
+			}
+
+			if (!MemeMaker.meetsMaxImageSizeRequirements(resizedImage)) {
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"Resized image is too large. The width and height must be between 400 and 600 pixels.",
+								"Image Too Big", JOptionPane.ERROR_MESSAGE);
+			} else if (!MemeMaker.meetsMinImageSizeRequirements(resizedImage)) {
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"The resized image is too small. Width and height must be at least 400 pixels.",
+								"Image Too Small", JOptionPane.ERROR_MESSAGE);
+			} else {
+				// Show confirmation dialog with the resized image
+				EditableImagePanel resizedImagePanel = new EditableImagePanel(
+						resizedImage);
+				Object[] confirmResizeButtons = { "Keep", "Discard" };
+				int confirm = JOptionPane.showOptionDialog(null,
+						resizedImagePanel, "Resize Image",
+						JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.PLAIN_MESSAGE, null, confirmResizeButtons,
+						confirmResizeButtons[0]);
+				if (confirm == 0) {
+					MemeMaker.showEditScreen(resizedImage);
+				}
 			}
 		}
 	}

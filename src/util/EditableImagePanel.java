@@ -45,6 +45,26 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 * A cropped image
 	 */
 	private BufferedImage croppedImage;
+	
+	/**
+	 * When resizing image, use this to let the class decide how to constrain proportions
+	 */
+	public static final int RESIZE_CONSTRAIN_PROPORTIONS = 0;
+	
+	/**
+	 * When resizing image, use this to constrain proportions based on image width
+	 */
+	public static final int RESIZE_CONSTRAIN_WIDTH = 1;
+	
+	/**
+	 * When resizing image, use this to constrain proportions based on image height
+	 */
+	public static final int RESIZE_CONSTRAIN_HEIGHT = 2;
+	
+	/**
+	 * When resizing image, use this to resize width and height regardless of width/height ratio
+	 */
+	public static final int RESIZE_FIT_EXACT = 3;
 
 	/**
 	 * Constant for normal image viewing mode
@@ -68,28 +88,6 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		setEditingMode(MODE_VIEW);
 		addMouseListener(this);
 		addMouseMotionListener(this);
-	}
-
-	/**
-	 * Create a new image panel from a file location
-	 * 
-	 * @param fileLocation
-	 *            The location of the file
-	 */
-	public EditableImagePanel(String fileLocation) {
-		this();
-		setImage(fileLocation);
-	}
-
-	/**
-	 * Crate a new image panel from a file object
-	 * 
-	 * @param file
-	 *            The image file object to be used
-	 */
-	public EditableImagePanel(File file) {
-		this();
-		setImage(file);
 	}
 
 	/**
@@ -123,33 +121,10 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		return this.editingMode;
 	}
 
-	/**
-	 * Sets the image from a file object
-	 * 
-	 * @param file
-	 *            The file for the image
-	 */
-	public void setImage(File file) {
-		try {
-			this.image = ImageIO.read(file);
-		} catch (IOException e) {
-			System.err.println("Could not create image panel with file: "
-					+ file.getAbsolutePath());
-		}
-	}
-
-	/**
-	 * Sets the image from a file location
-	 * 
-	 * @param fileLocation
-	 *            The location of the image file
-	 */
-	public void setImage(String fileLocation) {
-		setImage(new File(fileLocation));
-	}
-	
 	public void setImage(BufferedImage image) {
 		this.image = image;
+		setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+		repaint();
 	}
 
 	/**
@@ -221,6 +196,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 			}
 		} else if (getEditingMode() == MODE_TEXT) {
 		}
+		
 	}
 
 	public void drawText(String text, int x, int y, Font font, Color color) {
@@ -353,8 +329,24 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		this.cropy2 = cropy2;
 	}
 	
-	public BufferedImage getResizedImage(int width, int height) {
-		BufferedImage resizedImage = Scalr.resize(image, width, height, null);
+	/**
+	 * Returns a resized image
+	 * @param width The new width in pixels
+	 * @param height The new height in pixels
+	 * @param resizeMode How to resize the image
+	 * @return An Image
+	 */
+	public BufferedImage getResizedImage(int width, int height, int resizeMode) {
+		BufferedImage resizedImage = null;
+		if (resizeMode == RESIZE_CONSTRAIN_PROPORTIONS) {
+			resizedImage = Scalr.resize(image, width);
+		} else if (resizeMode == RESIZE_CONSTRAIN_WIDTH) {
+			resizedImage = Scalr.resize(image, Scalr.Mode.FIT_TO_WIDTH, width);
+		} else if (resizeMode == RESIZE_CONSTRAIN_HEIGHT) {
+			resizedImage = Scalr.resize(image, Scalr.Mode.FIT_TO_HEIGHT, height);
+		} else if (resizeMode == RESIZE_FIT_EXACT) {
+			resizedImage = Scalr.resize(image, Scalr.Mode.FIT_EXACT, width, height);
+		}
 		return resizedImage;
 	}
 

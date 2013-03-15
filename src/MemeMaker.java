@@ -277,7 +277,6 @@ public class MemeMaker {
 		pnlInstructions = createInstructionsSreen();
 		pnlEditTabs = new MemeMakerEditor();
 		pnlSetup = new JPanel(new BorderLayout());
-		// pnlSetup.setLayout(null);
 	}
 
 	private JPanel createInstructionsSreen() {
@@ -374,7 +373,7 @@ public class MemeMaker {
 
 	public static boolean meetsMaxImageSizeRequirements(BufferedImage image) {
 		return (image.getWidth() <= INPUT_IMAGE_MAX_WIDTH)
-				|| (image.getHeight() <= INPUT_IMAGE_MAX_HEIGHT);
+				&& (image.getHeight() <= INPUT_IMAGE_MAX_HEIGHT);
 	}
 
 	public static boolean meetsMinImageSizeRequirements(BufferedImage image) {
