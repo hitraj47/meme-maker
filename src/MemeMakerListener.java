@@ -31,11 +31,8 @@ public class MemeMakerListener implements ActionListener {
 		} else if (e.getActionCommand() == MemeMaker.ACTION_CROP) {
 			BufferedImage croppedImage = MemeMaker.setupImageContainer
 					.getCroppedImage();
-			if (!MemeMaker.meetsMinImageSizeRequirements(croppedImage)) {
-
-			} else if (!MemeMaker.meetsMaxImageSizeRequirements(croppedImage)) {
-
-			} else {
+			boolean confirm = MemeMaker.showResizedImageConfirmDialog(croppedImage);
+			if (confirm) {
 				MemeMaker.showEditScreen(croppedImage);
 			}
 		} else if (e.getActionCommand() == MemeMaker.ACTION_RESIZE) {
@@ -133,16 +130,8 @@ public class MemeMakerListener implements ActionListener {
 								"The resized image is too small. Width and height must be at least 400 pixels.",
 								"Image Too Small", JOptionPane.ERROR_MESSAGE);
 			} else {
-				// Show confirmation dialog with the resized image
-				EditableImagePanel resizedImagePanel = new EditableImagePanel(
-						resizedImage);
-				Object[] confirmResizeButtons = { "Keep", "Discard" };
-				int confirm = JOptionPane.showOptionDialog(null,
-						resizedImagePanel, "Resize Image",
-						JOptionPane.OK_CANCEL_OPTION,
-						JOptionPane.PLAIN_MESSAGE, null, confirmResizeButtons,
-						confirmResizeButtons[0]);
-				if (confirm == 0) {
+				boolean confirm = MemeMaker.showResizedImageConfirmDialog(resizedImage);
+				if (confirm) {
 					MemeMaker.showEditScreen(resizedImage);
 				}
 			}

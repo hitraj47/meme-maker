@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.text.html.HTMLEditorKit;
@@ -354,6 +355,7 @@ public class MemeMaker {
 
 		btnCrop = new JButton(ACTION_CROP);
 		btnCrop.setEnabled(false);
+		btnCrop.addActionListener(new MemeMakerListener());
 		pnlCrop.add(btnCrop);
 		
 		btnResize = new JButton(ACTION_RESIZE);
@@ -379,6 +381,22 @@ public class MemeMaker {
 	public static boolean meetsMinImageSizeRequirements(BufferedImage image) {
 		return (image.getWidth() >= INPUT_IMAGE_MIN_WIDTH)
 				&& (image.getHeight() >= INPUT_IMAGE_MIN_HEIGHT);
+	}
+	
+	/**
+	 * Show a popup of a resized image. Returns true if the user wants to keep it
+	 * @param image The image to be previewed
+	 * @return true if the user wants to keep
+	 */
+	public static boolean showResizedImageConfirmDialog(BufferedImage image) {
+		EditableImagePanel resizedImagePanel = new EditableImagePanel(image);
+		Object[] confirmResizeButtons = { "Keep", "Discard" };
+		int confirm = JOptionPane.showOptionDialog(null,
+				resizedImagePanel, "Image Preview",
+				JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.PLAIN_MESSAGE, null, confirmResizeButtons,
+				confirmResizeButtons[0]);
+		return (confirm==0) ? true : false;
 	}
 
 	/**
