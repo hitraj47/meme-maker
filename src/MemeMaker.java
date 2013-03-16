@@ -8,8 +8,11 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -206,7 +209,6 @@ public class MemeMaker {
 
 	public MemeMaker() {
 		frame = new JFrame(APPLICATION_TITLE);
-
 		layout = new CardLayout();
 		frame.setLayout(layout);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -214,8 +216,8 @@ public class MemeMaker {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setJMenuBar(createMenuBar());
-
 		createGuiComponenets();
+		setFrameIcon();
 		frame.add(pnlHome, SCREEN_HOME);
 		frame.add(pnlInstructions, SCREEN_INSTRUCTIONS);
 		frame.add(tabbedEditScreen, SCREEN_EDIT);
@@ -223,6 +225,19 @@ public class MemeMaker {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Set up the Frame Icon image.
+	 */
+	private void setFrameIcon() {
+		try {
+			BufferedImage image = ImageIO.read(new File("res/images/logo.jpg"));
+			frame.setIconImage(image);
+		} catch (IOException e) {
+			System.out
+					.println("ERROR: Could not load logo.");
+		}
+	}
+	
 	private JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 
@@ -299,19 +314,38 @@ public class MemeMaker {
 		homePanel.setLayout(null);
 		homePanel.setBackground(Color.WHITE);
 		
+		// Create logo
+		JLabel lblLogo = new JLabel(new ImageIcon("res/images/logo.jpg"));
+		lblLogo.setBounds(10, 10, 610,610);
+		
+		// Create welcome
 		JLabel welcome = new JLabel("Welcome");
 		welcome.setFont(new Font("Arial", Font.BOLD, 64));
-		welcome.setBounds(100,300, 300, 100);
+		welcome.setBounds(800,50, 300, 100);
 		
+		// Create Separator
 		JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
 		separator.setBackground(Color.BLACK);
-		separator.setBounds(635, 100, 10, 400);
+		separator.setBounds(635, 100, 10, 450);
 		
+		// Create NewMeme Button
 		btnHomeNewMeme = new JButton("New Meme");
-		btnHomeNewMeme.setBounds(700, 300, 400, 150);
+		btnHomeNewMeme.setBackground(Color.BLACK);
+		btnHomeNewMeme.setForeground(Color.WHITE);
+		btnHomeNewMeme.setFont(new Font("Arial", Font.BOLD, 32));
+		btnHomeNewMeme.setBounds(740, 200, 400, 100);
+		btnHomeNewMeme.addActionListener(new MemeMakerListener());
 		
+		// Create Instructions Button
 		btnHomeInstructions = new JButton("Instructions");
-		btnHomeInstructions.setBounds(700, 500, 400, 150);
+		btnHomeInstructions.setBackground(Color.BLACK);
+		btnHomeInstructions.setForeground(Color.WHITE);
+		btnHomeInstructions.setFont(new Font("Arial", Font.BOLD, 32));
+		btnHomeInstructions.setBounds(740, 350, 400, 100);
+		btnHomeInstructions.addActionListener(new MemeMakerListener());
+		
+		// Add components to panel
+		homePanel.add(lblLogo);
 		homePanel.add(welcome);
 		homePanel.add(separator);
 		homePanel.add(btnHomeNewMeme);
