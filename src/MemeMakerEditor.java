@@ -1,12 +1,8 @@
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -17,161 +13,31 @@ public class MemeMakerEditor extends JPanel {
 	/**
 	 * The Editors TabbedPane
 	 */
-	private JTabbedPane memeTabbedPane;
+	private JTabbedPane tabbedPane;
 
 	/**
-	 * The first Meme Tab
+	 * ArrayList of editor tabs
 	 */
-	private JComponent pnlMemeOne;
-
-	/**
-	 * The second Meme Tab
-	 */
-	private JComponent pnlMemeTwo;
-
-	/**
-	 * The third Meme tab
-	 */
-	private JComponent pnlMemeThree;
-
-	/**
-	 * The MemeMakerConfiguration Panel for tab one
-	 */
-	private MemeMakerConfiguration pnlConfigOne;
-
-	/**
-	 * The MemeMakerConfiguration Panel for tab two
-	 */
-	private MemeMakerConfiguration pnlConfigTwo;
-
-	/**
-	 * The MemeMakerConfiguration Panel for tab three
-	 */
-	private MemeMakerConfiguration pnlConfigThree;
-
-	private JPanel pnlMaxBoundsOne;
-	private JPanel pnlMaxBoundsTwo;
-	private JPanel pnlMaxBoundsThree;
-
-	/**
-	 * The center coordinates for the pnlMaxBounds
-	 */
-	public static final int IMAGE_CENTER_X = 445;
-	public static final int IMAGE_CENTER_Y = 295;
+	private ArrayList<EditorTab> editorTabs = new ArrayList<EditorTab>();
 
 	/**
 	 * The Constructor for the MemeMakerEditor
 	 */
 	public MemeMakerEditor() {
-		memeTabbedPane = new JTabbedPane();
-		createTabs();
-		add(memeTabbedPane);
-		memeTabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		tabbedPane = new JTabbedPane();
+		add(tabbedPane);
+		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 	}
 
 	/**
-	 * Creates the tabs for the TabbedPane
+	 * This will create and add a new tab to the arraylist and tabbedpane
+	 * @param title The title for the tab
+	 * @param image The image to be used
 	 */
-	private void createTabs() {
-		// First Tab
-		pnlMemeOne = makeMemePanel("Meme Version 1");
-		pnlMemeOne.setPreferredSize(new Dimension(MemeMaker.WINDOW_WIDTH,
-				MemeMaker.WINDOW_HEIGHT));
-		memeTabbedPane.addTab("Meme Version 1", null, pnlMemeOne,
-				"Does nothing");
-		memeTabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
-		pnlConfigOne = new MemeMakerConfiguration();
-		pnlConfigOne.setBounds(12, 10,
-				MemeMakerConfiguration.CONFIG_PANEL_WIDTH,
-				MemeMakerConfiguration.CONFIG_PANEL_HEIGHT);
-		
-		pnlMaxBoundsOne = new JPanel();
-		pnlMaxBoundsOne.setPreferredSize(new Dimension(
-				MemeMaker.INPUT_IMAGE_MAX_WIDTH,
-				MemeMaker.INPUT_IMAGE_MAX_HEIGHT));
-		pnlMaxBoundsOne.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		pnlMaxBoundsOne.setBounds(MemeMakerConfiguration.CONFIG_PANEL_WIDTH+25, 19, 890,
-				589);
-
-		pnlMemeOne.add(pnlConfigOne);
-		pnlMemeOne.add(pnlMaxBoundsOne);
-
-
-		// Second Tab
-		pnlMemeTwo = makeMemePanel("Meme Version 2");
-		pnlMemeTwo.setPreferredSize(new Dimension(MemeMaker.WINDOW_WIDTH,
-				MemeMaker.WINDOW_HEIGHT));
-		memeTabbedPane.addTab("Meme Version 2", null, pnlMemeTwo,
-				"Does nothing");
-		memeTabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
-		pnlConfigTwo = new MemeMakerConfiguration();
-		pnlConfigTwo.setBounds(12, 10,
-				MemeMakerConfiguration.CONFIG_PANEL_WIDTH,
-				MemeMakerConfiguration.CONFIG_PANEL_HEIGHT);
-		
-		pnlMaxBoundsTwo = new JPanel();
-		pnlMaxBoundsTwo.setPreferredSize(new Dimension(
-				MemeMaker.INPUT_IMAGE_MAX_WIDTH,
-				MemeMaker.INPUT_IMAGE_MAX_HEIGHT));
-		pnlMaxBoundsTwo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		pnlMaxBoundsTwo.setBounds(MemeMakerConfiguration.CONFIG_PANEL_WIDTH+25, 19, 890,
-				589);
-
-		pnlMemeTwo.add(pnlConfigTwo);
-		pnlMemeTwo.add(pnlMaxBoundsTwo);
-
-		// Third Tab
-		pnlMemeThree = makeMemePanel("Meme Version 3");
-		pnlMemeThree.setPreferredSize(new Dimension(MemeMaker.WINDOW_WIDTH,
-				MemeMaker.WINDOW_HEIGHT));
-		memeTabbedPane.addTab("Meme Version 3", null, pnlMemeThree,
-				"Does nothing");
-		memeTabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
-		pnlConfigThree = new MemeMakerConfiguration();
-		pnlConfigThree.setBounds(12, 10,
-				MemeMakerConfiguration.CONFIG_PANEL_WIDTH,
-				MemeMakerConfiguration.CONFIG_PANEL_HEIGHT);
-		
-		pnlMaxBoundsThree = new JPanel();
-		pnlMaxBoundsThree.setPreferredSize(new Dimension(
-				MemeMaker.INPUT_IMAGE_MAX_WIDTH,
-				MemeMaker.INPUT_IMAGE_MAX_HEIGHT));
-		pnlMaxBoundsThree.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		pnlMaxBoundsThree.setBounds(MemeMakerConfiguration.CONFIG_PANEL_WIDTH+25, 19, 890,
-				589);
-
-		pnlMemeThree.add(pnlConfigThree);
-		pnlMemeThree.add(pnlMaxBoundsThree);
-
-	}
-
-	/**
-	 * Dynamically sets the ediatableImagePanel at the center of
-	 * pnlMaxBounds panel.
-	 * 
-	 * @param editableImagePanel
-	 */
-	private void setEditableImagePanelPos(EditableImagePanel editableImagePanel) {
-		editableImagePanel.setBounds(
-				IMAGE_CENTER_X - editableImagePanel.getWidth(), IMAGE_CENTER_Y
-						- editableImagePanel.getHeight(),
-				editableImagePanel.getWidth(), editableImagePanel.getHeight());
-	}
-
-	/**
-	 * Creates the panel for the tab
-	 * 
-	 * @param text
-	 *            Title of the tab
-	 * @return Panel for created tab
-	 */
-	protected JComponent makeMemePanel(String text) {
-		JPanel panel = new JPanel(false);
-		JLabel filler = new JLabel(text);
-		filler.setHorizontalAlignment(JLabel.CENTER);
-		panel.setLayout(null);
-		panel.add(filler);
-		return panel;
+	public void createTab(String title, BufferedImage image) {
+		EditorTab et = new EditorTab(title, image);
+		editorTabs.add(et);
+		tabbedPane.addTab(et.getTabTitle(), et);
 	}
 
 	/** Returns an ImageIcon, or null if the path was invalid. */
@@ -182,6 +48,81 @@ public class MemeMakerEditor extends JPanel {
 		} else {
 			System.err.println("Couldn't find file: " + path);
 			return null;
+		}
+	}
+
+	public class EditorTab extends JPanel {
+		private String tabTitle;
+		private MemeMakerConfiguration configPanel;
+		private EditableImagePanel imagePanel;
+
+		public EditorTab() {
+			this.setLayout(null);
+			this.setPreferredSize(new Dimension(MemeMaker.WINDOW_WIDTH, MemeMaker.WINDOW_HEIGHT));
+		}
+
+		public EditorTab(String tabTitle, BufferedImage image) {
+			this();
+			this.setTabTitle(tabTitle);
+			
+			configPanel = new MemeMakerConfiguration();
+			configPanel.setBounds(10, 0, 350, 600);
+			
+			imagePanel = new EditableImagePanel(image);
+			int x = getCenteredx(imagePanel);
+			imagePanel.setBounds(x, 0, imagePanel.getWidth(), imagePanel.getHeight());
+			
+			this.add(configPanel);
+			this.add(imagePanel);
+		}
+
+		private int getCenteredx(EditableImagePanel imagePanel) {
+			return 180 + (imagePanel.getWidth()/2);
+		}
+
+		/**
+		 * @return the tabTitle
+		 */
+		public String getTabTitle() {
+			return tabTitle;
+		}
+
+		/**
+		 * @param tabTitle
+		 *            the tabTitle to set
+		 */
+		public void setTabTitle(String tabTitle) {
+			this.tabTitle = tabTitle;
+		}
+
+		/**
+		 * @return the configPanel
+		 */
+		public MemeMakerConfiguration getConfigPanel() {
+			return configPanel;
+		}
+
+		/**
+		 * @param configPanel
+		 *            the configPanel to set
+		 */
+		public void setConfigPanel(MemeMakerConfiguration configPanel) {
+			this.configPanel = configPanel;
+		}
+
+		/**
+		 * @return the imagePanel
+		 */
+		public EditableImagePanel getImagePanel() {
+			return imagePanel;
+		}
+
+		/**
+		 * @param imagePanel
+		 *            the imagePanel to set
+		 */
+		public void setImagePanel(EditableImagePanel imagePanel) {
+			this.imagePanel = imagePanel;
 		}
 	}
 }
