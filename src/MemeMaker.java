@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -275,6 +276,7 @@ public class MemeMaker {
 
 	private void createGuiComponenets() {
 		pnlHome = new JPanel(new BorderLayout());
+		pnlHome.setBackground(Color.WHITE);
 		pnlInstructions = createInstructionsSreen();
 		tabbedEditScreen = new MemeMakerEditor();
 		pnlSetup = new JPanel(new BorderLayout());
