@@ -1,7 +1,9 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -55,6 +57,7 @@ public class MemeMakerEditor extends JPanel {
 		private String tabTitle;
 		private MemeMakerConfiguration configPanel;
 		private EditableImagePanel imagePanel;
+		private JPanel imageBorderPanel;
 
 		public EditorTab() {
 			this.setLayout(null);
@@ -66,18 +69,39 @@ public class MemeMakerEditor extends JPanel {
 			this.setTabTitle(tabTitle);
 			
 			configPanel = new MemeMakerConfiguration();
-			configPanel.setBounds(10, 0, 350, 600);
+			configPanel.setBounds(10, 10, MemeMakerConfiguration.CONFIG_PANEL_WIDTH, MemeMakerConfiguration.CONFIG_PANEL_HEIGHT);
+			
+			imageBorderPanel = new JPanel();
+			imageBorderPanel.setLayout(null);
+			imageBorderPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			imageBorderPanel.setBounds(MemeMakerConfiguration.CONFIG_PANEL_WIDTH+25, 19, 890, 589);
 			
 			imagePanel = new EditableImagePanel(image);
 			int x = getCenteredx(imagePanel);
-			imagePanel.setBounds(x, 0, imagePanel.getWidth(), imagePanel.getHeight());
+			int y = getCenteredy(imagePanel);
+			imagePanel.setBounds(x, y, imagePanel.getWidth(), imagePanel.getHeight());
 			
 			this.add(configPanel);
-			this.add(imagePanel);
+			this.add(imageBorderPanel);
+			imageBorderPanel.add(imagePanel);
 		}
 
+		/**
+		 * Gets the centered X position of the imagePanel to center it on the imageBorderPanel
+		 * @param imagePanel
+		 * @return centerX
+		 */
 		private int getCenteredx(EditableImagePanel imagePanel) {
-			return 180 + (imagePanel.getWidth()/2);
+			return 445 - (imagePanel.getWidth()/2);
+		}
+		
+		/**
+		 * Gets the centered Y position of the imagePanel to center it on the imageBorderPanel
+		 * @param imagePanel
+		 * @return centerX
+		 */
+		private int getCenteredy(EditableImagePanel imagePanel) {
+			return  295 - (imagePanel.getHeight()/2);
 		}
 
 		/**
