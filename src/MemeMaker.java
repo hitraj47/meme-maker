@@ -202,8 +202,8 @@ public class MemeMaker {
 		frame.setJMenuBar(createMenuBar());
 
 		createGuiComponenets();
-		frame.add(pnlHome, SCREEN_HOME);
-		frame.add(pnlInstructions, SCREEN_INSTRUCTIONS);
+		//frame.add(pnlHome, SCREEN_HOME);
+		//frame.add(pnlInstructions, SCREEN_INSTRUCTIONS);
 		frame.add(pnlEditTabs, SCREEN_EDIT);
 		frame.add(pnlSetup, SCREEN_SETUP);
 		frame.setVisible(true);
