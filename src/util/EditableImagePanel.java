@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
 
@@ -232,17 +233,111 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 			g.drawRect(x, y, w, h);
 
 			if (createTextBox) {
-				
+				// TODO: create a new textbox and add it to the arraylist
 			}
 		}
 
 	}
 	
-	public void addText(String text, int x, int y, Font font, Color color) {
+	public void addText(int x, int y, String text, Font font, Color color) {
 		TextBox tb = new TextBox(x, y);
 		tb.setFont(font);
 		tb.setColor(color);
 		textBoxes.add(tb);
+	}
+	
+	public void addText(int x, int y) {
+		TextBox tb = new TextBox(x, y);
+		textBoxes.add(tb);
+	}
+	
+	public void setTextString(int x, int y, String text) {
+		// find the text first
+		Iterator<TextBox> it = textBoxes.iterator();
+		while (it.hasNext()) {
+			TextBox tb = it.next();
+			if (tb.getX() == x && tb.getY() == y) {
+				tb.setText(text);
+			}
+		}
+	}
+	
+	public String getTextString(int x, int y) {
+		Iterator<TextBox> it = textBoxes.iterator();
+		String text = null;
+		while (it.hasNext()) {
+			TextBox tb = it.next();
+			if (tb.getX() == x && tb.getY() == y) {
+				text = tb.getText();
+			}
+		}
+		return text;
+	}
+	
+	public void setTextFontStyle(int x, int y, int style) {
+		Iterator<TextBox> it = textBoxes.iterator();
+		while (it.hasNext()) {
+			TextBox tb = it.next();
+			if (tb.getX() == x && tb.getY() == y) {
+				tb.setFontStyle(style);
+			}
+		}
+	}
+	
+	public int getTextFontStyle(int x, int y) {
+		Iterator<TextBox> it = textBoxes.iterator();
+		int style = -1;
+		while (it.hasNext()) {
+			TextBox tb = it.next();
+			if (tb.getX() == x && tb.getY() == y) {
+				style = tb.getFontStyle();
+			}
+		}
+		return style;
+	}
+	
+	public void setTextColor(int x, int y, Color color) {
+		Iterator<TextBox> it = textBoxes.iterator();
+		while (it.hasNext()) {
+			TextBox tb = it.next();
+			if (tb.getX() == x && tb.getY() == y) {
+				tb.setColor(color);
+			}
+		}
+	}
+	
+	public Color getTextColor(int x, int y) {
+		Iterator<TextBox> it = textBoxes.iterator();
+		Color color = null;
+		while (it.hasNext()) {
+			TextBox tb = it.next();
+			if (tb.getX() == x && tb.getY() == y) {
+				color = tb.getColor();
+			}
+		}
+		return color;
+	}
+	
+	public void setTextSize(int x, int y, int size) {
+		Iterator<TextBox> it = textBoxes.iterator();
+		while (it.hasNext()) {
+			TextBox tb = it.next();
+			if (tb.getX() == x && tb.getY() == y) {
+				tb.setSize(size);
+			}
+		}
+	}
+	
+	public int getTextSize(int x, int y) {
+		Iterator<TextBox> it = textBoxes.iterator();
+		int size = -1;
+		while (it.hasNext()) {
+			TextBox tb = it.next();
+			if (tb.getX() == x && tb.getY() == y) {
+				size = tb.getSize();
+			}
+		}
+		return size;
 	}
 
 	private void drawCropBox(Graphics g) {
@@ -576,6 +671,8 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		 */
 		public void setSize(int size) {
 			this.fontSize = size;
+			Font f = new Font(getFontName(), getFontStyle(), size);
+			setFont(f);
 		}
 
 		/**
@@ -651,6 +748,8 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		 */
 		public void setFontName(String fontName) {
 			this.fontName = fontName;
+			Font f = new Font(fontName, getFontStyle(), getSize());
+			setFont(f);
 		}
 
 		/**
@@ -666,6 +765,8 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		 */
 		public void setFontStyle(int fontStyle) {
 			this.fontStyle = fontStyle;
+			Font f = new Font(getFontName(), fontStyle, getSize());
+			setFont(f);
 		}
 	}
 
