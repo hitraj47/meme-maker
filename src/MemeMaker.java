@@ -1,5 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -18,6 +20,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
@@ -94,6 +98,16 @@ public class MemeMaker {
 	 * The instructions label when cropping an image
 	 */
 	public static JLabel lblCropInstructions;
+	
+	/**
+	 * Button on the Home screen to create a new Meme.
+	 */
+	public static JButton btnHomeNewMeme;
+	
+	/**
+	 * Button on the Home screen to view Instructions panel.
+	 */
+	public static JButton btnHomeInstructions;
 
 	/**
 	 * Button that will set the cropped image as the editor image
@@ -274,12 +288,37 @@ public class MemeMaker {
 	}
 
 	private void createGuiComponenets() {
-		pnlHome = new JPanel(new BorderLayout());
+		pnlHome = createHomeScreen();
 		pnlInstructions = createInstructionsSreen();
 		tabbedEditScreen = new MemeMakerEditor();
 		pnlSetup = new JPanel(new BorderLayout());
 	}
 
+	private JPanel createHomeScreen(){
+		JPanel homePanel = new JPanel();
+		homePanel.setLayout(null);
+		homePanel.setBackground(Color.WHITE);
+		
+		JLabel welcome = new JLabel("Welcome");
+		welcome.setFont(new Font("Arial", Font.BOLD, 64));
+		welcome.setBounds(100,300, 300, 100);
+		
+		JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
+		separator.setBackground(Color.BLACK);
+		separator.setBounds(635, 100, 10, 400);
+		
+		btnHomeNewMeme = new JButton("New Meme");
+		btnHomeNewMeme.setBounds(700, 300, 400, 150);
+		
+		btnHomeInstructions = new JButton("Instructions");
+		btnHomeInstructions.setBounds(700, 500, 400, 150);
+		homePanel.add(welcome);
+		homePanel.add(separator);
+		homePanel.add(btnHomeNewMeme);
+		homePanel.add(btnHomeInstructions);
+		return homePanel;
+	}
+	
 	private JPanel createInstructionsSreen() {
 		JPanel panel = new JPanel(new BorderLayout());
 
