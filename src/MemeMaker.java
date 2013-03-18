@@ -464,11 +464,11 @@ public class MemeMaker {
 	}
 	
 	/**
-	 * Show a popup of a resized image. Returns true if the user wants to keep it
+	 * Show a popup of an image. Returns true if the user wants to keep it
 	 * @param image The image to be previewed
 	 * @return true if the user wants to keep
 	 */
-	public static boolean showResizedImageConfirmDialog(BufferedImage image) {
+	public static boolean showImagePreviewConfirmDialog(BufferedImage image) {
 		EditableImagePanel resizedImagePanel = new EditableImagePanel(image);
 		Object[] confirmResizeButtons = { "Keep", "Discard" };
 		int confirm = JOptionPane.showOptionDialog(null,

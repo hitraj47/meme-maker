@@ -33,7 +33,7 @@ public class MemeMakerListener implements ActionListener {
 			BufferedImage croppedImage = MemeMaker.setupImageContainer
 					.getCroppedImage();
 			boolean confirm = MemeMaker
-					.showResizedImageConfirmDialog(croppedImage);
+					.showImagePreviewConfirmDialog(croppedImage);
 			if (confirm) {
 				MemeMaker.showEditScreen(croppedImage);
 			}
@@ -157,7 +157,7 @@ public class MemeMakerListener implements ActionListener {
 								"Image Too Small", JOptionPane.ERROR_MESSAGE);
 			} else {
 				boolean confirm = MemeMaker
-						.showResizedImageConfirmDialog(resizedImage);
+						.showImagePreviewConfirmDialog(resizedImage);
 				if (confirm) {
 					MemeMaker.showEditScreen(resizedImage);
 				}
