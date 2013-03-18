@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -334,8 +335,30 @@ public class MemeMaker {
 		btnHomeNewMeme.setBackground(Color.BLACK);
 		btnHomeNewMeme.setForeground(Color.WHITE);
 		btnHomeNewMeme.setFocusPainted(false);
+		btnHomeNewMeme.setBorderPainted(false);
 		btnHomeNewMeme.setFont(new Font("Arial", Font.PLAIN, 32));
 		btnHomeNewMeme.setBounds(830, 275, 225, 35);
+		btnHomeNewMeme.addMouseListener(new MouseListener() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				btnHomeNewMeme.setBackground(Color.BLACK);	
+			}	
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnHomeNewMeme.setBackground(Color.BLACK);	
+			}	
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnHomeNewMeme.setBackground(Color.RED);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {	
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {	
+			}
+
+		});
 		btnHomeNewMeme.addActionListener(new MemeMakerListener());
 		
 		// Create Instructions Button
@@ -343,8 +366,36 @@ public class MemeMaker {
 		btnHomeInstructions.setBackground(Color.BLACK);
 		btnHomeInstructions.setForeground(Color.WHITE);
 		btnHomeInstructions.setFocusPainted(false);
+		btnHomeInstructions.setBorderPainted(false);
 		btnHomeInstructions.setFont(new Font("Arial", Font.PLAIN, 32));
 		btnHomeInstructions.setBounds(830, 325, 225, 35);
+		btnHomeInstructions.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				btnHomeInstructions.setBackground(Color.BLACK);	
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnHomeInstructions.setBackground(Color.BLACK);
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnHomeInstructions.setBackground(Color.RED);
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+			}
+		});
 		btnHomeInstructions.addActionListener(new MemeMakerListener());
 		
 		// Add components to panel
