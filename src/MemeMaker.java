@@ -320,8 +320,9 @@ public class MemeMaker {
 		
 		// Create welcome
 		JLabel welcome = new JLabel("Welcome");
-		welcome.setFont(new Font("Arial", Font.BOLD, 64));
-		welcome.setBounds(800,50, 300, 100);
+		welcome.setFont(new Font("Arial", Font.PLAIN, 64));
+		welcome.setForeground(Color.BLACK);
+		welcome.setBounds(800,150, 300, 100);
 		
 		// Create Separator
 		JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
@@ -332,16 +333,16 @@ public class MemeMaker {
 		btnHomeNewMeme = new JButton("New Meme");
 		btnHomeNewMeme.setBackground(Color.BLACK);
 		btnHomeNewMeme.setForeground(Color.WHITE);
-		btnHomeNewMeme.setFont(new Font("Arial", Font.BOLD, 32));
-		btnHomeNewMeme.setBounds(740, 200, 400, 100);
+		btnHomeNewMeme.setFont(new Font("Arial", Font.PLAIN, 32));
+		btnHomeNewMeme.setBounds(830, 275, 225, 35);
 		btnHomeNewMeme.addActionListener(new MemeMakerListener());
 		
 		// Create Instructions Button
 		btnHomeInstructions = new JButton("Instructions");
 		btnHomeInstructions.setBackground(Color.BLACK);
 		btnHomeInstructions.setForeground(Color.WHITE);
-		btnHomeInstructions.setFont(new Font("Arial", Font.BOLD, 32));
-		btnHomeInstructions.setBounds(740, 350, 400, 100);
+		btnHomeInstructions.setFont(new Font("Arial", Font.PLAIN, 32));
+		btnHomeInstructions.setBounds(830, 325, 225, 35);
 		btnHomeInstructions.addActionListener(new MemeMakerListener());
 		
 		// Add components to panel
