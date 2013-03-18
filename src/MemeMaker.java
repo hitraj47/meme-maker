@@ -333,6 +333,7 @@ public class MemeMaker {
 		btnHomeNewMeme = new JButton("New Meme");
 		btnHomeNewMeme.setBackground(Color.BLACK);
 		btnHomeNewMeme.setForeground(Color.WHITE);
+		btnHomeNewMeme.setFocusPainted(false);
 		btnHomeNewMeme.setFont(new Font("Arial", Font.PLAIN, 32));
 		btnHomeNewMeme.setBounds(830, 275, 225, 35);
 		btnHomeNewMeme.addActionListener(new MemeMakerListener());
@@ -341,6 +342,7 @@ public class MemeMaker {
 		btnHomeInstructions = new JButton("Instructions");
 		btnHomeInstructions.setBackground(Color.BLACK);
 		btnHomeInstructions.setForeground(Color.WHITE);
+		btnHomeInstructions.setFocusPainted(false);
 		btnHomeInstructions.setFont(new Font("Arial", Font.PLAIN, 32));
 		btnHomeInstructions.setBounds(830, 325, 225, 35);
 		btnHomeInstructions.addActionListener(new MemeMakerListener());
