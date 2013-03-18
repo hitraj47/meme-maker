@@ -316,7 +316,7 @@ public class MemeMaker {
 		
 		// Create logo
 		JLabel lblLogo = new JLabel(new ImageIcon("res/images/logo.jpg"));
-		lblLogo.setBounds(10, 10, 610,610);
+		lblLogo.setBounds(25, 10, 610,610);
 		
 		// Create welcome
 		JLabel welcome = new JLabel("Welcome");
