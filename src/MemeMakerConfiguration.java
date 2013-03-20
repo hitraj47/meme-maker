@@ -243,10 +243,12 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		
 		// Create png radio button
 		radioPng = new JRadioButton("*.png");
+		radioPng.setActionCommand("png");
 		radioPng.setBounds(175, 500, 75, 25);
 		
 		// Create jpeg radio button
 		radioJpg = new JRadioButton("*.jpg");
+		radioJpg.setActionCommand("jpg");
 		radioJpg.setBounds(250, 500, 75, 25);
 		
 		// Create Button group

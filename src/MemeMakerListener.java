@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
 import util.EditableImagePanel;
 import util.MultipleFileExtensionFilter;
 
@@ -66,7 +67,9 @@ public class MemeMakerListener implements ActionListener {
 				// TODO need to change to getMeme()
 				BufferedImage meme = MemeMaker.setupImageContainer
 						.getCroppedImage();
-				String format = "jpg"; // TODO get format from config panel
+				int tabIndex = MemeMaker.tabbedEditScreen.getTabbedPane().getSelectedIndex();
+				MemeMakerEditor.EditorTab tab = MemeMaker.tabbedEditScreen.getEditorTabs().get(tabIndex);
+				String format = tab.getConfigPanel().getGroup().getSelection().getActionCommand();
 				File outputFile = fc.getSelectedFile();
 				String path = outputFile.getAbsolutePath();
 				if(path.contains(".")){
