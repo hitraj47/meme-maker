@@ -6,17 +6,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import util.FontCellRenderer;
 
 /**
@@ -69,11 +72,6 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 	private JTextArea txtAreaBottomLine;
 
 	/**
-	 * Check Box to show or hide Meme
-	 */
-	private JCheckBox checkBoxShowHide;
-
-	/**
 	 * ComboBox for setting the message Font
 	 */
 	private JComboBox comboBoxSetFont;
@@ -92,6 +90,26 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 	 * Button for launching the ColorChooser
 	 */
 	private JButton btnColorChooser;
+	
+	/**
+	 * Button to Generate/Save Meme
+	 */
+	private JButton btnSave;
+	
+	/** 
+	 * Radio button to save as *.png
+	 */
+	private JRadioButton radioPng;
+	
+	/** 
+	 * Radio button to save as *.jpg
+	 */
+	private JRadioButton radioJpg;
+	
+	/**
+	 * ButtonGroup for JRadioButtons
+	 */
+	private ButtonGroup group;
 
 	/**
 	 * MemeMakeConfiguration Width
@@ -128,7 +146,9 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		add(btnColorChooser);
 		add(lblFontSize);
 		add(comboBoxFontSize);
-		add(checkBoxShowHide);
+		add(btnSave);
+		add(radioPng);
+		add(radioJpg);
 
 	}
 
@@ -214,16 +234,28 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		comboBoxFontSize = new JComboBox(fontSize);
 		comboBoxFontSize.setBounds(175, 450, 50, 25);
 		comboBoxFontSize.addActionListener(this);
+	
+		// Create the save button
+		btnSave = new JButton("Save");
+		btnSave.setFont(LABEL_FONT);
+		btnSave.setBounds(25, 500, 75, 25);
+		btnSave.addActionListener(new MemeMakerListener());
 		
-		// Create Show/Hide CheckBox
-		checkBoxShowHide = new JCheckBox("Show/Hide");
-		checkBoxShowHide.setFont(LABEL_FONT);
-		checkBoxShowHide.setBounds(25, 500, 100, 25);
-		checkBoxShowHide.addActionListener(this);
+		// Create png radio button
+		radioPng = new JRadioButton("*.png");
+		radioPng.setBounds(175, 500, 75, 25);
+		
+		// Create jpeg radio button
+		radioJpg = new JRadioButton("*.jpg");
+		radioJpg.setBounds(250, 500, 75, 25);
+		
+		// Create Button group
+		 group = new ButtonGroup();
+		 group.add(radioPng);
+		 group.add(radioJpg);
 
 	}
-
-
+	
 	/*
 	 * Change Listener Methods
 	 */

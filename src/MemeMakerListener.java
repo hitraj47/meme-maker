@@ -2,6 +2,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -39,6 +40,49 @@ public class MemeMakerListener implements ActionListener {
 			}
 		} else if (e.getActionCommand() == MemeMaker.ACTION_RESIZE) {
 			showResizePopup(MemeMaker.setupImageContainer.getImage());
+		} else if (e.getActionCommand() == MemeMaker.ACTION_SAVE) {
+			// TODO need to change to getMeme()
+			BufferedImage meme = MemeMaker.setupImageContainer
+					.getCroppedImage();
+			boolean confirm = MemeMaker.showImagePreviewConfirmDialog(meme);
+			if (confirm) {
+				saveMeme();
+			}
+		}
+	}
+
+	private void saveMeme() {
+		JFileChooser fc = new JFileChooser();
+		String extensionDescription = "Image File (*.jpeg, *.jpg, *.png)";
+		String[] extensions = { "jpg", "jpeg", "png" };
+		MultipleFileExtensionFilter filter = new MultipleFileExtensionFilter(
+				extensionDescription, extensions);
+		fc.addChoosableFileFilter(filter);
+		fc.setAcceptAllFileFilterUsed(false);
+		int returnVal = fc.showSaveDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			try {
+				// TODO need to change to getMeme()
+				BufferedImage meme = MemeMaker.setupImageContainer
+						.getCroppedImage();
+				String format = "jpg"; // TODO get format from config panel
+				File outputFile = fc.getSelectedFile();
+				String path = outputFile.getAbsolutePath();
+				if(path.contains(".")){
+				int index = path.lastIndexOf(".");
+					path = path.substring(0, index) + "." + format;
+				} else {
+					path = path + "." + format;
+				}
+				outputFile = new File(path);
+
+				ImageIO.write(meme, format, outputFile);
+
+			} catch (IOException e) {
+				System.err.println("Could not save image file: "
+						+ fc.getSelectedFile().getAbsolutePath());
+			}
+
 		}
 	}
 
@@ -59,7 +103,8 @@ public class MemeMakerListener implements ActionListener {
 				.getHeight()));
 		panel.add(txtHeight);
 
-		// This button is used to update the width/height when contraining proportions
+		// This button is used to update the width/height when contraining
+		// proportions
 		final JButton btnUpdateSize = new JButton("Update Size");
 		btnUpdateSize.addActionListener(new ActionListener() {
 			@Override
@@ -75,9 +120,9 @@ public class MemeMakerListener implements ActionListener {
 									EditableImagePanel.RESIZE_CONSTRAIN_WIDTH);
 					txtHeight.setText(Integer.toString(resizedImage.getHeight()));
 				} else if (image.getHeight() < image.getWidth()) {
-					resizedImage = MemeMaker.setupImageContainer.getResizedImage(
-							width, height,
-							EditableImagePanel.RESIZE_CONSTRAIN_HEIGHT);
+					resizedImage = MemeMaker.setupImageContainer
+							.getResizedImage(width, height,
+									EditableImagePanel.RESIZE_CONSTRAIN_HEIGHT);
 					txtWidth.setText(Integer.toString(resizedImage.getWidth()));
 				}
 			}

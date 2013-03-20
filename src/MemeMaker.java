@@ -172,6 +172,11 @@ public class MemeMaker {
 	 * Action command to resize image
 	 */
 	public static final String ACTION_RESIZE = "Resize Image";
+	
+	/**
+	 * Action command to resize image
+	 */
+	public static final String ACTION_SAVE = "Save";
 
 	/**
 	 * Minimum input image width
@@ -268,11 +273,15 @@ public class MemeMaker {
 		menuFileExportJPG = new JMenuItem("Export as JPEG", KeyEvent.VK_J);
 		menuFileExportJPG.getAccessibleContext().setAccessibleDescription(
 				"Save the meme as a .jpg image");
+		//menuFileExportJPG.setActionCommand(ACTION_SAVE);
+		menuFileExportJPG.addActionListener(new MemeMakerListener());
 		menuFileExport.add(menuFileExportJPG);
 
 		menuFileExportPNG = new JMenuItem("Export as PNG", KeyEvent.VK_P);
 		menuFileExportPNG.getAccessibleContext().setAccessibleDescription(
 				"Save the image as a .png image");
+		//menuFileExportPNG.setActionCommand(ACTION_SAVE);
+		menuFileExportPNG.addActionListener(new MemeMakerListener());
 		menuFileExport.add(menuFileExportPNG);
 
 		menuFileExit = new JMenuItem(ACTION_EXIT, KeyEvent.VK_X);
