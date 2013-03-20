@@ -53,6 +53,34 @@ public class MemeMakerEditor extends JPanel {
 		}
 	}
 
+	/**
+	 * @return the tabbedPane
+	 */
+	public JTabbedPane getTabbedPane() {
+		return tabbedPane;
+	}
+
+	/**
+	 * @return the editorTabs
+	 */
+	public ArrayList<EditorTab> getEditorTabs() {
+		return editorTabs;
+	}
+
+	/**
+	 * @param tabbedPane the tabbedPane to set
+	 */
+	public void setTabbedPane(JTabbedPane tabbedPane) {
+		this.tabbedPane = tabbedPane;
+	}
+
+	/**
+	 * @param editorTabs the editorTabs to set
+	 */
+	public void setEditorTabs(ArrayList<EditorTab> editorTabs) {
+		this.editorTabs = editorTabs;
+	}
+
 	public class EditorTab extends JPanel {
 		private String tabTitle;
 		private MemeMakerConfiguration configPanel;

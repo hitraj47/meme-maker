@@ -51,7 +51,7 @@ public class MemeMaker {
 	/**
 	 * The panel that holds the tabbed editor
 	 */
-	private static MemeMakerEditor tabbedEditScreen;
+	public static MemeMakerEditor tabbedEditScreen;
 
 	/**
 	 * The instructions screen

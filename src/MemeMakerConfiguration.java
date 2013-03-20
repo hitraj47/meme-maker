@@ -256,10 +256,122 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 
 	}
 	
+	/**
+	 * @return the txtAreaTopLine
+	 */
+	public JTextArea getTxtAreaTopLine() {
+		return txtAreaTopLine;
+	}
+
+	/**
+	 * @return the txtAreaBottomLine
+	 */
+	public JTextArea getTxtAreaBottomLine() {
+		return txtAreaBottomLine;
+	}
+
+	/**
+	 * @return the comboBoxSetFont
+	 */
+	public JComboBox getComboBoxSetFont() {
+		return comboBoxSetFont;
+	}
+
+	/**
+	 * @return the comboBoxFontSize
+	 */
+	public JComboBox getComboBoxFontSize() {
+		return comboBoxFontSize;
+	}
+
+	/**
+	 * @return the btnColorChooser
+	 */
+	public JButton getBtnColorChooser() {
+		return btnColorChooser;
+	}
+
+	/**
+	 * @return the radioPng
+	 */
+	public JRadioButton getRadioPng() {
+		return radioPng;
+	}
+
+	/**
+	 * @return the radioJpg
+	 */
+	public JRadioButton getRadioJpg() {
+		return radioJpg;
+	}
+
+	/**
+	 * @return the group
+	 */
+	public ButtonGroup getGroup() {
+		return group;
+	}
+
+	/**
+	 * @param txtAreaTopLine the txtAreaTopLine to set
+	 */
+	public void setTxtAreaTopLine(JTextArea txtAreaTopLine) {
+		this.txtAreaTopLine = txtAreaTopLine;
+	}
+
+	/**
+	 * @param txtAreaBottomLine the txtAreaBottomLine to set
+	 */
+	public void setTxtAreaBottomLine(JTextArea txtAreaBottomLine) {
+		this.txtAreaBottomLine = txtAreaBottomLine;
+	}
+
+	/**
+	 * @param comboBoxSetFont the comboBoxSetFont to set
+	 */
+	public void setComboBoxSetFont(JComboBox comboBoxSetFont) {
+		this.comboBoxSetFont = comboBoxSetFont;
+	}
+
+	/**
+	 * @param comboBoxFontSize the comboBoxFontSize to set
+	 */
+	public void setComboBoxFontSize(JComboBox comboBoxFontSize) {
+		this.comboBoxFontSize = comboBoxFontSize;
+	}
+
+	/**
+	 * @param btnColorChooser the btnColorChooser to set
+	 */
+	public void setBtnColorChooser(JButton btnColorChooser) {
+		this.btnColorChooser = btnColorChooser;
+	}
+
+	/**
+	 * @param radioPng the radioPng to set
+	 */
+	public void setRadioPng(JRadioButton radioPng) {
+		this.radioPng = radioPng;
+	}
+
+	/**
+	 * @param radioJpg the radioJpg to set
+	 */
+	public void setRadioJpg(JRadioButton radioJpg) {
+		this.radioJpg = radioJpg;
+	}
+
+	/**
+	 * @param group the group to set
+	 */
+	public void setGroup(ButtonGroup group) {
+		this.group = group;
+	}
+
+	
 	/*
 	 * Change Listener Methods
 	 */
-	
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
 		Color newColor = colorChooser.getColor();
@@ -267,7 +379,6 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 	}
 
 	
-
 	/*
 	 * Action Listener Methods
 	 */
