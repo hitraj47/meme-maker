@@ -4,13 +4,12 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JPanel;
 
@@ -46,25 +45,30 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	private BufferedImage croppedImage;
 
 	/**
-	 * The start and end x,y coords of a textbox rectangle
+	 * Text for the top of the Meme
 	 */
-	private int textx1, textx2, texty1, texty2;
-
-	/**
-	 * Flag variable for drawing a textbox
-	 */
-	private boolean isNewTextBox = true;
+	private String topText;
 	
 	/**
-	 * Flag variable to tell paintComponenet to make a text box
+	 * The Font for the Meme
 	 */
-	private boolean createTextBox = false;
-
+	private Font font;
+	
 	/**
-	 * ArrayList of text on the image
+	 * The Font Size for the Meme
 	 */
-	private ArrayList<TextBox> textBoxes = new ArrayList<TextBox>();
-
+	private int fontSize;
+	
+	/**
+	 * The Font Color for the Meme
+	 */
+	private Color fontColor;
+	
+	/**
+	 * Top FontMetrics
+	 */
+	private FontMetrics topFontMetrics;
+	
 	/**
 	 * When resizing image, use this to let the class decide how to constrain
 	 * proportions
@@ -109,6 +113,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	public EditableImagePanel() {
 		setEditingMode(MODE_VIEW);
+		topText = "";
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -198,148 +203,18 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		// draw the image
 		g.drawImage(image, 0, 0, null);
 
-		// draw any text that might be on the image
-		if (textBoxes.size() > 0) {
-			for (TextBox t : textBoxes) {
-				g.setColor(t.getColor());
-				g.setFont(t.getFont());
-				g.drawString(t.getText(), t.getX(), t.getY());
-			}
-		}
-
 		if (getEditingMode() == MODE_CROP) {
 			drawCropBox(g);
 		} else if (getEditingMode() == MODE_TEXT) {
-			drawTextBox(g);
+			drawTextOnImage(g);
 		}
 
 	}
 
-	private void drawTextBox(Graphics g) {
-		// get the actual width and height of the drawn rectangle
-		int width = getTextx1() - getTextx2();
-		int height = getTexty1() - getTexty2();
-
-		// get the width and height to use for drawing the rectangle
-		int w = Math.abs(width);
-		int h = Math.abs(height);
-
-		// get the coordinates for placing the rectangle
-		int x = width < 0 ? getTextx1() : getTextx2();
-		int y = height < 0 ? getTexty1() : getTexty2();
-
-		if (!this.isNewTextBox) {
-			// draw a rectangle to show the user the area
-			g.drawRect(x, y, w, h);
-
-			if (createTextBox) {
-				// TODO: create a new textbox and add it to the arraylist
-			}
-		}
-
-	}
-	
-	public void addText(int x, int y, String text, Font font, Color color) {
-		TextBox tb = new TextBox(x, y);
-		tb.setFont(font);
-		tb.setColor(color);
-		textBoxes.add(tb);
-	}
-	
-	public void addText(int x, int y) {
-		TextBox tb = new TextBox(x, y);
-		textBoxes.add(tb);
-	}
-	
-	public void setTextString(int x, int y, String text) {
-		// find the text first
-		Iterator<TextBox> it = textBoxes.iterator();
-		while (it.hasNext()) {
-			TextBox tb = it.next();
-			if (tb.getX() == x && tb.getY() == y) {
-				tb.setText(text);
-			}
-		}
-	}
-	
-	public String getTextString(int x, int y) {
-		Iterator<TextBox> it = textBoxes.iterator();
-		String text = null;
-		while (it.hasNext()) {
-			TextBox tb = it.next();
-			if (tb.getX() == x && tb.getY() == y) {
-				text = tb.getText();
-			}
-		}
-		return text;
-	}
-	
-	public void setTextFontStyle(int x, int y, int style) {
-		Iterator<TextBox> it = textBoxes.iterator();
-		while (it.hasNext()) {
-			TextBox tb = it.next();
-			if (tb.getX() == x && tb.getY() == y) {
-				tb.setFontStyle(style);
-			}
-		}
-	}
-	
-	public int getTextFontStyle(int x, int y) {
-		Iterator<TextBox> it = textBoxes.iterator();
-		int style = -1;
-		while (it.hasNext()) {
-			TextBox tb = it.next();
-			if (tb.getX() == x && tb.getY() == y) {
-				style = tb.getFontStyle();
-			}
-		}
-		return style;
-	}
-	
-	public void setTextColor(int x, int y, Color color) {
-		Iterator<TextBox> it = textBoxes.iterator();
-		while (it.hasNext()) {
-			TextBox tb = it.next();
-			if (tb.getX() == x && tb.getY() == y) {
-				tb.setColor(color);
-			}
-		}
-	}
-	
-	public Color getTextColor(int x, int y) {
-		Iterator<TextBox> it = textBoxes.iterator();
-		Color color = null;
-		while (it.hasNext()) {
-			TextBox tb = it.next();
-			if (tb.getX() == x && tb.getY() == y) {
-				color = tb.getColor();
-			}
-		}
-		return color;
-	}
-	
-	public void setTextSize(int x, int y, int size) {
-		Iterator<TextBox> it = textBoxes.iterator();
-		while (it.hasNext()) {
-			TextBox tb = it.next();
-			if (tb.getX() == x && tb.getY() == y) {
-				tb.setSize(size);
-			}
-		}
-	}
-	
-	public int getTextSize(int x, int y) {
-		Iterator<TextBox> it = textBoxes.iterator();
-		int size = -1;
-		while (it.hasNext()) {
-			TextBox tb = it.next();
-			if (tb.getX() == x && tb.getY() == y) {
-				size = tb.getSize();
-			}
-		}
-		return size;
-	}
-
+	/**
+	 * Draws the CropBox on image
+	 * @param g
+	 */
 	private void drawCropBox(Graphics g) {
 		// get the actual width and height of the drawn rectangle
 		int width = getCropx1() - getCropx2();
@@ -362,6 +237,13 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		}
 	}
 
+	/**
+	 * Sets the cropped image
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	private void setCroppedImage(int x, int y, int width, int height) {
 		if (width > 0 && height > 0) {
 			croppedImage = image.getSubimage(x, y, width, height);
@@ -370,8 +252,80 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		}
 	}
 
+	/**
+	 * 
+	 * @return croppedImage
+	 */
 	public BufferedImage getCroppedImage() {
 		return croppedImage;
+	}
+
+	private void drawTextOnImage(Graphics g) {
+		//Graphics2D g2d = image.createGraphics();
+
+		g.setFont(font);
+		topFontMetrics = g.getFontMetrics();
+		g.setColor(fontColor);
+		int x = getTopFontPosX(topFontMetrics);
+		int y = getTopFontPosY(topFontMetrics);
+
+		g.drawString(topText, x, y);
+
+	}
+
+	private int getTopFontPosY(FontMetrics fontMetrics) {
+		int topBuffer = (int) (image.getHeight() * .005);
+		int textHeight = fontMetrics.getHeight();
+		int yPos = topBuffer + textHeight;
+		return yPos;
+	}
+
+	private int getTopFontPosX(FontMetrics fontMetrics) {
+		int textWidth = fontMetrics.stringWidth(topText);
+		int xPos = (image.getWidth() - textWidth) / 2;
+		return xPos;
+	}
+
+	/**
+	 * @return the topText
+	 */
+	public String getTopText() {
+		return topText;
+	}
+
+	/**
+	 * @param topText the topText to set
+	 */
+	public void setTopText(String topText) {
+		this.topText = topText;
+	}
+
+	/**
+	 * @return the font
+	 */
+	public Font getFont() {
+		return font;
+	}
+
+	/**
+	 * @param font the font to set
+	 */
+	public void setFont(Font font) {
+		this.font = font;
+	}
+
+	/**
+	 * @return the fontColor
+	 */
+	public Color getFontColor() {
+		return fontColor;
+	}
+
+	/**
+	 * @param fontColor the fontColor to set
+	 */
+	public void setFontColor(Color fontColor) {
+		this.fontColor = fontColor;
 	}
 
 	@Override
@@ -392,26 +346,11 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (getEditingMode() == MODE_TEXT) {
-			int x = e.getX();
-			int y = e.getY();
-			if (textBoxes.size() > 0) {
-				for (TextBox t : textBoxes) {
-					/**
-					 * TODO: Check to see if mouse is within the bounds of the
-					 * text box. If so, select it and allow the user to edit it.
-					 * 
-					 */
-				}
-			} else {
-				// TODO: New blank text box. Maybe make it so that as soon as
-				// the user clicks
-				// they can start typing text.
-				//textBoxes.add(new TextBox(x, y));
-			}
-		}
+	/*	if (getEditingMode() == MODE_TEXT) {
+			repaint();
+		}*/
 	}
-
+	
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		if (getEditingMode() == MODE_CROP) {
@@ -435,11 +374,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 			isNewCropRect = true;
 			repaint();
 		} else if (getEditingMode() == MODE_TEXT) {
-			setTextx1(e.getX());
-			setTexty1(e.getY());
-			isNewTextBox = true;
-			createTextBox = false;
-			repaint();
+
 		}
 	}
 
@@ -450,10 +385,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 			setCropy2(e.getY());
 			repaint();
 		} else if (getEditingMode() == MODE_TEXT) {
-			setTextx2(e.getX());
-			setTexty2(e.getY());
-			createTextBox = true;
-			repaint();
+
 		}
 	}
 
@@ -542,232 +474,6 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 					height);
 		}
 		return resizedImage;
-	}
-
-	/**
-	 * @return the textx1
-	 */
-	public int getTextx1() {
-		return textx1;
-	}
-
-	/**
-	 * @param textx1
-	 *            the textx1 to set
-	 */
-	public void setTextx1(int textx1) {
-		this.textx1 = textx1;
-	}
-
-	/**
-	 * @return the textx2
-	 */
-	public int getTextx2() {
-		return textx2;
-	}
-
-	/**
-	 * @param textx2
-	 *            the textx2 to set
-	 */
-	public void setTextx2(int textx2) {
-		this.textx2 = textx2;
-	}
-
-	/**
-	 * @return the texty1
-	 */
-	public int getTexty1() {
-		return texty1;
-	}
-
-	/**
-	 * @param texty1
-	 *            the texty1 to set
-	 */
-	public void setTexty1(int texty1) {
-		this.texty1 = texty1;
-	}
-
-	/**
-	 * @return the texty2
-	 */
-	public int getTexty2() {
-		return texty2;
-	}
-
-	/**
-	 * @param texty2
-	 *            the texty2 to set
-	 */
-	public void setTexty2(int texty2) {
-		this.texty2 = texty2;
-	}
-
-	public class TextBox {
-		private String text;
-		private int x, y;
-		private int fontSize;
-		private Font font;
-		private String fontName;
-		private int fontStyle;
-		private Color color;
-		private boolean backgroundTransparent = true;
-		private Color backgroundColor;
-
-		TextBox(int x, int y) {
-			this.setX(x);
-			this.setY(y);
-		}
-
-		public void setText(String text) {
-			this.text = text;
-		}
-
-		public String getText() {
-			return text;
-		}
-
-		/**
-		 * @return the x
-		 */
-		public int getX() {
-			return x;
-		}
-
-		/**
-		 * @param x
-		 *            the x to set
-		 */
-		public void setX(int x) {
-			this.x = x;
-		}
-
-		/**
-		 * @return the y
-		 */
-		public int getY() {
-			return y;
-		}
-
-		/**
-		 * @param y
-		 *            the y to set
-		 */
-		public void setY(int y) {
-			this.y = y;
-		}
-
-		/**
-		 * @return the size
-		 */
-		public int getSize() {
-			return fontSize;
-		}
-
-		/**
-		 * @param size
-		 *            the size to set
-		 */
-		public void setSize(int size) {
-			this.fontSize = size;
-			Font f = new Font(getFontName(), getFontStyle(), size);
-			setFont(f);
-		}
-
-		/**
-		 * @return the font
-		 */
-		public Font getFont() {
-			return font;
-		}
-
-		/**
-		 * @param font
-		 *            the font to set
-		 */
-		public void setFont(Font font) {
-			this.font = font;
-		}
-
-		/**
-		 * @return the color
-		 */
-		public Color getColor() {
-			return color;
-		}
-
-		/**
-		 * @param color
-		 *            the color to set
-		 */
-		public void setColor(Color color) {
-			this.color = color;
-		}
-
-		/**
-		 * @return the backgroundTransparent
-		 */
-		public boolean isBackgroundTransparent() {
-			return backgroundTransparent;
-		}
-
-		/**
-		 * @param backgroundTransparent
-		 *            the backgroundTransparent to set
-		 */
-		public void setBackgroundTransparent(boolean backgroundTransparent) {
-			this.backgroundTransparent = backgroundTransparent;
-		}
-
-		/**
-		 * @return the backgroundColor
-		 */
-		public Color getBackgroundColor() {
-			return backgroundColor;
-		}
-
-		/**
-		 * @param backgroundColor
-		 *            the backgroundColor to set
-		 */
-		public void setBackgroundColor(Color backgroundColor) {
-			this.backgroundColor = backgroundColor;
-		}
-
-		/**
-		 * @return the fontName
-		 */
-		public String getFontName() {
-			return fontName;
-		}
-
-		/**
-		 * @param fontName
-		 *            the fontName to set
-		 */
-		public void setFontName(String fontName) {
-			this.fontName = fontName;
-			Font f = new Font(fontName, getFontStyle(), getSize());
-			setFont(f);
-		}
-
-		/**
-		 * @return the fontStyle
-		 */
-		public int getFontStyle() {
-			return fontStyle;
-		}
-
-		/**
-		 * @param fontStyle
-		 *            the fontStyle to set
-		 */
-		public void setFontStyle(int fontStyle) {
-			this.fontStyle = fontStyle;
-			Font f = new Font(getFontName(), fontStyle, getSize());
-			setFont(f);
-		}
 	}
 
 }

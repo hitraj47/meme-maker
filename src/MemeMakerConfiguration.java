@@ -4,17 +4,19 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
+import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -29,7 +31,7 @@ import util.FontCellRenderer;
  */
 
 public class MemeMakerConfiguration extends JPanel implements ActionListener,
-		ChangeListener {
+		ChangeListener, FocusListener {
 
 	/**
 	 * Title Border for the Meme Message
@@ -109,7 +111,17 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 	/**
 	 * ButtonGroup for JRadioButtons
 	 */
-	private ButtonGroup group;
+	private ButtonGroup buttonGroup;
+	
+	/**
+	 * Timer for firing repaint for the TopLine TestArea
+	 */
+	private Timer timerTopLine;
+	
+	/**
+	 * Timer for firing repaint for the BottomLine TestArea
+	 */
+	private Timer timerBottomLine;
 
 	/**
 	 * MemeMakeConfiguration Width
@@ -127,7 +139,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 	private static final Font BORDER_FONT = new Font("Arial", Font.BOLD, 16);
 	private static final Font LABEL_FONT = new Font("Arial", Font.BOLD, 14);
 	private static final Font TEXT_AREA_FONT = new Font("Arial", Font.PLAIN, 14);
-
+	
 	/**
 	 * Constructor for MemeMakerConfiguration
 	 */
@@ -177,6 +189,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		txtAreaTopLine.setFont(TEXT_AREA_FONT);
 		txtAreaTopLine.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		txtAreaTopLine.setBounds(10, 55, 330, 100);
+		txtAreaTopLine.addFocusListener(this);
 
 		// Create Bottom Line Label
 		lblBottomLine = new JLabel("Bottom Line:");
@@ -214,7 +227,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 
 		// Create Button for Color Chooser
 		btnColorChooser = new JButton();
-		btnColorChooser.setBackground(Color.BLUE);
+		btnColorChooser.setBackground(Color.WHITE);
 		btnColorChooser.setBounds(175, 400, 75, 25);
 		btnColorChooser.addActionListener(this);
 
@@ -228,9 +241,9 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		lblFontSize.setBounds(25, 450, 125, 15);
 
 		// Create Font Size ComboBox
-		String[] fontSize = { "8pt", "9pt", "10pt", "11pt", "12pt", "14pt",
-				"16pt", "18pt", "20pt", "22pt", "24pt", "26pt", "28pt", "36pt",
-				"48pt", "72pt" };
+		String[] fontSize = { "8", "9", "10", "11", "12", "14",
+				"16", "18", "20", "22", "24", "26", "28", "36",
+				"48", "72" };
 		comboBoxFontSize = new JComboBox(fontSize);
 		comboBoxFontSize.setBounds(175, 450, 50, 25);
 		comboBoxFontSize.addActionListener(this);
@@ -248,13 +261,14 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		
 		// Create jpeg radio button
 		radioJpg = new JRadioButton("*.jpg");
+		radioJpg.setSelected(true);
 		radioJpg.setActionCommand("jpg");
 		radioJpg.setBounds(250, 500, 75, 25);
 		
 		// Create Button group
-		 group = new ButtonGroup();
-		 group.add(radioPng);
-		 group.add(radioJpg);
+		 buttonGroup = new ButtonGroup();
+		 buttonGroup.add(radioPng);
+		 buttonGroup.add(radioJpg);
 
 	}
 	
@@ -310,8 +324,8 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 	/**
 	 * @return the group
 	 */
-	public ButtonGroup getGroup() {
-		return group;
+	public ButtonGroup getButtonGroup() {
+		return buttonGroup;
 	}
 
 	/**
@@ -366,8 +380,8 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 	/**
 	 * @param group the group to set
 	 */
-	public void setGroup(ButtonGroup group) {
-		this.group = group;
+	public void setButtonGroup(ButtonGroup group) {
+		this.buttonGroup = group;
 	}
 
 	
@@ -389,6 +403,13 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnColorChooser){
 			launchColorChooser();
+			updateFontColor();
+		}
+		if(e.getSource() == comboBoxFontSize){
+			updateFont();
+		}
+		if(e.getSource() == comboBoxSetFont){
+			updateFont();
 		}
 	}
 
@@ -402,5 +423,69 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 			btnColorChooser.setBackground(newColor);
 		}
 	}
+	
+	/**
+	 * Updates the Font the user Chooses
+	 */
+	private void updateFont(){
+		String fontType = (String) comboBoxSetFont.getSelectedItem();
+		String fontSize = (String) comboBoxFontSize.getSelectedItem();
+		int size = Integer.parseInt(fontSize);
+		Font font = new Font(fontType, Font.PLAIN, size);
+		MemeMaker.getSelectedEditorTabImagePanel().setFont(font);
+		MemeMaker.getSelectedEditorTabImagePanel().repaint();
+	}
+	
+	/**
+	 * Updates the Font Color the User Chooses
+	 */
+	private void updateFontColor() {
+		Color fontColor = btnColorChooser.getBackground();
+		MemeMaker.getSelectedEditorTabImagePanel().setFontColor(fontColor);
+		MemeMaker.getSelectedEditorTabImagePanel().repaint();
+	}
 
+	/*
+	 * Focus Listener Methods
+	 */
+	@Override
+	public void focusGained(FocusEvent arg) {
+		if(arg.getSource() == txtAreaTopLine){
+			timerTopLine = new Timer(1, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					updateFont();
+					updateFontColor();
+					String text = txtAreaTopLine.getText();
+					MemeMaker.getSelectedEditorTabImagePanel().setTopText(text);
+					MemeMaker.getSelectedEditorTabImagePanel().repaint();
+				}
+			});timerTopLine.start();
+		}
+		if(arg.getSource() == txtAreaBottomLine){
+			timerBottomLine = new Timer(1, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+/*					updateFont();
+					updateFontColor();
+					String text = txtAreaBottomLine.getText();
+					MemeMaker.getSelectedEditorTabImagePanel().setBottomText(text);
+					MemeMaker.getSelectedEditorTabImagePanel().repaint();*/
+				}
+			});timerBottomLine.start();
+		} 
+
+	}
+
+	@Override
+	public void focusLost(FocusEvent arg) {
+		if(arg.getSource() == txtAreaTopLine){
+			timerTopLine.stop();
+		}
+		if(arg.getSource() == txtAreaBottomLine){
+			timerBottomLine.stop();
+		}
+	}
+	
+	
 }

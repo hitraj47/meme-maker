@@ -44,8 +44,7 @@ public class MemeMakerListener implements ActionListener {
 			showResizePopup(MemeMaker.setupImageContainer.getImage());
 		} else if (e.getActionCommand() == MemeMaker.ACTION_SAVE) {
 			// TODO need to change to getMeme()
-			BufferedImage meme = MemeMaker.setupImageContainer
-					.getCroppedImage();
+			BufferedImage meme = MemeMaker.getSelectedEditorTabImagePanel().getImage();
 			boolean confirm = MemeMaker.showImagePreviewConfirmDialog(meme);
 			if (confirm) {
 				saveMeme();
@@ -65,11 +64,8 @@ public class MemeMakerListener implements ActionListener {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
 				// TODO need to change to getMeme()
-				BufferedImage meme = MemeMaker.setupImageContainer
-						.getCroppedImage();
-				int tabIndex = MemeMaker.tabbedEditScreen.getTabbedPane().getSelectedIndex();
-				MemeMakerEditor.EditorTab tab = MemeMaker.tabbedEditScreen.getEditorTabs().get(tabIndex);
-				String format = tab.getConfigPanel().getGroup().getSelection().getActionCommand();
+				BufferedImage meme = MemeMaker.getSelectedEditorTabImagePanel().getImage();
+				String format = MemeMaker.getSelectedEditorTabCofigPanel().getButtonGroup().getSelection().getActionCommand();
 				File outputFile = fc.getSelectedFile();
 				String path = outputFile.getAbsolutePath();
 				if(path.contains(".")){

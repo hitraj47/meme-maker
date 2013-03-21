@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.Timer;
 
 import util.EditableImagePanel;
 
@@ -105,6 +106,7 @@ public class MemeMakerEditor extends JPanel {
 			imageBorderPanel.setBounds(MemeMakerConfiguration.CONFIG_PANEL_WIDTH+25, 19, 890, 589);
 			
 			imagePanel = new EditableImagePanel(image);
+			imagePanel.setEditingMode(EditableImagePanel.MODE_TEXT);
 			int x = getCenteredx(imagePanel);
 			int y = getCenteredy(imagePanel);
 			imagePanel.setBounds(x, y, imagePanel.getWidth(), imagePanel.getHeight());

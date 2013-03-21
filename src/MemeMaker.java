@@ -28,7 +28,6 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
-
 import util.EditableImagePanel;
 
 public class MemeMaker {
@@ -213,6 +212,9 @@ public class MemeMaker {
 	 */
 	public static final String APPLICATION_TITLE = "Meme Maker 9000";
 
+	/**
+	 * Constructor for the MemeMaker Class
+	 */
 	public MemeMaker() {
 		frame = new JFrame(APPLICATION_TITLE);
 		layout = new CardLayout();
@@ -244,6 +246,10 @@ public class MemeMaker {
 		}
 	}
 	
+	/**
+	 * Creates the MenuBar
+	 * @return
+	 */
 	private JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 
@@ -312,6 +318,9 @@ public class MemeMaker {
 		return menuBar;
 	}
 
+	/**
+	 * Creates the GUI Components 
+	 */
 	private void createGuiComponenets() {
 		pnlHome = createHomeScreen();
 		pnlInstructions = createInstructionsSreen();
@@ -319,6 +328,10 @@ public class MemeMaker {
 		pnlSetup = new JPanel(new BorderLayout());
 	}
 
+	/**
+	 * Creates the HomeScreen
+	 * @return
+	 */
 	private JPanel createHomeScreen(){
 		JPanel homePanel = new JPanel();
 		homePanel.setLayout(null);
@@ -416,6 +429,10 @@ public class MemeMaker {
 		return homePanel;
 	}
 	
+	/**
+	 * Creates the Instructions Screen
+	 * @return
+	 */
 	private JPanel createInstructionsSreen() {
 		JPanel panel = new JPanel(new BorderLayout());
 
@@ -450,6 +467,10 @@ public class MemeMaker {
 		return panel;
 	}
 
+	/**
+	 * Shows the setup Screen 
+	 * @param inputImage
+	 */
 	public static void showSetupScreen(BufferedImage inputImage) {
 		setupImageContainer = new EditableImagePanel(inputImage);
 		JScrollPane scrollPane = new JScrollPane(setupImageContainer);
@@ -501,26 +522,69 @@ public class MemeMaker {
 		layout.show(frame.getContentPane(), SCREEN_SETUP);
 	}
 
+	/**
+	 * Shows the EditScreen
+	 * @param image
+	 */
 	public static void showEditScreen(BufferedImage image) {
 		String title = "Meme ";
+		
 		for (int i=1;i<=3;i++) {
 			tabbedEditScreen.createTab(title + i, image);
+			
 		}
 		layout.show(frame.getContentPane(), SCREEN_EDIT);
 	}
 
+	/**
+	 * Shows the Instruction Screen
+	 */
 	public static void showInstructionsScreen() {
 		layout.show(frame.getContentPane(), SCREEN_INSTRUCTIONS);
 	}
 
+	/**
+	 * Checks if the image opened by the User meets Max Requirements
+	 */
 	public static boolean meetsMaxImageSizeRequirements(BufferedImage image) {
 		return (image.getWidth() <= INPUT_IMAGE_MAX_WIDTH)
 				&& (image.getHeight() <= INPUT_IMAGE_MAX_HEIGHT);
 	}
 
+	/**
+	 * Checks if the image opened by the User meets Min Requirements
+	 */
 	public static boolean meetsMinImageSizeRequirements(BufferedImage image) {
 		return (image.getWidth() >= INPUT_IMAGE_MIN_WIDTH)
 				&& (image.getHeight() >= INPUT_IMAGE_MIN_HEIGHT);
+	}
+	
+	/**
+	 * Returns the currently selected EditorTab
+	 * @return EditorTab
+	 */
+	public static MemeMakerEditor.EditorTab getSelectedEditorTab(){
+		int index = MemeMaker.tabbedEditScreen.getTabbedPane().getSelectedIndex();
+		MemeMakerEditor.EditorTab editorTab = MemeMaker.tabbedEditScreen.getEditorTabs().get(index);
+		return editorTab;
+	}
+	
+	/**
+	 * Returns the MemeMakerConfiguration Panel in the currently selected EditorTab
+	 * @return MemeMakerConfiguration Panel
+	 */
+	public static MemeMakerConfiguration getSelectedEditorTabCofigPanel(){
+		MemeMakerConfiguration config = MemeMaker.getSelectedEditorTab().getConfigPanel();
+		return config;
+	}
+	
+	/**
+	 * Returns the EditableImagePanel in the currently selected EditorTab
+	 * @return EditableImagePanel
+	 */
+	public static EditableImagePanel getSelectedEditorTabImagePanel(){
+		EditableImagePanel imagePanel = MemeMaker.getSelectedEditorTab().getImagePanel();
+		return imagePanel;
 	}
 	
 	/**
