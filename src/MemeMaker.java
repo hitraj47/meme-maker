@@ -564,8 +564,8 @@ public class MemeMaker {
 	 * @return EditorTab
 	 */
 	public static MemeMakerEditor.EditorTab getSelectedEditorTab(){
-		int index = MemeMaker.tabbedEditScreen.getTabbedPane().getSelectedIndex();
-		MemeMakerEditor.EditorTab editorTab = MemeMaker.tabbedEditScreen.getEditorTabs().get(index);
+		int index = tabbedEditScreen.getTabbedPane().getSelectedIndex();
+		MemeMakerEditor.EditorTab editorTab = tabbedEditScreen.getEditorTabs().get(index);
 		return editorTab;
 	}
 	
