@@ -10,6 +10,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -50,6 +52,11 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	private String topText;
 	
 	/**
+	 * Text for the bottom of the Meme
+	 */
+	private String bottomText;
+	
+	/**
 	 * The Font for the Meme
 	 */
 	private Font font;
@@ -65,9 +72,9 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	private Color fontColor;
 	
 	/**
-	 * Top FontMetrics
+	 * FontMetrics
 	 */
-	private FontMetrics topFontMetrics;
+	private FontMetrics fontMetrics;
 	
 	/**
 	 * When resizing image, use this to let the class decide how to constrain
@@ -114,6 +121,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	public EditableImagePanel() {
 		setEditingMode(MODE_VIEW);
 		topText = "";
+		bottomText = "";
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -206,7 +214,8 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		if (getEditingMode() == MODE_CROP) {
 			drawCropBox(g);
 		} else if (getEditingMode() == MODE_TEXT) {
-			drawTextOnImage(g);
+			drawTopTextOnImage(g);
+			drawBottomTextOnImage(g);
 		}
 
 	}
@@ -260,17 +269,49 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		return croppedImage;
 	}
 
-	private void drawTextOnImage(Graphics g) {
+	private void drawTopTextOnImage(Graphics g) {
 		//Graphics2D g2d = image.createGraphics();
 
 		g.setFont(font);
-		topFontMetrics = g.getFontMetrics();
+		fontMetrics = g.getFontMetrics();
 		g.setColor(fontColor);
-		int x = getTopFontPosX(topFontMetrics);
-		int y = getTopFontPosY(topFontMetrics);
+		
+		ArrayList<String> strings = (ArrayList<String>) StringUtils.wrap(topText, fontMetrics, image.getWidth());
+		
+		int y = getTopFontPosY(fontMetrics);
+		
+		if (strings.size()>1){
+			for(String line : strings){
+				int x = getFontPosX(fontMetrics, line);
+				g.drawString(line, x, y);
+				y = y + fontMetrics.getHeight();
+			}
+		} else {
+			int x = getFontPosX(fontMetrics, topText);
+			g.drawString(topText, x, y);
+		}
+	}
+	
+	private void drawBottomTextOnImage(Graphics g) {
+		//Graphics2D g2d = image.createGraphics();
+		g.setFont(font);
+		fontMetrics = g.getFontMetrics();
+		g.setColor(fontColor);
+		
+		ArrayList<String> strings = (ArrayList<String>) StringUtils.wrap(bottomText, fontMetrics, image.getWidth());
 
-		g.drawString(topText, x, y);
-
+		int y = getBottomFontPosY();
+		
+		if (strings.size()>1){
+			for(String line : strings){
+				int x = getFontPosX(fontMetrics, line);
+				g.drawString(line, x, y);
+				y = y - fontMetrics.getHeight();
+			}
+		} else {
+			int x = getFontPosX(fontMetrics, bottomText);
+			g.drawString(bottomText, x, y);
+		}	
 	}
 
 	private int getTopFontPosY(FontMetrics fontMetrics) {
@@ -279,9 +320,14 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		int yPos = topBuffer + textHeight;
 		return yPos;
 	}
+	
+	private int getBottomFontPosY() {
+		int yPos = (int) ((int) image.getHeight() - (image.getHeight() * .010));
+		return yPos;
+	}
 
-	private int getTopFontPosX(FontMetrics fontMetrics) {
-		int textWidth = fontMetrics.stringWidth(topText);
+	private int getFontPosX(FontMetrics fontMetrics, String text) {
+		int textWidth = fontMetrics.stringWidth(text);
 		int xPos = (image.getWidth() - textWidth) / 2;
 		return xPos;
 	}
@@ -298,6 +344,20 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	public void setTopText(String topText) {
 		this.topText = topText;
+	}
+
+	/**
+	 * @return the bottomText
+	 */
+	public String getBottomText() {
+		return bottomText;
+	}
+
+	/**
+	 * @param bottomText the bottomText to set
+	 */
+	public void setBottomText(String bottomText) {
+		this.bottomText = bottomText;
 	}
 
 	/**

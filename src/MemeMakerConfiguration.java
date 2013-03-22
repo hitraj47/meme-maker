@@ -205,6 +205,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		txtAreaBottomLine
 				.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		txtAreaBottomLine.setBounds(10, 195, 330, 100);
+		txtAreaBottomLine.addFocusListener(this);
 
 		// Create Set Font Label
 		lblSetFont = new JLabel("Set Font:");
@@ -241,9 +242,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		lblFontSize.setBounds(25, 450, 125, 15);
 
 		// Create Font Size ComboBox
-		String[] fontSize = { "8", "9", "10", "11", "12", "14",
-				"16", "18", "20", "22", "24", "26", "28", "36",
-				"48", "72" };
+		String[] fontSize = {"24", "26", "28", "36", "48", "72" };
 		comboBoxFontSize = new JComboBox(fontSize);
 		comboBoxFontSize.setBounds(175, 450, 50, 25);
 		comboBoxFontSize.addActionListener(this);
@@ -404,12 +403,15 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		if(e.getSource() == btnColorChooser){
 			launchColorChooser();
 			updateFontColor();
+			MemeMaker.getSelectedEditorTabImagePanel().repaint();
 		}
 		if(e.getSource() == comboBoxFontSize){
 			updateFont();
+			MemeMaker.getSelectedEditorTabImagePanel().repaint();
 		}
 		if(e.getSource() == comboBoxSetFont){
 			updateFont();
+			MemeMaker.getSelectedEditorTabImagePanel().repaint();
 		}
 	}
 
@@ -433,7 +435,6 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		int size = Integer.parseInt(fontSize);
 		Font font = new Font(fontType, Font.PLAIN, size);
 		MemeMaker.getSelectedEditorTabImagePanel().setFont(font);
-		MemeMaker.getSelectedEditorTabImagePanel().repaint();
 	}
 	
 	/**
@@ -442,7 +443,6 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 	private void updateFontColor() {
 		Color fontColor = btnColorChooser.getBackground();
 		MemeMaker.getSelectedEditorTabImagePanel().setFontColor(fontColor);
-		MemeMaker.getSelectedEditorTabImagePanel().repaint();
 	}
 
 	/*
@@ -466,11 +466,11 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 			timerBottomLine = new Timer(1, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-/*					updateFont();
+					updateFont();
 					updateFontColor();
 					String text = txtAreaBottomLine.getText();
 					MemeMaker.getSelectedEditorTabImagePanel().setBottomText(text);
-					MemeMaker.getSelectedEditorTabImagePanel().repaint();*/
+					MemeMaker.getSelectedEditorTabImagePanel().repaint();
 				}
 			});timerBottomLine.start();
 		} 
