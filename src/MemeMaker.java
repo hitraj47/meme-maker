@@ -573,7 +573,7 @@ public class MemeMaker {
 	 * Returns the MemeMakerConfiguration Panel in the currently selected EditorTab
 	 * @return MemeMakerConfiguration Panel
 	 */
-	public static MemeMakerConfiguration getSelectedEditorTabCofigPanel(){
+	public static MemeMakerConfiguration getSelectedEditorTabConfigPanel(){
 		MemeMakerConfiguration config = MemeMaker.getSelectedEditorTab().getConfigPanel();
 		return config;
 	}

@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -77,6 +78,11 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	private FontMetrics fontMetrics;
 	
 	/**
+	 * The Meme Image
+	 */
+	private BufferedImage memeImage;
+	
+	/**
 	 * When resizing image, use this to let the class decide how to constrain
 	 * proportions
 	 */
@@ -114,6 +120,11 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 * Constant for adding/editing/deleting text
 	 */
 	public static final int MODE_TEXT = 2;
+	
+	/**
+	 * Constant for creating the Meme
+	 */
+	public static final int MODE_CREATE = 3;
 
 	/**
 	 * Default constructor
@@ -216,6 +227,9 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		} else if (getEditingMode() == MODE_TEXT) {
 			drawTopTextOnImage(g);
 			drawBottomTextOnImage(g);
+		} else if(getEditingMode() == MODE_CREATE){
+			drawTopTextOnImage(g);
+			drawBottomTextOnImage(g);
 		}
 
 	}
@@ -270,7 +284,9 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	}
 
 	private void drawTopTextOnImage(Graphics g) {
-		//Graphics2D g2d = image.createGraphics();
+		if(getEditingMode() == MODE_CREATE){
+		g = memeImage.createGraphics();
+		}
 
 		g.setFont(font);
 		fontMetrics = g.getFontMetrics();
@@ -293,7 +309,10 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	}
 	
 	private void drawBottomTextOnImage(Graphics g) {
-		//Graphics2D g2d = image.createGraphics();
+		if(getEditingMode() == MODE_CREATE){
+		g = memeImage.createGraphics();
+		}
+		
 		g.setFont(font);
 		fontMetrics = g.getFontMetrics();
 		g.setColor(fontColor);
@@ -317,6 +336,22 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 			int x = getFontPosX(fontMetrics, bottomText);
 			g.drawString(bottomText, x, y);
 		}	
+	}
+
+	/**
+	 * @return the memeImage
+	 */
+	public BufferedImage getMemeImage() {
+		return memeImage;
+	}
+
+	/**
+	 * @param memeImage the memeImage to set
+	 */
+	public void setMemeImage(BufferedImage memeImage) {
+		setEditingMode(MODE_CREATE);
+		this.memeImage = memeImage;
+		repaint();
 	}
 
 	private int getTopFontPosY(FontMetrics fontMetrics) {
