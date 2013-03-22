@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
 import javax.swing.JPanel;
 
@@ -303,7 +303,12 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		int y = getBottomFontPosY();
 		
 		if (strings.size()>1){
+			Stack<String> stack = new Stack<String>();
 			for(String line : strings){
+				stack.push(line);
+			}
+			while(!stack.isEmpty()){
+				String line = stack.pop();
 				int x = getFontPosX(fontMetrics, line);
 				g.drawString(line, x, y);
 				y = y - fontMetrics.getHeight();
