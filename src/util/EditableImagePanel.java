@@ -300,7 +300,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		
 		ArrayList<String> strings = (ArrayList<String>) StringUtils.wrap(bottomText, fontMetrics, image.getWidth());
 
-		int y = getBottomFontPosY();
+		int y = getBottomFontPosY(fontMetrics);
 		
 		if (strings.size()>1){
 			Stack<String> stack = new Stack<String>();
@@ -326,8 +326,8 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		return yPos;
 	}
 	
-	private int getBottomFontPosY() {
-		int yPos = (int) ((int) image.getHeight() - (image.getHeight() * .010));
+	private int getBottomFontPosY(FontMetrics fontMetrics) {
+		int yPos = (int) ((int) image.getHeight() - (image.getHeight() * .010) - fontMetrics.getDescent());
 		return yPos;
 	}
 
