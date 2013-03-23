@@ -375,6 +375,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	public void setTopText(String topText) {
 		this.topText = topText;
+		repaint();
 	}
 
 	/**
@@ -389,6 +390,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	public void setBottomText(String bottomText) {
 		this.bottomText = bottomText;
+		repaint();
 	}
 
 	/**

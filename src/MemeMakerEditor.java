@@ -1,5 +1,9 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -91,6 +95,7 @@ public class MemeMakerEditor extends JPanel {
 		public EditorTab() {
 			this.setLayout(null);
 			this.setPreferredSize(new Dimension(MemeMaker.WINDOW_WIDTH, MemeMaker.WINDOW_HEIGHT));
+			this.setFocusable(true);
 		}
 
 		public EditorTab(String tabTitle, BufferedImage image) {
@@ -178,5 +183,6 @@ public class MemeMakerEditor extends JPanel {
 		public void setImagePanel(EditableImagePanel imagePanel) {
 			this.imagePanel = imagePanel;
 		}
+
 	}
 }

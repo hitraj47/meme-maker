@@ -429,7 +429,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 	/**
 	 * Updates the Font the user Chooses
 	 */
-	private void updateFont(){
+	public void updateFont(){
 		String fontType = (String) comboBoxSetFont.getSelectedItem();
 		String fontSize = (String) comboBoxFontSize.getSelectedItem();
 		int size = Integer.parseInt(fontSize);
@@ -440,7 +440,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 	/**
 	 * Updates the Font Color the User Chooses
 	 */
-	private void updateFontColor() {
+	public void updateFontColor() {
 		Color fontColor = btnColorChooser.getBackground();
 		MemeMaker.getSelectedEditorTabImagePanel().setFontColor(fontColor);
 	}
@@ -458,7 +458,6 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 					updateFontColor();
 					String text = txtAreaTopLine.getText();
 					MemeMaker.getSelectedEditorTabImagePanel().setTopText(text);
-					MemeMaker.getSelectedEditorTab().repaint();
 				}
 			});timerTopLine.start();
 		}
@@ -470,7 +469,6 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 					updateFontColor();
 					String text = txtAreaBottomLine.getText();
 					MemeMaker.getSelectedEditorTabImagePanel().setBottomText(text);
-					MemeMaker.getSelectedEditorTab().repaint();
 				}
 			});timerBottomLine.start();
 		}
@@ -481,9 +479,13 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 	public void focusLost(FocusEvent arg) {
 		if(arg.getSource() == txtAreaTopLine){
 			timerTopLine.stop();
+			String text = MemeMaker.getSelectedEditorTabConfigPanel().getTxtAreaTopLine().getText();
+			MemeMaker.getSelectedEditorTabImagePanel().setTopText(text);
 		}
 		if(arg.getSource() == txtAreaBottomLine){
 			timerBottomLine.stop();
+			String text = MemeMaker.getSelectedEditorTabConfigPanel().getTxtAreaBottomLine().getText();
+			MemeMaker.getSelectedEditorTabImagePanel().setBottomText(text);
 		}	
 	}
 	
