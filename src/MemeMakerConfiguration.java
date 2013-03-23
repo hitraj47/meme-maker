@@ -403,15 +403,15 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		if(e.getSource() == btnColorChooser){
 			launchColorChooser();
 			updateFontColor();
-			MemeMaker.getSelectedEditorTabImagePanel().repaint();
+			MemeMaker.getSelectedEditorTab().repaint();
 		}
 		if(e.getSource() == comboBoxFontSize){
 			updateFont();
-			MemeMaker.getSelectedEditorTabImagePanel().repaint();
+			MemeMaker.getSelectedEditorTab().repaint();
 		}
 		if(e.getSource() == comboBoxSetFont){
 			updateFont();
-			MemeMaker.getSelectedEditorTabImagePanel().repaint();
+			MemeMaker.getSelectedEditorTab().repaint();
 		}
 	}
 
@@ -458,7 +458,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 					updateFontColor();
 					String text = txtAreaTopLine.getText();
 					MemeMaker.getSelectedEditorTabImagePanel().setTopText(text);
-					MemeMaker.getSelectedEditorTabImagePanel().repaint();
+					MemeMaker.getSelectedEditorTab().repaint();
 				}
 			});timerTopLine.start();
 		}
@@ -470,10 +470,10 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 					updateFontColor();
 					String text = txtAreaBottomLine.getText();
 					MemeMaker.getSelectedEditorTabImagePanel().setBottomText(text);
-					MemeMaker.getSelectedEditorTabImagePanel().repaint();
+					MemeMaker.getSelectedEditorTab().repaint();
 				}
 			});timerBottomLine.start();
-		} 
+		}
 
 	}
 
@@ -484,7 +484,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		}
 		if(arg.getSource() == txtAreaBottomLine){
 			timerBottomLine.stop();
-		}
+		}	
 	}
 	
 	

@@ -220,8 +220,9 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// draw the image
-		g.drawImage(image, 0, 0, null);
 
+		g.drawImage(image, 0, 0, null);
+	
 		if (getEditingMode() == MODE_CROP) {
 			drawCropBox(g);
 		} else if (getEditingMode() == MODE_TEXT) {
@@ -285,7 +286,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 
 	private void drawTopTextOnImage(Graphics g) {
 		if(getEditingMode() == MODE_CREATE){
-		g = memeImage.createGraphics();
+		g = image.createGraphics();
 		}
 
 		g.setFont(font);
@@ -295,22 +296,17 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		ArrayList<String> strings = (ArrayList<String>) StringUtils.wrap(topText, fontMetrics, image.getWidth());
 		
 		int y = getTopFontPosY(fontMetrics);
-		
-		if (strings.size()>1){
-			for(String line : strings){
-				int x = getFontPosX(fontMetrics, line);
-				g.drawString(line, x, y);
-				y = y + fontMetrics.getHeight();
-			}
-		} else {
-			int x = getFontPosX(fontMetrics, topText);
-			g.drawString(topText, x, y);
+
+		for(String line : strings){
+			int x = getFontPosX(fontMetrics, line);
+			g.drawString(line, x, y);
+			y = y + fontMetrics.getHeight();
 		}
 	}
 	
 	private void drawBottomTextOnImage(Graphics g) {
 		if(getEditingMode() == MODE_CREATE){
-		g = memeImage.createGraphics();
+		g = image.createGraphics();
 		}
 		
 		g.setFont(font);
@@ -320,22 +316,19 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		ArrayList<String> strings = (ArrayList<String>) StringUtils.wrap(bottomText, fontMetrics, image.getWidth());
 
 		int y = getBottomFontPosY(fontMetrics);
+		Stack<String> stack = new Stack<String>();
 		
-		if (strings.size()>1){
-			Stack<String> stack = new Stack<String>();
-			for(String line : strings){
-				stack.push(line);
-			}
-			while(!stack.isEmpty()){
-				String line = stack.pop();
-				int x = getFontPosX(fontMetrics, line);
-				g.drawString(line, x, y);
-				y = y - fontMetrics.getHeight();
-			}
-		} else {
-			int x = getFontPosX(fontMetrics, bottomText);
-			g.drawString(bottomText, x, y);
-		}	
+		for(String line : strings){
+			stack.push(line);
+		}
+		
+		while(!stack.isEmpty()){
+			String line = stack.pop();
+			int x = getFontPosX(fontMetrics, line);
+			g.drawString(line, x, y);
+			y = y - fontMetrics.getHeight();
+		}
+
 	}
 
 	/**
@@ -348,10 +341,8 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	/**
 	 * @param memeImage the memeImage to set
 	 */
-	public void setMemeImage(BufferedImage memeImage) {
-		setEditingMode(MODE_CREATE);
-		this.memeImage = memeImage;
-		repaint();
+	public void setMemeImage() {
+		this.memeImage = image;
 	}
 
 	private int getTopFontPosY(FontMetrics fontMetrics) {

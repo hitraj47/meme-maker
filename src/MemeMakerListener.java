@@ -44,11 +44,17 @@ public class MemeMakerListener implements ActionListener {
 			showResizePopup(MemeMaker.setupImageContainer.getImage());
 		} else if (e.getActionCommand() == MemeMaker.ACTION_SAVE) {
 			BufferedImage image = MemeMaker.getSelectedEditorTabImagePanel().getImage();
-			MemeMaker.getSelectedEditorTabImagePanel().setMemeImage(image);
+			MemeMaker.getSelectedEditorTabImagePanel().setEditingMode(EditableImagePanel.MODE_CREATE);
+			MemeMaker.getSelectedEditorTabImagePanel().setMemeImage();
 			BufferedImage meme = MemeMaker.getSelectedEditorTabImagePanel().getMemeImage();
-			boolean confirm = MemeMaker.showImagePreviewConfirmDialog(meme);
+			boolean confirm = MemeMaker.showImagePreviewConfirmDialog(image);
 			if (confirm) {
 				saveMeme();
+				MemeMaker.getSelectedEditorTabImagePanel().setEditingMode(EditableImagePanel.MODE_TEXT);
+				MemeMaker.getSelectedEditorTabImagePanel().setImage(image);				
+			} else {
+				MemeMaker.getSelectedEditorTabImagePanel().setEditingMode(EditableImagePanel.MODE_TEXT);
+				MemeMaker.getSelectedEditorTabImagePanel().setImage(image);
 			}
 		}
 	}
@@ -64,8 +70,7 @@ public class MemeMakerListener implements ActionListener {
 		int returnVal = fc.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
-				// TODO need to change to getMeme()
-				BufferedImage meme = MemeMaker.getSelectedEditorTabImagePanel().getImage();
+				BufferedImage meme = MemeMaker.getSelectedEditorTabImagePanel().getMemeImage();
 				String format = MemeMaker.getSelectedEditorTabConfigPanel().getButtonGroup().getSelection().getActionCommand();
 				File outputFile = fc.getSelectedFile();
 				String path = outputFile.getAbsolutePath();

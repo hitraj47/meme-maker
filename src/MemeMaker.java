@@ -570,6 +570,15 @@ public class MemeMaker {
 	}
 	
 	/**
+	 * Returns the specified EditorTab
+	 * @return EditorTab
+	 */
+	public static MemeMakerEditor.EditorTab getEditorTab(int index){
+		MemeMakerEditor.EditorTab editorTab = tabbedEditScreen.getEditorTabs().get(index);
+		return editorTab;
+	}
+	
+	/**
 	 * Returns the MemeMakerConfiguration Panel in the currently selected EditorTab
 	 * @return MemeMakerConfiguration Panel
 	 */
