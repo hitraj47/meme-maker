@@ -221,7 +221,9 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		super.paintComponent(g);
 		// draw the image
 
+		if(getEditingMode() != MODE_CREATE){
 		g.drawImage(image, 0, 0, null);
+		}
 	
 		if (getEditingMode() == MODE_CROP) {
 			drawCropBox(g);
@@ -286,7 +288,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 
 	private void drawTopTextOnImage(Graphics g) {
 		if(getEditingMode() == MODE_CREATE){
-		g = image.createGraphics();
+		g = memeImage.getGraphics();
 		}
 
 		g.setFont(font);
@@ -306,7 +308,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	
 	private void drawBottomTextOnImage(Graphics g) {
 		if(getEditingMode() == MODE_CREATE){
-		g = image.createGraphics();
+		g = memeImage.getGraphics();
 		}
 		
 		g.setFont(font);

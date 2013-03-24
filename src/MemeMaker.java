@@ -603,6 +603,7 @@ public class MemeMaker {
 	 */
 	public static boolean showImagePreviewConfirmDialog(BufferedImage image) {
 		EditableImagePanel resizedImagePanel = new EditableImagePanel(image);
+		resizedImagePanel.setFocusable(false);
 		Object[] confirmResizeButtons = { "Keep", "Discard" };
 		int confirm = JOptionPane.showOptionDialog(null,
 				resizedImagePanel, "Image Preview",

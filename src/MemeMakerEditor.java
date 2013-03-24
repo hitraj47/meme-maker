@@ -32,6 +32,7 @@ public class MemeMakerEditor extends JPanel {
 	 */
 	public MemeMakerEditor() {
 		tabbedPane = new JTabbedPane();
+		tabbedPane.setFocusable(false);
 		add(tabbedPane);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 	}
@@ -43,6 +44,7 @@ public class MemeMakerEditor extends JPanel {
 	 */
 	public void createTab(String title, BufferedImage image) {
 		EditorTab et = new EditorTab(title, image);
+		et.setFocusable(true);
 		editorTabs.add(et);
 		tabbedPane.addTab(et.getTabTitle(), et);
 	}
