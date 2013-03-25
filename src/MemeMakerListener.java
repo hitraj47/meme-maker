@@ -43,15 +43,19 @@ public class MemeMakerListener implements ActionListener {
 		} else if (e.getActionCommand() == MemeMaker.ACTION_RESIZE) {
 			showResizePopup(MemeMaker.setupImageContainer.getImage());
 		} else if (e.getActionCommand() == MemeMaker.ACTION_SAVE) {
-			MemeMaker.getSelectedEditorTabImagePanel().setMemeImage();
-			MemeMaker.getSelectedEditorTabImagePanel().setEditingMode(EditableImagePanel.MODE_CREATE);
-			BufferedImage meme = MemeMaker.getSelectedEditorTabImagePanel().getMemeImage();
+			EditableImagePanel edit = MemeMaker.getSelectedEditorTabImagePanel();
+			BufferedImage image = edit.getImage();
+			edit.setMemeImage(image);
+			edit.setEditingMode(EditableImagePanel.MODE_CREATE);
+			BufferedImage meme = edit.getMemeImage();
 			boolean confirm = MemeMaker.showImagePreviewConfirmDialog(meme);
 			if (confirm) {
 				saveMeme();
-				MemeMaker.getSelectedEditorTabImagePanel().setEditingMode(EditableImagePanel.MODE_TEXT);
+				edit.setEditingMode(EditableImagePanel.MODE_TEXT);
+				edit.setImage(image);				
 			} else {
-				MemeMaker.getSelectedEditorTabImagePanel().setEditingMode(EditableImagePanel.MODE_TEXT);
+				edit.setEditingMode(EditableImagePanel.MODE_TEXT);
+				edit.setImage(image);
 			}
 		}
 	}

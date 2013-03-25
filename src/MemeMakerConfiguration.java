@@ -252,6 +252,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		btnSave.setFont(LABEL_FONT);
 		btnSave.setBounds(25, 500, 75, 25);
 		btnSave.addActionListener(new MemeMakerListener());
+		btnSave.setFocusable(false);
 		
 		// Create png radio button
 		radioPng = new JRadioButton("*.png");
@@ -403,15 +404,12 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		if(e.getSource() == btnColorChooser){
 			launchColorChooser();
 			updateFontColor();
-			MemeMaker.getSelectedEditorTab().repaint();
 		}
 		if(e.getSource() == comboBoxFontSize){
 			updateFont();
-			MemeMaker.getSelectedEditorTab().repaint();
 		}
 		if(e.getSource() == comboBoxSetFont){
 			updateFont();
-			MemeMaker.getSelectedEditorTab().repaint();
 		}
 	}
 

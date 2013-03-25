@@ -6,11 +6,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -295,11 +296,11 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		fontMetrics = g.getFontMetrics();
 		g.setColor(fontColor);
 		
-		ArrayList<String> strings = (ArrayList<String>) StringUtils.wrap(topText, fontMetrics, image.getWidth());
+		ArrayList<String> topLines = (ArrayList<String>) StringUtils.wrap(getTopText(), fontMetrics, image.getWidth());
 		
 		int y = getTopFontPosY(fontMetrics);
 
-		for(String line : strings){
+		for(String line : topLines){
 			int x = getFontPosX(fontMetrics, line);
 			g.drawString(line, x, y);
 			y = y + fontMetrics.getHeight();
@@ -315,12 +316,13 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		fontMetrics = g.getFontMetrics();
 		g.setColor(fontColor);
 		
-		ArrayList<String> strings = (ArrayList<String>) StringUtils.wrap(bottomText, fontMetrics, image.getWidth());
+		
+		ArrayList<String> bottomLines = (ArrayList<String>) StringUtils.wrap(getBottomText(), fontMetrics, image.getWidth());
 
 		int y = getBottomFontPosY(fontMetrics);
 		Stack<String> stack = new Stack<String>();
 		
-		for(String line : strings){
+		for(String line : bottomLines){
 			stack.push(line);
 		}
 		
@@ -343,8 +345,11 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	/**
 	 * @param memeImage the memeImage to set
 	 */
-	public void setMemeImage() {
-		this.memeImage = image;
+	public void setMemeImage(BufferedImage image) {
+		 ColorModel cm = image.getColorModel();
+		 boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+		 WritableRaster raster = image.copyData(null);
+		 memeImage = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 	}
 
 	private int getTopFontPosY(FontMetrics fontMetrics) {
@@ -407,6 +412,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	public void setFont(Font font) {
 		this.font = font;
+		repaint();
 	}
 
 	/**
@@ -421,6 +427,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	public void setFontColor(Color fontColor) {
 		this.fontColor = fontColor;
+		repaint();
 	}
 
 	@Override
