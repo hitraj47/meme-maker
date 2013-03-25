@@ -95,7 +95,6 @@ public class MemeMakerEditor extends JPanel {
 		public EditorTab() {
 			this.setLayout(null);
 			this.setPreferredSize(new Dimension(MemeMaker.WINDOW_WIDTH, MemeMaker.WINDOW_HEIGHT));
-			this.setFocusable(true);
 		}
 
 		public EditorTab(String tabTitle, BufferedImage image) {

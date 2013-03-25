@@ -6,11 +6,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -286,13 +287,14 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 
 	private void drawTopTextOnImage(Graphics g) {
 		if(getEditingMode() == MODE_CREATE){
-		g = image.createGraphics();
+		g = memeImage.createGraphics();
 		}
 
 		g.setFont(font);
 		fontMetrics = g.getFontMetrics();
 		g.setColor(fontColor);
 		
+		@SuppressWarnings("unchecked")
 		ArrayList<String> strings = (ArrayList<String>) StringUtils.wrap(topText, fontMetrics, image.getWidth());
 		
 		int y = getTopFontPosY(fontMetrics);
@@ -306,13 +308,14 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	
 	private void drawBottomTextOnImage(Graphics g) {
 		if(getEditingMode() == MODE_CREATE){
-		g = image.createGraphics();
+		g = memeImage.createGraphics();
 		}
 		
 		g.setFont(font);
 		fontMetrics = g.getFontMetrics();
 		g.setColor(fontColor);
 		
+		@SuppressWarnings("unchecked")
 		ArrayList<String> strings = (ArrayList<String>) StringUtils.wrap(bottomText, fontMetrics, image.getWidth());
 
 		int y = getBottomFontPosY(fontMetrics);
@@ -341,8 +344,12 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	/**
 	 * @param memeImage the memeImage to set
 	 */
-	public void setMemeImage() {
-		this.memeImage = image;
+	public void setMemeImage(BufferedImage image) {
+		 ColorModel cm = image.getColorModel();
+		 boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+		 WritableRaster raster = image.copyData(null);
+		 memeImage = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+		 //repaint();
 	}
 
 	private int getTopFontPosY(FontMetrics fontMetrics) {
@@ -405,6 +412,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	public void setFont(Font font) {
 		this.font = font;
+		repaint();
 	}
 
 	/**
@@ -419,6 +427,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	public void setFontColor(Color fontColor) {
 		this.fontColor = fontColor;
+		repaint();
 	}
 
 	@Override
