@@ -287,19 +287,18 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 
 	private void drawTopTextOnImage(Graphics g) {
 		if(getEditingMode() == MODE_CREATE){
-		g = memeImage.createGraphics();
+		g = memeImage.getGraphics();
 		}
 
 		g.setFont(font);
 		fontMetrics = g.getFontMetrics();
 		g.setColor(fontColor);
 		
-		@SuppressWarnings("unchecked")
-		ArrayList<String> strings = (ArrayList<String>) StringUtils.wrap(topText, fontMetrics, image.getWidth());
+		ArrayList<String> topLines = (ArrayList<String>) StringUtils.wrap(getTopText(), fontMetrics, image.getWidth());
 		
 		int y = getTopFontPosY(fontMetrics);
 
-		for(String line : strings){
+		for(String line : topLines){
 			int x = getFontPosX(fontMetrics, line);
 			g.drawString(line, x, y);
 			y = y + fontMetrics.getHeight();
@@ -308,20 +307,20 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	
 	private void drawBottomTextOnImage(Graphics g) {
 		if(getEditingMode() == MODE_CREATE){
-		g = memeImage.createGraphics();
+		g = memeImage.getGraphics();
 		}
 		
 		g.setFont(font);
 		fontMetrics = g.getFontMetrics();
 		g.setColor(fontColor);
 		
-		@SuppressWarnings("unchecked")
-		ArrayList<String> strings = (ArrayList<String>) StringUtils.wrap(bottomText, fontMetrics, image.getWidth());
+		
+		ArrayList<String> bottomLines = (ArrayList<String>) StringUtils.wrap(getBottomText(), fontMetrics, image.getWidth());
 
 		int y = getBottomFontPosY(fontMetrics);
 		Stack<String> stack = new Stack<String>();
 		
-		for(String line : strings){
+		for(String line : bottomLines){
 			stack.push(line);
 		}
 		
@@ -349,7 +348,6 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		 boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
 		 WritableRaster raster = image.copyData(null);
 		 memeImage = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
-		 //repaint();
 	}
 
 	private int getTopFontPosY(FontMetrics fontMetrics) {

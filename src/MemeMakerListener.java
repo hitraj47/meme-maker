@@ -48,7 +48,6 @@ public class MemeMakerListener implements ActionListener {
 			edit.setMemeImage(image);
 			edit.setEditingMode(EditableImagePanel.MODE_CREATE);
 			BufferedImage meme = edit.getMemeImage();
-			
 			boolean confirm = MemeMaker.showImagePreviewConfirmDialog(meme);
 			if (confirm) {
 				saveMeme();
