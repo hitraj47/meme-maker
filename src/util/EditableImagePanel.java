@@ -221,10 +221,8 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// draw the image
-
-		if(getEditingMode() != MODE_CREATE){
 		g.drawImage(image, 0, 0, null);
-		}
+		
 	
 		if (getEditingMode() == MODE_CROP) {
 			drawCropBox(g);
@@ -273,7 +271,10 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 	 */
 	private void setCroppedImage(int x, int y, int width, int height) {
 		if (width > 0 && height > 0) {
-			croppedImage = image.getSubimage(x, y, width, height);
+			BufferedImage temp = image.getSubimage(x, y, width, height);
+			WritableRaster wr = temp.copyData ( null ) ; 
+			croppedImage = new BufferedImage ( width, height, BufferedImage.TYPE_INT_RGB ) ; 
+			croppedImage.setData (wr) ; 
 		} else {
 			croppedImage = image;
 		}

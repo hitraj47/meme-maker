@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 import util.EditableImagePanel;
@@ -617,7 +618,14 @@ public class MemeMaker {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new MemeMaker();
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				new MemeMaker();
+			}
+		});
+		
 	}
 
 }
