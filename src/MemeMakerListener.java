@@ -26,6 +26,8 @@ public class MemeMakerListener implements ActionListener {
 
 		if (e.getActionCommand() == MemeMaker.ACTION_EXIT) {
 			exit();
+		} else if( e.getActionCommand() == MemeMaker.ACTION_HOME){
+			MemeMaker.showHomeScreen();
 		} else if (e.getActionCommand() == MemeMaker.ACTION_NEW) {
 			newMeme();
 		} else if (e.getActionCommand() == MemeMaker.ACTION_ABOUT) {

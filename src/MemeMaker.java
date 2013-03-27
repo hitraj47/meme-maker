@@ -92,6 +92,16 @@ public class MemeMaker {
 	 * About the program menu item
 	 */
 	public static JMenuItem menuHelpAbout;
+	
+	/**
+	 * Show home menu item
+	 */
+	public static JMenuItem menuWindowHome;
+	
+	/**
+	 * Show instructions menu item
+	 */
+	public static JMenuItem menuWindowInstructions;
 
 	/**
 	 * The image panel that contains the image that needs to be cropped/resized
@@ -177,6 +187,11 @@ public class MemeMaker {
 	 * Action command to resize image
 	 */
 	public static final String ACTION_SAVE = "Save";
+	
+	/**
+	 * Action command to go to home screen
+	 */
+	public static final String ACTION_HOME = "Home";
 
 	/**
 	 * Minimum input image width
@@ -255,7 +270,7 @@ public class MemeMaker {
 		JMenuBar menuBar = new JMenuBar();
 
 		// Menus in menu bar
-		JMenu menuFile, menuHelp;
+		JMenu menuFile, menuHelp, menuWindow;
 
 		// Create file menu
 		menuFile = new JMenu("File");
@@ -315,6 +330,27 @@ public class MemeMaker {
 		menuHelpAbout.getAccessibleContext().setAccessibleDescription(
 				"About this program");
 		menuHelp.add(menuHelpAbout);
+		
+		// Create Window menu
+		menuWindow = new JMenu("Window");
+		menuWindow.setMnemonic(KeyEvent.VK_W);
+		menuWindow.getAccessibleContext().setAccessibleDescription("Window Menu");
+		menuWindow.addActionListener(new MemeMakerListener());
+		menuBar.add(menuWindow);
+		
+		menuWindowHome = new JMenuItem("Home Screen", KeyEvent.VK_H);
+		menuWindowHome.addActionListener(new MemeMakerListener());
+		menuWindowHome.setActionCommand(MemeMaker.ACTION_HOME);
+		menuWindowHome.getAccessibleContext().setAccessibleDescription(
+				"Return to home screen");
+		menuWindow.add(menuWindowHome);
+		
+		menuWindowInstructions = new JMenuItem("Instructions Screen", KeyEvent.VK_I);
+		menuWindowInstructions.addActionListener(new MemeMakerListener());
+		menuWindowInstructions.setActionCommand(MemeMaker.ACTION_INSTRUCTIONS);
+		menuWindowInstructions.getAccessibleContext().setAccessibleDescription(
+				"Return to Instructions screen");
+		menuWindow.add(menuWindowInstructions);
 
 		return menuBar;
 	}
@@ -538,10 +574,17 @@ public class MemeMaker {
 	}
 
 	/**
-	 * Shows the Instruction Screen
+	 * Shows the Instructions Screen
 	 */
 	public static void showInstructionsScreen() {
 		layout.show(frame.getContentPane(), SCREEN_INSTRUCTIONS);
+	}
+	
+	/**
+	 * Shows the Home Screen
+	 */
+	public static void showHomeScreen() {
+		layout.show(frame.getContentPane(), SCREEN_HOME);
 	}
 
 	/**
@@ -627,5 +670,7 @@ public class MemeMaker {
 		});
 		
 	}
+
+
 
 }
