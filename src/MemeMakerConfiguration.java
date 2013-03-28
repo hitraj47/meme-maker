@@ -248,7 +248,7 @@ public class MemeMakerConfiguration extends JPanel implements ActionListener,
 		comboBoxFontSize.addActionListener(this);
 	
 		// Create the save button
-		btnSave = new JButton("Save");
+		btnSave = new JButton(MemeMaker.ACTION_SAVE);
 		btnSave.setFont(LABEL_FONT);
 		btnSave.setBounds(25, 500, 75, 25);
 		btnSave.addActionListener(new MemeMakerListener());
