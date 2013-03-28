@@ -92,12 +92,12 @@ public class MemeMaker {
 	 * About the program menu item
 	 */
 	public static JMenuItem menuHelpAbout;
-	
+
 	/**
 	 * Show home menu item
 	 */
 	public static JMenuItem menuWindowHome;
-	
+
 	/**
 	 * Show instructions menu item
 	 */
@@ -112,12 +112,12 @@ public class MemeMaker {
 	 * The instructions label when cropping an image
 	 */
 	public static JLabel lblCropInstructions;
-	
+
 	/**
 	 * Button on the Home screen to create a new Meme.
 	 */
 	public static JButton btnHomeNewMeme;
-	
+
 	/**
 	 * Button on the Home screen to view Instructions panel.
 	 */
@@ -127,7 +127,7 @@ public class MemeMaker {
 	 * Button that will set the cropped image as the editor image
 	 */
 	public static JButton btnCrop;
-	
+
 	/**
 	 * Button to resize setup image
 	 */
@@ -177,17 +177,17 @@ public class MemeMaker {
 	 * Action command to crop image
 	 */
 	public static final String ACTION_CROP = "Crop";
-	
+
 	/**
 	 * Action command to resize image
 	 */
 	public static final String ACTION_RESIZE = "Resize Image";
-	
+
 	/**
 	 * Action command to resize image
 	 */
 	public static final String ACTION_SAVE = "Save";
-	
+
 	/**
 	 * Action command to go to home screen
 	 */
@@ -257,13 +257,13 @@ public class MemeMaker {
 			BufferedImage image = ImageIO.read(new File("res/images/logo.jpg"));
 			frame.setIconImage(image);
 		} catch (IOException e) {
-			System.out
-					.println("ERROR: Could not load logo.");
+			System.out.println("ERROR: Could not load logo.");
 		}
 	}
-	
+
 	/**
 	 * Creates the MenuBar
+	 * 
 	 * @return
 	 */
 	private JMenuBar createMenuBar() {
@@ -295,14 +295,14 @@ public class MemeMaker {
 		menuFileExportJPG = new JMenuItem("Export as JPEG", KeyEvent.VK_J);
 		menuFileExportJPG.getAccessibleContext().setAccessibleDescription(
 				"Save the meme as a .jpg image");
-		//menuFileExportJPG.setActionCommand(ACTION_SAVE);
+		// menuFileExportJPG.setActionCommand(ACTION_SAVE);
 		menuFileExportJPG.addActionListener(new MemeMakerListener());
 		menuFileExport.add(menuFileExportJPG);
 
 		menuFileExportPNG = new JMenuItem("Export as PNG", KeyEvent.VK_P);
 		menuFileExportPNG.getAccessibleContext().setAccessibleDescription(
 				"Save the image as a .png image");
-		//menuFileExportPNG.setActionCommand(ACTION_SAVE);
+		// menuFileExportPNG.setActionCommand(ACTION_SAVE);
 		menuFileExportPNG.addActionListener(new MemeMakerListener());
 		menuFileExport.add(menuFileExportPNG);
 
@@ -311,6 +311,29 @@ public class MemeMaker {
 		menuFileExit.getAccessibleContext().setAccessibleDescription(
 				"Exit the program");
 		menuFile.add(menuFileExit);
+
+		// Create Window menu
+		menuWindow = new JMenu("Window");
+		menuWindow.setMnemonic(KeyEvent.VK_W);
+		menuWindow.getAccessibleContext().setAccessibleDescription(
+				"Window Menu");
+		menuWindow.addActionListener(new MemeMakerListener());
+		menuBar.add(menuWindow);
+
+		menuWindowHome = new JMenuItem("Home Screen", KeyEvent.VK_H);
+		menuWindowHome.addActionListener(new MemeMakerListener());
+		menuWindowHome.setActionCommand(MemeMaker.ACTION_HOME);
+		menuWindowHome.getAccessibleContext().setAccessibleDescription(
+				"Return to home screen");
+		menuWindow.add(menuWindowHome);
+
+		menuWindowInstructions = new JMenuItem("Instructions Screen",
+				KeyEvent.VK_I);
+		menuWindowInstructions.addActionListener(new MemeMakerListener());
+		menuWindowInstructions.setActionCommand(MemeMaker.ACTION_INSTRUCTIONS);
+		menuWindowInstructions.getAccessibleContext().setAccessibleDescription(
+				"Return to Instructions screen");
+		menuWindow.add(menuWindowInstructions);
 
 		// create help menu
 		menuHelp = new JMenu("Help");
@@ -330,33 +353,12 @@ public class MemeMaker {
 		menuHelpAbout.getAccessibleContext().setAccessibleDescription(
 				"About this program");
 		menuHelp.add(menuHelpAbout);
-		
-		// Create Window menu
-		menuWindow = new JMenu("Window");
-		menuWindow.setMnemonic(KeyEvent.VK_W);
-		menuWindow.getAccessibleContext().setAccessibleDescription("Window Menu");
-		menuWindow.addActionListener(new MemeMakerListener());
-		menuBar.add(menuWindow);
-		
-		menuWindowHome = new JMenuItem("Home Screen", KeyEvent.VK_H);
-		menuWindowHome.addActionListener(new MemeMakerListener());
-		menuWindowHome.setActionCommand(MemeMaker.ACTION_HOME);
-		menuWindowHome.getAccessibleContext().setAccessibleDescription(
-				"Return to home screen");
-		menuWindow.add(menuWindowHome);
-		
-		menuWindowInstructions = new JMenuItem("Instructions Screen", KeyEvent.VK_I);
-		menuWindowInstructions.addActionListener(new MemeMakerListener());
-		menuWindowInstructions.setActionCommand(MemeMaker.ACTION_INSTRUCTIONS);
-		menuWindowInstructions.getAccessibleContext().setAccessibleDescription(
-				"Return to Instructions screen");
-		menuWindow.add(menuWindowInstructions);
 
 		return menuBar;
 	}
 
 	/**
-	 * Creates the GUI Components 
+	 * Creates the GUI Components
 	 */
 	private void createGuiComponenets() {
 		pnlHome = createHomeScreen();
@@ -367,28 +369,29 @@ public class MemeMaker {
 
 	/**
 	 * Creates the HomeScreen
+	 * 
 	 * @return
 	 */
-	private JPanel createHomeScreen(){
+	private JPanel createHomeScreen() {
 		JPanel homePanel = new JPanel();
 		homePanel.setLayout(null);
 		homePanel.setBackground(Color.WHITE);
-		
+
 		// Create logo
 		JLabel lblLogo = new JLabel(new ImageIcon("res/images/logo.jpg"));
-		lblLogo.setBounds(25, 10, 610,610);
-		
+		lblLogo.setBounds(25, 10, 610, 610);
+
 		// Create welcome
 		JLabel welcome = new JLabel("Welcome");
 		welcome.setFont(new Font("Arial", Font.PLAIN, 64));
 		welcome.setForeground(Color.BLACK);
-		welcome.setBounds(800,150, 300, 100);
-		
+		welcome.setBounds(800, 150, 300, 100);
+
 		// Create Separator
 		JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
 		separator.setBackground(Color.BLACK);
 		separator.setBounds(635, 100, 10, 450);
-		
+
 		// Create NewMeme Button
 		btnHomeNewMeme = new JButton("New Meme");
 		btnHomeNewMeme.setBackground(Color.BLACK);
@@ -400,26 +403,30 @@ public class MemeMaker {
 		btnHomeNewMeme.addMouseListener(new MouseListener() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				btnHomeNewMeme.setBackground(Color.BLACK);	
-			}	
+				btnHomeNewMeme.setBackground(Color.BLACK);
+			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
-				btnHomeNewMeme.setBackground(Color.BLACK);	
-			}	
+				btnHomeNewMeme.setBackground(Color.BLACK);
+			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnHomeNewMeme.setBackground(Color.RED);
 			}
+
 			@Override
-			public void mouseClicked(MouseEvent e) {	
+			public void mouseClicked(MouseEvent e) {
 			}
+
 			@Override
-			public void mouseReleased(MouseEvent e) {	
+			public void mouseReleased(MouseEvent e) {
 			}
 
 		});
 		btnHomeNewMeme.addActionListener(new MemeMakerListener());
-		
+
 		// Create Instructions Button
 		btnHomeInstructions = new JButton("Instructions");
 		btnHomeInstructions.setBackground(Color.BLACK);
@@ -429,34 +436,34 @@ public class MemeMaker {
 		btnHomeInstructions.setFont(new Font("Arial", Font.PLAIN, 32));
 		btnHomeInstructions.setBounds(830, 325, 225, 35);
 		btnHomeInstructions.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
-				btnHomeInstructions.setBackground(Color.BLACK);	
+				btnHomeInstructions.setBackground(Color.BLACK);
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				btnHomeInstructions.setBackground(Color.BLACK);
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnHomeInstructions.setBackground(Color.RED);
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
 			}
 		});
 		btnHomeInstructions.addActionListener(new MemeMakerListener());
-		
+
 		// Add components to panel
 		homePanel.add(lblLogo);
 		homePanel.add(welcome);
@@ -465,9 +472,10 @@ public class MemeMaker {
 		homePanel.add(btnHomeInstructions);
 		return homePanel;
 	}
-	
+
 	/**
 	 * Creates the Instructions Screen
+	 * 
 	 * @return
 	 */
 	private JPanel createInstructionsSreen() {
@@ -505,7 +513,8 @@ public class MemeMaker {
 	}
 
 	/**
-	 * Shows the setup Screen 
+	 * Shows the setup Screen
+	 * 
 	 * @param inputImage
 	 */
 	public static void showSetupScreen(BufferedImage inputImage) {
@@ -551,7 +560,7 @@ public class MemeMaker {
 		btnCrop.setEnabled(false);
 		btnCrop.addActionListener(new MemeMakerListener());
 		pnlCrop.add(btnCrop);
-		
+
 		btnResize = new JButton(ACTION_RESIZE);
 		btnResize.addActionListener(new MemeMakerListener());
 		pnlCrop.add(btnResize);
@@ -561,14 +570,15 @@ public class MemeMaker {
 
 	/**
 	 * Shows the EditScreen
+	 * 
 	 * @param image
 	 */
 	public static void showEditScreen(BufferedImage image) {
 		String title = "Meme ";
-		
-		for (int i=1;i<=3;i++) {
+
+		for (int i = 1; i <= 3; i++) {
 			tabbedEditScreen.createTab(title + i, image);
-			
+
 		}
 		layout.show(frame.getContentPane(), SCREEN_EDIT);
 	}
@@ -579,7 +589,7 @@ public class MemeMaker {
 	public static void showInstructionsScreen() {
 		layout.show(frame.getContentPane(), SCREEN_INSTRUCTIONS);
 	}
-	
+
 	/**
 	 * Shows the Home Screen
 	 */
@@ -602,59 +612,69 @@ public class MemeMaker {
 		return (image.getWidth() >= INPUT_IMAGE_MIN_WIDTH)
 				&& (image.getHeight() >= INPUT_IMAGE_MIN_HEIGHT);
 	}
-	
+
 	/**
 	 * Returns the currently selected EditorTab
+	 * 
 	 * @return EditorTab
 	 */
-	public static MemeMakerEditor.EditorTab getSelectedEditorTab(){
+	public static MemeMakerEditor.EditorTab getSelectedEditorTab() {
 		int index = tabbedEditScreen.getTabbedPane().getSelectedIndex();
-		MemeMakerEditor.EditorTab editorTab = tabbedEditScreen.getEditorTabs().get(index);
+		MemeMakerEditor.EditorTab editorTab = tabbedEditScreen.getEditorTabs()
+				.get(index);
 		return editorTab;
 	}
-	
+
 	/**
 	 * Returns the specified EditorTab
+	 * 
 	 * @return EditorTab
 	 */
-	public static MemeMakerEditor.EditorTab getEditorTab(int index){
-		MemeMakerEditor.EditorTab editorTab = tabbedEditScreen.getEditorTabs().get(index);
+	public static MemeMakerEditor.EditorTab getEditorTab(int index) {
+		MemeMakerEditor.EditorTab editorTab = tabbedEditScreen.getEditorTabs()
+				.get(index);
 		return editorTab;
 	}
-	
+
 	/**
-	 * Returns the MemeMakerConfiguration Panel in the currently selected EditorTab
+	 * Returns the MemeMakerConfiguration Panel in the currently selected
+	 * EditorTab
+	 * 
 	 * @return MemeMakerConfiguration Panel
 	 */
-	public static MemeMakerConfiguration getSelectedEditorTabConfigPanel(){
-		MemeMakerConfiguration config = MemeMaker.getSelectedEditorTab().getConfigPanel();
+	public static MemeMakerConfiguration getSelectedEditorTabConfigPanel() {
+		MemeMakerConfiguration config = MemeMaker.getSelectedEditorTab()
+				.getConfigPanel();
 		return config;
 	}
-	
+
 	/**
 	 * Returns the EditableImagePanel in the currently selected EditorTab
+	 * 
 	 * @return EditableImagePanel
 	 */
-	public static EditableImagePanel getSelectedEditorTabImagePanel(){
-		EditableImagePanel imagePanel = MemeMaker.getSelectedEditorTab().getImagePanel();
+	public static EditableImagePanel getSelectedEditorTabImagePanel() {
+		EditableImagePanel imagePanel = MemeMaker.getSelectedEditorTab()
+				.getImagePanel();
 		return imagePanel;
 	}
-	
+
 	/**
 	 * Show a popup of an image. Returns true if the user wants to keep it
-	 * @param image The image to be previewed
+	 * 
+	 * @param image
+	 *            The image to be previewed
 	 * @return true if the user wants to keep
 	 */
 	public static boolean showImagePreviewConfirmDialog(BufferedImage image) {
 		EditableImagePanel resizedImagePanel = new EditableImagePanel(image);
 		resizedImagePanel.setFocusable(false);
 		Object[] confirmResizeButtons = { "Keep", "Discard" };
-		int confirm = JOptionPane.showOptionDialog(null,
-				resizedImagePanel, "Image Preview",
-				JOptionPane.OK_CANCEL_OPTION,
+		int confirm = JOptionPane.showOptionDialog(null, resizedImagePanel,
+				"Image Preview", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE, null, confirmResizeButtons,
 				confirmResizeButtons[0]);
-		return (confirm==0) ? true : false;
+		return (confirm == 0) ? true : false;
 	}
 
 	/**
@@ -662,15 +682,13 @@ public class MemeMaker {
 	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				new MemeMaker();
 			}
 		});
-		
+
 	}
-
-
 
 }
