@@ -280,7 +280,7 @@ public class MemeMaker {
 		menuBar.add(menuFile);
 
 		// File menu items
-		menuFileNew = new JMenuItem("New Meme", KeyEvent.VK_N);
+		menuFileNew = new JMenuItem(ACTION_NEW, KeyEvent.VK_N);
 		menuFileNew.addActionListener(new MemeMakerListener());
 		menuFileNew.getAccessibleContext().setAccessibleDescription(
 				"Create a new meme from an image");
@@ -393,7 +393,7 @@ public class MemeMaker {
 		separator.setBounds(635, 100, 10, 450);
 
 		// Create NewMeme Button
-		btnHomeNewMeme = new JButton("New Meme");
+		btnHomeNewMeme = new JButton(ACTION_NEW);
 		btnHomeNewMeme.setBackground(Color.BLACK);
 		btnHomeNewMeme.setForeground(Color.WHITE);
 		btnHomeNewMeme.setFocusPainted(false);
