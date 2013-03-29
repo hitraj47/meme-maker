@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
 import util.EditableImagePanel;
 import util.MultipleFileExtensionFilter;
 
@@ -26,7 +25,7 @@ public class MemeMakerListener implements ActionListener {
 
 		if (e.getActionCommand() == MemeMaker.ACTION_EXIT) {
 			exit();
-		} else if( e.getActionCommand() == MemeMaker.ACTION_HOME){
+		} else if (e.getActionCommand() == MemeMaker.ACTION_HOME) {
 			MemeMaker.showHomeScreen();
 		} else if (e.getActionCommand() == MemeMaker.ACTION_NEW) {
 			newMeme();
@@ -45,24 +44,19 @@ public class MemeMakerListener implements ActionListener {
 		} else if (e.getActionCommand() == MemeMaker.ACTION_RESIZE) {
 			showResizePopup(MemeMaker.setupImageContainer.getImage());
 		} else if (e.getActionCommand() == MemeMaker.ACTION_SAVE) {
-			EditableImagePanel edit = MemeMaker.getSelectedEditorTabImagePanel();
+			EditableImagePanel edit = MemeMaker
+					.getSelectedEditorTabImagePanel();
 			BufferedImage image = edit.getImage();
 			edit.setMemeImage(image);
 			edit.setEditingMode(EditableImagePanel.MODE_CREATE);
-			BufferedImage meme = edit.getMemeImage();
-			boolean confirm = MemeMaker.showImagePreviewConfirmDialog(meme);
-			if (confirm) {
-				saveMeme();
-				edit.setEditingMode(EditableImagePanel.MODE_TEXT);
-				edit.setImage(image);				
-			} else {
-				edit.setEditingMode(EditableImagePanel.MODE_TEXT);
-				edit.setImage(image);
-			}
+			saveMeme();
+			edit.setEditingMode(EditableImagePanel.MODE_TEXT);
+			edit.setImage(image);
 		}
 	}
 
 	private void saveMeme() {
+		//TODO: change extension description based on selected file type
 		JFileChooser fc = new JFileChooser();
 		String extensionDescription = "Image File (*.jpeg, *.jpg, *.png)";
 		String[] extensions = { "jpg", "jpeg", "png" };
@@ -73,12 +67,14 @@ public class MemeMakerListener implements ActionListener {
 		int returnVal = fc.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
-				BufferedImage meme = MemeMaker.getSelectedEditorTabImagePanel().getMemeImage();
-				String format = MemeMaker.getSelectedEditorTabConfigPanel().getButtonGroup().getSelection().getActionCommand();
+				BufferedImage meme = MemeMaker.getSelectedEditorTabImagePanel()
+						.getMemeImage();
+				String format = MemeMaker.getSelectedEditorTabConfigPanel()
+						.getButtonGroup().getSelection().getActionCommand();
 				File outputFile = fc.getSelectedFile();
 				String path = outputFile.getAbsolutePath();
-				if(path.contains(".")){
-				int index = path.lastIndexOf(".");
+				if (path.contains(".")) {
+					int index = path.lastIndexOf(".");
 					path = path.substring(0, index) + "." + format;
 				} else {
 					path = path + "." + format;
