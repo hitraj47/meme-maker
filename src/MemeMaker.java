@@ -254,7 +254,8 @@ public class MemeMaker {
 	 */
 	private void setFrameIcon() {
 		try {
-			BufferedImage image = ImageIO.read(new File("res/images/logo.jpg"));
+			BufferedImage image = ImageIO.read(MemeMaker.class.getClass()
+					.getResource("/res/images/logo.jpg"));
 			frame.setIconImage(image);
 		} catch (IOException e) {
 			System.out.println("ERROR: Could not load logo.");
@@ -378,7 +379,8 @@ public class MemeMaker {
 		homePanel.setBackground(Color.WHITE);
 
 		// Create logo
-		JLabel lblLogo = new JLabel(new ImageIcon("res/images/logo.jpg"));
+		JLabel lblLogo = new JLabel(new ImageIcon(MemeMaker.class.getClass()
+				.getResource("/res/images/logo.jpg")));
 		lblLogo.setBounds(25, 10, 610, 610);
 
 		// Create welcome
