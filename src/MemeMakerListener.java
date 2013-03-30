@@ -35,7 +35,7 @@ public class MemeMakerListener implements ActionListener, WindowListener {
 			showAboutDialog();
 		} else if (e.getActionCommand() == MemeMaker.ACTION_INSTRUCTIONS) {
 			MemeMaker.showInstructionsScreen();
-		} else if (e.getActionCommand() == MemeMaker.ACTION_EDIT){
+		} else if (e.getActionCommand() == MemeMaker.ACTION_EDIT) {
 			MemeMaker.showEditScreen();
 		} else if (e.getActionCommand() == MemeMaker.ACTION_CROP) {
 			BufferedImage croppedImage = MemeMaker.setupImageContainer
@@ -48,19 +48,18 @@ public class MemeMakerListener implements ActionListener, WindowListener {
 		} else if (e.getActionCommand() == MemeMaker.ACTION_RESIZE) {
 			showResizePopup(MemeMaker.setupImageContainer.getImage());
 		} else if (e.getActionCommand() == MemeMaker.ACTION_SAVE) {
-				String format = MemeMaker.getSelectedEditorTabConfigPanel()
+			String format = MemeMaker.getSelectedEditorTabConfigPanel()
 					.getButtonGroup().getSelection().getActionCommand();
-				saveMeme(format);
-		} else if (e.getActionCommand() == MemeMaker.ACTION_SAVE_JPG){
-				saveMeme(MemeMaker.ACTION_SAVE_JPG);
-		} else  if (e.getActionCommand() == MemeMaker.ACTION_SAVE_PNG){
+			saveMeme(format);
+		} else if (e.getActionCommand() == MemeMaker.ACTION_SAVE_JPG) {
+			saveMeme(MemeMaker.ACTION_SAVE_JPG);
+		} else if (e.getActionCommand() == MemeMaker.ACTION_SAVE_PNG) {
 			saveMeme(MemeMaker.ACTION_SAVE_PNG);
 		}
 	}
 
 	private void saveMeme(String format) {
-		EditableImagePanel edit = MemeMaker
-				.getSelectedEditorTabImagePanel();
+		EditableImagePanel edit = MemeMaker.getSelectedEditorTabImagePanel();
 		BufferedImage image = edit.getImage();
 		edit.setMemeImage(image);
 		edit.setEditingMode(EditableImagePanel.MODE_CREATE);
@@ -87,11 +86,13 @@ public class MemeMakerListener implements ActionListener, WindowListener {
 				outputFile = new File(path);
 
 				ImageIO.write(meme, format, outputFile);
+				
+				MemeMaker.saved = true;
 
 			} catch (IOException e) {
 				System.err.println("Could not save image file: "
 						+ fc.getSelectedFile().getAbsolutePath());
-			} finally{
+			} finally {
 				edit.setEditingMode(EditableImagePanel.MODE_TEXT);
 			}
 
@@ -265,16 +266,28 @@ public class MemeMakerListener implements ActionListener, WindowListener {
 	}
 
 	private void exit() {
-		// TODO: check if user has file loaded, if so, ask about exiting,
-		// otherwise just exit
-		// for now just exit the program
-		System.exit(0);
+		if (MemeMaker.tabbedEditScreen.isVisible() && !MemeMaker.saved) {
+			int result = JOptionPane
+					.showConfirmDialog(
+							null,
+							"Your meme has not been saved, would you like to save before exiting?",
+							"Confirm Exit", JOptionPane.YES_NO_CANCEL_OPTION);
+			if (result == JOptionPane.YES_OPTION) {
+				String format = MemeMaker.getSelectedEditorTabConfigPanel()
+						.getButtonGroup().getSelection().getActionCommand();
+				saveMeme(format);
+			} else if (result == JOptionPane.NO_OPTION) {
+				System.exit(0);
+			}
+		} else {
+			System.exit(0);
+		}
 	}
 
 	/*
-	 * WindowListener methods 
+	 * WindowListener methods
 	 */
-	
+
 	@Override
 	public void windowActivated(WindowEvent arg0) {
 	}

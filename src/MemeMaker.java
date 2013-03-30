@@ -7,8 +7,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -132,6 +130,16 @@ public class MemeMaker {
 	 * Button to resize setup image
 	 */
 	public static JButton btnResize;
+	
+	/**
+	 * To check if image has been imported
+	 */
+	public static boolean imported = false;
+	
+	/**
+	 * To Check if image has been saved
+	 */
+	public static boolean saved = false;
 
 	/**
 	 * String constant for home/welcome screen
@@ -209,16 +217,6 @@ public class MemeMaker {
 	public static final String ACTION_HOME = "Home";
 	
 	/**
-	 * To check if image has been imported
-	 */
-	public static boolean imported = false;
-	
-	/**
-	 * To Check if image has been saved
-	 */
-	public static boolean saved = false;
-
-	/**
 	 * Minimum input image width
 	 */
 	public static final int INPUT_IMAGE_MIN_WIDTH = 400;
@@ -260,7 +258,7 @@ public class MemeMaker {
 		frame = new JFrame(APPLICATION_TITLE);
 		layout = new CardLayout();
 		frame.setLayout(layout);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new MemeMakerListener());
 		frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		frame.setLocationRelativeTo(null);
@@ -593,6 +591,9 @@ public class MemeMaker {
 		pnlCrop.add(btnResize);
 
 		layout.show(frame.getContentPane(), SCREEN_SETUP);
+		
+		// An image has been imported
+		imported = true;
 	}
 
 	/**
