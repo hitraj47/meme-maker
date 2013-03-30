@@ -7,8 +7,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -132,6 +130,11 @@ public class MemeMaker {
 	 * Button to resize setup image
 	 */
 	public static JButton btnResize;
+	
+	/**
+	 * To Check if image has been saved once
+	 */
+	public static boolean saved = false;
 
 	/**
 	 * String constant for home/welcome screen
@@ -209,16 +212,6 @@ public class MemeMaker {
 	public static final String ACTION_HOME = "Home";
 	
 	/**
-	 * To check if image has been imported
-	 */
-	public static boolean imported = false;
-	
-	/**
-	 * To Check if image has been saved
-	 */
-	public static boolean saved = false;
-
-	/**
 	 * Minimum input image width
 	 */
 	public static final int INPUT_IMAGE_MIN_WIDTH = 400;
@@ -260,7 +253,8 @@ public class MemeMaker {
 		frame = new JFrame(APPLICATION_TITLE);
 		layout = new CardLayout();
 		frame.setLayout(layout);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.addWindowListener(new MemeMakerListener());
 		frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
@@ -279,7 +273,8 @@ public class MemeMaker {
 	 */
 	private void setFrameIcon() {
 		try {
-			BufferedImage image = ImageIO.read(new File("res/images/logo.jpg"));
+			BufferedImage image = ImageIO.read(MemeMaker.class.getClass()
+					.getResource("/res/images/logo.jpg"));
 			frame.setIconImage(image);
 		} catch (IOException e) {
 			System.out.println("ERROR: Could not load logo.");
@@ -405,7 +400,8 @@ public class MemeMaker {
 		homePanel.setBackground(Color.WHITE);
 
 		// Create logo
-		JLabel lblLogo = new JLabel(new ImageIcon("res/images/logo.jpg"));
+		JLabel lblLogo = new JLabel(new ImageIcon(MemeMaker.class.getClass()
+				.getResource("/res/images/logo.jpg")));
 		lblLogo.setBounds(25, 10, 610, 610);
 
 		// Create welcome
@@ -526,13 +522,10 @@ public class MemeMaker {
 		javax.swing.text.Document doc = kit.createDefaultDocument();
 		editorPane.setDocument(doc);
 		String html = "";
-		try {
-			Scanner s = new Scanner(new File("docs/instructions.html"));
-			while (s.hasNextLine()) {
-				html += s.nextLine();
-			}
-		} catch (FileNotFoundException e) {
-			System.err.println("Could not open file instructions file.");
+		Scanner s = new Scanner(MemeMaker.class.getClassLoader()
+				.getResourceAsStream("docs/instructions.html"));
+		while (s.hasNextLine()) {
+			html += s.nextLine();
 		}
 		editorPane.setText(html);
 
@@ -593,6 +586,7 @@ public class MemeMaker {
 		pnlCrop.add(btnResize);
 
 		layout.show(frame.getContentPane(), SCREEN_SETUP);
+		
 	}
 
 	/**
