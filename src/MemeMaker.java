@@ -236,6 +236,7 @@ public class MemeMaker {
 		layout = new CardLayout();
 		frame.setLayout(layout);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.addWindowListener(new MemeMakerListener());
 		frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);

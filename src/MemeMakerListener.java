@@ -2,6 +2,8 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +20,7 @@ import javax.swing.JTextField;
 import util.EditableImagePanel;
 import util.MultipleFileExtensionFilter;
 
-public class MemeMakerListener implements ActionListener {
+public class MemeMakerListener implements ActionListener, WindowListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -262,6 +264,39 @@ public class MemeMakerListener implements ActionListener {
 		// otherwise just exit
 		// for now just exit the program
 		System.exit(0);
+	}
+
+	/*
+	 * WindowListener methods 
+	 */
+	
+	@Override
+	public void windowActivated(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowClosed(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowClosing(WindowEvent arg0) {
+		exit();
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowIconified(WindowEvent arg0) {
+	}
+
+	@Override
+	public void windowOpened(WindowEvent arg0) {
 	}
 
 }
