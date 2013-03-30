@@ -132,12 +132,7 @@ public class MemeMaker {
 	public static JButton btnResize;
 	
 	/**
-	 * To check if image has been imported
-	 */
-	public static boolean imported = false;
-	
-	/**
-	 * To Check if image has been saved
+	 * To Check if image has been saved once
 	 */
 	public static boolean saved = false;
 
@@ -592,8 +587,6 @@ public class MemeMaker {
 
 		layout.show(frame.getContentPane(), SCREEN_SETUP);
 		
-		// An image has been imported
-		imported = true;
 	}
 
 	/**
