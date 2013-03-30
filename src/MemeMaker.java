@@ -501,13 +501,10 @@ public class MemeMaker {
 		javax.swing.text.Document doc = kit.createDefaultDocument();
 		editorPane.setDocument(doc);
 		String html = "";
-		try {
-			Scanner s = new Scanner(new File("docs/instructions.html"));
-			while (s.hasNextLine()) {
-				html += s.nextLine();
-			}
-		} catch (FileNotFoundException e) {
-			System.err.println("Could not open file instructions file.");
+		Scanner s = new Scanner(MemeMaker.class.getClassLoader()
+				.getResourceAsStream("docs/instructions.html"));
+		while (s.hasNextLine()) {
+			html += s.nextLine();
 		}
 		editorPane.setText(html);
 
