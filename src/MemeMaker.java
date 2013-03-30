@@ -97,11 +97,11 @@ public class MemeMaker {
 	 * Show home menu item
 	 */
 	public static JMenuItem menuWindowHome;
-
+	
 	/**
-	 * Show instructions menu item
+	 * Show Edit menu item
 	 */
-	public static JMenuItem menuWindowInstructions;
+	public static JMenuItem menuWindowEdit;
 
 	/**
 	 * The image panel that contains the image that needs to be cropped/resized
@@ -167,6 +167,11 @@ public class MemeMaker {
 	 * Action command for instructions screen
 	 */
 	public static final String ACTION_INSTRUCTIONS = "Instructions";
+	
+	/**
+	 * Action command for edit screen
+	 */
+	public static final String ACTION_EDIT = "Edit";
 
 	/**
 	 * Action command for displaying information about the program
@@ -184,14 +189,34 @@ public class MemeMaker {
 	public static final String ACTION_RESIZE = "Resize Image";
 
 	/**
-	 * Action command to resize image
+	 * Action command to save image
 	 */
 	public static final String ACTION_SAVE = "Save";
+	
+	/**
+	 * Action command to save image as jpg from jmenu
+	 */
+	public static final String ACTION_SAVE_JPG = "jpg";
+	
+	/**
+	 * Action command to save image as png from jmenu
+	 */
+	public static final String ACTION_SAVE_PNG = "png";
 
 	/**
 	 * Action command to go to home screen
 	 */
 	public static final String ACTION_HOME = "Home";
+	
+	/**
+	 * To check if image has been imported
+	 */
+	public static boolean imported = false;
+	
+	/**
+	 * To Check if image has been saved
+	 */
+	public static boolean saved = false;
 
 	/**
 	 * Minimum input image width
@@ -292,17 +317,19 @@ public class MemeMaker {
 				"Save the meme as an image");
 		menuFile.add(menuFileExport);
 
-		menuFileExportJPG = new JMenuItem("Export as JPEG", KeyEvent.VK_J);
+		menuFileExportJPG = new JMenuItem("Export as JPG", KeyEvent.VK_J);
 		menuFileExportJPG.getAccessibleContext().setAccessibleDescription(
 				"Save the meme as a .jpg image");
-		// menuFileExportJPG.setActionCommand(ACTION_SAVE);
+		menuFileExportJPG.setActionCommand(ACTION_SAVE_JPG);
+		menuFileExportJPG.setEnabled(false);
 		menuFileExportJPG.addActionListener(new MemeMakerListener());
 		menuFileExport.add(menuFileExportJPG);
 
 		menuFileExportPNG = new JMenuItem("Export as PNG", KeyEvent.VK_P);
 		menuFileExportPNG.getAccessibleContext().setAccessibleDescription(
 				"Save the image as a .png image");
-		// menuFileExportPNG.setActionCommand(ACTION_SAVE);
+		menuFileExportPNG.setEnabled(false);
+		menuFileExportPNG.setActionCommand(ACTION_SAVE_PNG);
 		menuFileExportPNG.addActionListener(new MemeMakerListener());
 		menuFileExport.add(menuFileExportPNG);
 
@@ -326,14 +353,14 @@ public class MemeMaker {
 		menuWindowHome.getAccessibleContext().setAccessibleDescription(
 				"Return to home screen");
 		menuWindow.add(menuWindowHome);
-
-		menuWindowInstructions = new JMenuItem("Instructions Screen",
-				KeyEvent.VK_I);
-		menuWindowInstructions.addActionListener(new MemeMakerListener());
-		menuWindowInstructions.setActionCommand(MemeMaker.ACTION_INSTRUCTIONS);
-		menuWindowInstructions.getAccessibleContext().setAccessibleDescription(
-				"Return to Instructions screen");
-		menuWindow.add(menuWindowInstructions);
+		
+		menuWindowEdit = new JMenuItem("Edit Screen", KeyEvent.VK_E);
+		menuWindowEdit.addActionListener(new MemeMakerListener());
+		menuWindowEdit.setActionCommand(MemeMaker.ACTION_EDIT);
+		menuWindowEdit.setEnabled(false);
+		menuWindowEdit.getAccessibleContext().setAccessibleDescription(
+				"Return to edit screen");
+		menuWindow.add(menuWindowEdit);
 
 		// create help menu
 		menuHelp = new JMenu("Help");
@@ -580,6 +607,16 @@ public class MemeMaker {
 			tabbedEditScreen.createTab(title + i, image);
 
 		}
+		layout.show(frame.getContentPane(), SCREEN_EDIT);
+		menuWindowEdit.setEnabled(true);
+		menuFileExportJPG.setEnabled(true);
+		menuFileExportPNG.setEnabled(true);
+	}
+	
+	/**
+	 * Shows the edit screen after an image has already been imported 
+	 */
+	public static void showEditScreen(){
 		layout.show(frame.getContentPane(), SCREEN_EDIT);
 	}
 

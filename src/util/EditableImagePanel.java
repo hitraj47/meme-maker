@@ -288,6 +288,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		return croppedImage;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void drawTopTextOnImage(Graphics g) {
 		if(getEditingMode() == MODE_CREATE){
 		g = memeImage.getGraphics();
@@ -308,6 +309,7 @@ public class EditableImagePanel extends JPanel implements MouseListener,
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void drawBottomTextOnImage(Graphics g) {
 		if(getEditingMode() == MODE_CREATE){
 		g = memeImage.getGraphics();
