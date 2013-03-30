@@ -222,8 +222,8 @@ public class MemeMakerListener implements ActionListener {
 
 	private void newMeme() {
 		JFileChooser fc = new JFileChooser();
-		String extensionDescription = "Image File (*.jpeg, *.jpg, *.png)";
-		String[] extensions = { "jpg", "jpeg", "png" };
+		String extensionDescription = "Image File (*.jpg, *.png)";
+		String[] extensions = { "jpg", "png" };
 		MultipleFileExtensionFilter filter = new MultipleFileExtensionFilter(
 				extensionDescription, extensions);
 		fc.addChoosableFileFilter(filter);
