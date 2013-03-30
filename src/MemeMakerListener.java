@@ -35,6 +35,8 @@ public class MemeMakerListener implements ActionListener, WindowListener {
 			showAboutDialog();
 		} else if (e.getActionCommand() == MemeMaker.ACTION_INSTRUCTIONS) {
 			MemeMaker.showInstructionsScreen();
+		} else if (e.getActionCommand() == MemeMaker.ACTION_EDIT){
+			MemeMaker.showEditScreen();
 		} else if (e.getActionCommand() == MemeMaker.ACTION_CROP) {
 			BufferedImage croppedImage = MemeMaker.setupImageContainer
 					.getCroppedImage();
@@ -46,22 +48,25 @@ public class MemeMakerListener implements ActionListener, WindowListener {
 		} else if (e.getActionCommand() == MemeMaker.ACTION_RESIZE) {
 			showResizePopup(MemeMaker.setupImageContainer.getImage());
 		} else if (e.getActionCommand() == MemeMaker.ACTION_SAVE) {
-			EditableImagePanel edit = MemeMaker
-					.getSelectedEditorTabImagePanel();
-			BufferedImage image = edit.getImage();
-			edit.setMemeImage(image);
-			edit.setEditingMode(EditableImagePanel.MODE_CREATE);
-			saveMeme();
-			edit.setEditingMode(EditableImagePanel.MODE_TEXT);
-			edit.setImage(image);
+				String format = MemeMaker.getSelectedEditorTabConfigPanel()
+					.getButtonGroup().getSelection().getActionCommand();
+				saveMeme(format);
+		} else if (e.getActionCommand() == MemeMaker.ACTION_SAVE_JPG){
+				saveMeme(MemeMaker.ACTION_SAVE_JPG);
+		} else  if (e.getActionCommand() == MemeMaker.ACTION_SAVE_PNG){
+			saveMeme(MemeMaker.ACTION_SAVE_PNG);
 		}
 	}
 
-	private void saveMeme() {
-		//TODO: change extension description based on selected file type
+	private void saveMeme(String format) {
+		EditableImagePanel edit = MemeMaker
+				.getSelectedEditorTabImagePanel();
+		BufferedImage image = edit.getImage();
+		edit.setMemeImage(image);
+		edit.setEditingMode(EditableImagePanel.MODE_CREATE);
 		JFileChooser fc = new JFileChooser();
-		String extensionDescription = "Image File (*.jpeg, *.jpg, *.png)";
-		String[] extensions = { "jpg", "jpeg", "png" };
+		String extensionDescription = "Image File (*." + format + ")";
+		String[] extensions = { format };
 		MultipleFileExtensionFilter filter = new MultipleFileExtensionFilter(
 				extensionDescription, extensions);
 		fc.addChoosableFileFilter(filter);
@@ -71,8 +76,6 @@ public class MemeMakerListener implements ActionListener, WindowListener {
 			try {
 				BufferedImage meme = MemeMaker.getSelectedEditorTabImagePanel()
 						.getMemeImage();
-				String format = MemeMaker.getSelectedEditorTabConfigPanel()
-						.getButtonGroup().getSelection().getActionCommand();
 				File outputFile = fc.getSelectedFile();
 				String path = outputFile.getAbsolutePath();
 				if (path.contains(".")) {
@@ -88,6 +91,8 @@ public class MemeMakerListener implements ActionListener, WindowListener {
 			} catch (IOException e) {
 				System.err.println("Could not save image file: "
 						+ fc.getSelectedFile().getAbsolutePath());
+			} finally{
+				edit.setEditingMode(EditableImagePanel.MODE_TEXT);
 			}
 
 		}
