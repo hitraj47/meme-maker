@@ -231,6 +231,7 @@ public class MemeMakerListener implements ActionListener, WindowListener {
 				extensionDescription, extensions);
 		fc.addChoosableFileFilter(filter);
 		fc.setAcceptAllFileFilterUsed(false);
+		fc.setFileFilter(filter);
 		int returnVal = fc.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
